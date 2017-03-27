@@ -1,0 +1,231 @@
+//$Header: $
+//$NoKeywords: $
+/******************************************************************************
+@doc
+@module matroxid.rc | Version file the project
+
+
+*******************************************************************************/
+
+// NOTE: This file define RC informations 
+//       for a program ( apps, dlls or drvs ).
+
+#ifndef _MATROXID_RC_
+#define _MATROXID_RC_
+
+#include "mtxproductid.h"
+#include "mtxglobalfileid.h"
+#include "mtxfileid.h"
+#ifndef USERENG
+  #include "mtxuserid.h"
+#endif
+
+/******************************************************************************/
+
+#define TokenToStringGrunt(s) # s
+#define TokenToString(s) TokenToStringGrunt(s)
+
+
+//
+// Define compilation dependant values.
+//
+#if defined( _DEBUG ) || defined( DEBUG ) 
+    #define FILE_VERSION_RES_MOD_VER FILE_VERSION_RES_MOD_VER_D
+#else
+    #define FILE_VERSION_RES_MOD_VER FILE_VERSION_RES_MOD_VER_R
+#endif
+
+//
+// 32 vs 64 bits!!!
+//
+#if defined( _WIN64 ) || defined( WIN64 ) 
+    #define FILE_VERSION_RES_BUILD_VER FILE_VERSION_RES_BUILD_64
+#else
+    #define FILE_VERSION_RES_BUILD_VER FILE_VERSION_RES_BUILD_32
+#endif
+
+
+
+//
+// Version flags.
+//
+// NO_USER, OFFICIAL and FINAL should be defined when appropriate via 
+// the MSVC makefile or BUILD command for kernel driver.
+// To define the variables you only need to set a MTXRCOPTIONS variable
+// from the command line like:
+//       set MTXRCOPTIONS= -dFINAL=1 -dOFFICIAL=1
+//
+
+#ifndef NO_USER
+  #define   BUILDBY TokenToString(USERENG) "\0"
+#endif
+
+#ifndef OFFICIAL
+  #define VER_PRIVATEBUILD                  VS_FF_PRIVATEBUILD
+  #define VERSION_RES_PRIVATEBUILD_STRING   "Internal\0"
+#else
+  #define VER_PRIVATEBUILD                  0 
+  #define VERSION_RES_PRIVATEBUILD_STRING   "\0"
+#endif
+
+#ifndef FINAL
+  #define VER_PRERELEASE        VS_FF_PRERELEASE
+#else
+  #define VER_PRERELEASE        0
+#endif
+
+#if defined( _DEBUG ) || defined( DEBUG ) 
+  #define VER_DEBUG             VS_FF_DEBUG
+#else
+  #define VER_DEBUG             0
+#endif
+
+//
+// Version definitions
+//
+#define FILE_VERSION_RES_STRING		TokenToString(FILE_VERSION_RES_MAJOR_VER) "." TokenToString(FILE_VERSION_RES_MINOR_VER) "." TokenToString(FILE_VERSION_RES_MOD_VER) "." TokenToString(FILE_VERSION_RES_BUILD_VER) "\0"
+#define PROD_VERSION_RES_STRING		TokenToString(PRODUCT_VERSION_RES) "\0"
+#define VERSION_RES_FLAGSMASK  		0x0030003FL
+#define VERSION_RES_FLAGS       	(VER_PRIVATEBUILD|VER_PRERELEASE|VER_DEBUG|VER_SPECIALBUILD)
+
+// See below for more info.
+
+#ifdef _WIN32
+  #define VERSION_RES_OS          VOS_NT_WINDOWS32
+#else
+  #define VERSION_RES_OS          VOS_DOS_WINDOWS16
+#endif
+
+// Determine the driver targeted platform
+#ifdef MTX_TARGET_OS
+	#define DRIVER_TARGET_OS TokenToString(MTX_TARGET_OS) "\0"
+#endif
+
+// Determine the driver architecture
+#ifdef MTX_BUILDARCH
+	#define DRIVER_ARCHITECTURE TokenToString(MTX_BUILDARCH) "\0"
+#endif
+
+/*
+Informations:
+
+Options for OS SYSTEM:
+
+VOS_UNKNOWN      
+VOS_DOS          
+VOS_OS216        
+VOS_OS232        
+VOS_NT           
+
+VOS__BASE        
+VOS__WINDOWS16   
+VOS__PM16        
+VOS__PM32        
+VOS__WINDOWS32   
+
+VOS_DOS_WINDOWS16
+VOS_DOS_WINDOWS32
+VOS_OS216_PM16   
+VOS_OS232_PM32   
+VOS_NT_WINDOWS32 
+*/
+
+#define VERSION_RES_LANGUAGE    0x409
+#ifdef UNICODE
+  #define VERSION_RES_CHARSET     1200
+#else
+  #define VERSION_RES_CHARSET     1252
+#endif
+
+//
+// Version resource
+//
+
+VS_VERSION_INFO VERSIONINFO
+
+FILEVERSION     FILE_VERSION_RES_MAJOR_VER, FILE_VERSION_RES_MINOR_VER, FILE_VERSION_RES_MOD_VER, FILE_VERSION_RES_BUILD_VER
+PRODUCTVERSION  PROD_VERSION_RES_MAJOR_VER, PROD_VERSION_RES_MINOR_VER, PROD_VERSION_RES_MOD_VER, PROD_VERSION_RES_BUILD
+
+FILEFLAGSMASK   VERSION_RES_FLAGSMASK
+FILEFLAGS       VERSION_RES_FLAGS
+FILEOS          VERSION_RES_OS
+FILETYPE        VERSION_RES_TYPE
+FILESUBTYPE     VERSION_RES_SUBTYPE
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    //Unicode
+    BLOCK "040904b0"
+    BEGIN
+#ifndef NO_USER
+      VALUE "BuildBy",            BUILDBY
+#endif
+      VALUE "Comments",           FILE_COMMENT
+      VALUE "CompanyName",        VERSION_RES_COMPANY_NAME
+      VALUE "FileDescription",    FILE_VERSION_RES_BIN_DESCRIPTION
+      VALUE "FileVersion",        FILE_VERSION_RES_STRING
+      VALUE "InternalName",       FILE_VERSION_RES_BIN_NAME
+      VALUE "LegalCopyright",     VERSION_RES_COPYRIGHT
+      VALUE "LegalTrademarks",    VERSION_RES_TRADEMARKS
+      VALUE "OriginalFilename",   FILE_VERSION_RES_BIN_NAME
+      VALUE "ProductName",        VERSION_RES_PRODUCT_NAME
+      VALUE "ProductVersion",     PROD_VERSION_RES_STRING
+#ifdef DRIVER_TARGET_OS
+	  VALUE "TargetOS",			  DRIVER_TARGET_OS
+#endif
+#ifdef DRIVER_ARCHITECTURE
+	  VALUE "TargetArchitecture",   DRIVER_ARCHITECTURE
+#endif
+#if VER_SPECIALBUILD != 0
+      VALUE "SpecialBuild",       VERSION_RES_SPECIALBUILD_STRING
+#endif
+#ifndef OFFICIAL
+      VALUE "PrivateBuild",       VERSION_RES_PRIVATEBUILD_STRING
+#endif
+#ifdef DLL_SELF_REGISTER      
+      VALUE "OLESelfRegister",    0
+#endif
+    END
+    //Not Unicode
+    BLOCK "040904E4" 
+    BEGIN
+#ifndef NO_USER
+      VALUE "BuildBy",            BUILDBY
+#endif
+      VALUE "CompanyName",        VERSION_RES_COMPANY_NAME
+      VALUE "FileDescription",    FILE_VERSION_RES_BIN_DESCRIPTION
+      VALUE "FileVersion",        FILE_VERSION_RES_STRING
+      VALUE "InternalName",       FILE_VERSION_RES_BIN_NAME
+      VALUE "LegalCopyright",     VERSION_RES_COPYRIGHT
+      VALUE "LegalTrademarks",    VERSION_RES_TRADEMARKS
+      VALUE "OriginalFilename",   FILE_VERSION_RES_BIN_NAME
+      VALUE "ProductName",        VERSION_RES_PRODUCT_NAME
+      VALUE "ProductVersion",     PROD_VERSION_RES_STRING
+#ifdef DRIVER_TARGET_OS
+	  VALUE "TargetOS",			  DRIVER_TARGET_OS
+#endif
+#ifdef DRIVER_ARCHITECTURE
+	  VALUE "TargetArchitecture",  DRIVER_ARCHITECTURE
+#endif
+#if VER_SPECIALBUILD != 0
+      VALUE "SpecialBuild",       VERSION_RES_SPECIALBUILD_STRING
+#endif
+#ifndef OFFICIAL
+      VALUE "PrivateBuild",       VERSION_RES_PRIVATEBUILD_STRING
+#endif
+#ifdef DLL_SELF_REGISTER      
+      VALUE "OLESelfRegister",    0
+#endif
+    END
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", VERSION_RES_LANGUAGE, VERSION_RES_CHARSET
+  END
+END
+
+#endif // _MATROXID_RC_
+
+
+

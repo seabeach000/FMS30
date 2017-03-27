@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\modules\mainconcept\mainconcept.cpp" />
+    <ClCompile Include="..\..\..\modules\mainconcept\consumer\mainconcept_consumer.cpp" />
+    <ClCompile Include="..\..\..\modules\mainconcept\mc_enc_pumpstream.cpp" />
+    <ClCompile Include="..\..\..\modules\mainconcept\bufstream\buf_fifo.c">
+      <Filter>bufstream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\mainconcept\bufstream\buf_file.c">
+      <Filter>bufstream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\modules\mainconcept\bufstream\sr_fifo.c">
+      <Filter>bufstream</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\modules\mainconcept\mainconcept.h" />
+    <ClInclude Include="..\..\..\modules\mainconcept\consumer\mainconcept_consumer.h" />
+    <ClInclude Include="..\..\..\modules\mainconcept\mc_enc_pumpstream.h" />
+    <ClInclude Include="..\..\..\modules\mainconcept\bufstream\buf_fifo.h">
+      <Filter>bufstream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\mainconcept\bufstream\buf_file.h">
+      <Filter>bufstream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\mainconcept\bufstream\sr_fifo.h">
+      <Filter>bufstream</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="bufstream">
+      <UniqueIdentifier>{c5d98025-d6ce-4ab4-adc4-505bd2d098ae}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

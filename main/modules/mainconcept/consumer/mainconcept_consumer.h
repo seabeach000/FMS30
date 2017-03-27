@@ -1,0 +1,23 @@
+//
+// Created by zibj 2017/02/09.
+//
+
+#pragma once
+
+#include <common/memory.h>
+
+#include <core/fwd.h>
+
+#include <vector>
+
+#include <boost/property_tree/ptree.hpp>
+
+
+namespace caspar {	namespace mainconcept	{
+
+void describe_consumer(core::help_sink& sink, const core::help_repository& repo);
+spl::shared_ptr<core::frame_consumer> create_consumer(
+	const std::vector<std::wstring>& params, core::interaction_sink* sink);
+spl::shared_ptr<core::frame_consumer> create_preconfigured_consumer(
+	const boost::property_tree::wptree& ptree, core::interaction_sink* sink);
+}}

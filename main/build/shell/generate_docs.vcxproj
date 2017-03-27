@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{C06D84D0-E5FF-3B06-AB32-1E78576BCFEB}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>generate_docs</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\..\main\build\shell\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">generate_docs.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">generate_docs</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">generate_docs.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">generate_docs</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">generate_docs.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">generate_docs</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">generate_docs.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">generate_docs</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalOptions> /Zm192 /bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>..\..\..\main\shell\..;..\..\..\main\dependencies64\boost;..\..\..\main\dependencies64\RxCpp\include;..\..\..\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <ForcedIncludeFiles>common/compiler/vs/disable_silly_warnings.h</ForcedIncludeFiles>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;TBB_USE_ASSERT=1;TBB_USE_DEBUG;SFML_STATIC;BOOST_THREAD_VERSION=4;TBB_USE_CAPTURED_EXCEPTION=0;UNICODE;_UNICODE;GLEW_NO_GLU;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);_GLIBCXX_USE_CXX11_ABI=0;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;TBB_USE_ASSERT=1;TBB_USE_DEBUG;SFML_STATIC;BOOST_THREAD_VERSION=4;TBB_USE_CAPTURED_EXCEPTION=0;UNICODE;_UNICODE;GLEW_NO_GLU;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);_GLIBCXX_USE_CXX11_ABI=0;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\protocol\Debug\protocol.lib;..\accelerator\Debug\accelerator.lib;..\modules\reroute\Debug\reroute.lib;..\modules\ffmpeg\Debug\ffmpeg.lib;..\modules\oal\Debug\oal.lib;..\modules\bluefish\Debug\bluefish.lib;..\modules\decklink\Debug\decklink.lib;..\modules\screen\Debug\screen.lib;..\modules\html\Debug\html.lib;..\modules\psd\Debug\psd.lib;..\modules\flash\Debug\flash.lib;..\modules\newtek\Debug\newtek.lib;..\modules\image\Debug\image.lib;..\modules\reroute\Debug\reroute.lib;OpenAL32.lib;..\modules\ffmpeg\Debug\ffmpeg.lib;avformat.lib;avcodec.lib;avutil.lib;avfilter.lib;avdevice.lib;swscale.lib;swresample.lib;debug/libcef.lib;debug/libcef_dll_wrapper.lib;..\core\Debug\core.lib;..\common\Debug\common.lib;alibcof64.lib;jpeg.lib;sndfile.lib;sfml-system-d-2.lib;sfml-window-d-2.lib;sfml-graphics-d-2.lib;Winmm.lib;Ws2_32.lib;tbb_debug.lib;OpenGL32.lib;glew32.lib;openal32.lib;zlibstat.lib;freetype.lib;FreeImaged.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/boost/stage/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/boost/stage/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/extlibs/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/extlibs/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freetype/objs/win32/vc2010;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freetype/objs/win32/vc2010/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/asmlib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/asmlib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/bluefish/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/bluefish/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/zlib/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/zlib/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/gtest/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/gtest/lib/win32/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>Debug</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/Debug/generate_docs.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/Debug/generate_docs.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version>
+      </Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalOptions> /Zm192 /bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <ForcedIncludeFiles>common/compiler/vs/disable_silly_warnings.h</ForcedIncludeFiles>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;BOOST_THREAD_VERSION=4;TBB_USE_CAPTURED_EXCEPTION=0;UNICODE;_UNICODE;GLEW_NO_GLU;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);_GLIBCXX_USE_CXX11_ABI=0;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;BOOST_THREAD_VERSION=4;TBB_USE_CAPTURED_EXCEPTION=0;UNICODE;_UNICODE;GLEW_NO_GLU;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);_GLIBCXX_USE_CXX11_ABI=0;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\protocol\Release\protocol.lib;..\accelerator\Release\accelerator.lib;..\modules\reroute\Release\reroute.lib;..\modules\ffmpeg\Release\ffmpeg.lib;..\modules\oal\Release\oal.lib;..\modules\bluefish\Release\bluefish.lib;..\modules\decklink\Release\decklink.lib;..\modules\screen\Release\screen.lib;..\modules\html\Release\html.lib;..\modules\psd\Release\psd.lib;..\modules\flash\Release\flash.lib;..\modules\newtek\Release\newtek.lib;..\modules\image\Release\image.lib;..\modules\reroute\Release\reroute.lib;OpenAL32.lib;..\modules\ffmpeg\Release\ffmpeg.lib;avformat.lib;avcodec.lib;avutil.lib;avfilter.lib;avdevice.lib;swscale.lib;swresample.lib;release/libcef.lib;release/libcef_dll_wrapper.lib;..\core\Release\core.lib;..\common\Release\common.lib;alibcof64.lib;jpeg.lib;sndfile.lib;sfml-system-2.lib;sfml-window-2.lib;sfml-graphics-2.lib;Winmm.lib;Ws2_32.lib;tbb.lib;OpenGL32.lib;glew32.lib;openal32.lib;zlibstat.lib;freetype.lib;FreeImage.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/boost/stage/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/boost/stage/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/extlibs/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/extlibs/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freetype/objs/win32/vc2010;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freetype/objs/win32/vc2010/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/asmlib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/asmlib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/bluefish/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/bluefish/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/zlib/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/zlib/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/gtest/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/gtest/lib/win32/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>No</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/Release/generate_docs.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/Release/generate_docs.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version>
+      </Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalOptions> /Zm192 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <ForcedIncludeFiles>common/compiler/vs/disable_silly_warnings.h</ForcedIncludeFiles>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;BOOST_THREAD_VERSION=4;TBB_USE_CAPTURED_EXCEPTION=0;UNICODE;_UNICODE;GLEW_NO_GLU;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);_GLIBCXX_USE_CXX11_ABI=0;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;BOOST_THREAD_VERSION=4;TBB_USE_CAPTURED_EXCEPTION=0;UNICODE;_UNICODE;GLEW_NO_GLU;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);_GLIBCXX_USE_CXX11_ABI=0;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\protocol\MinSizeRel\protocol.lib;..\accelerator\MinSizeRel\accelerator.lib;..\modules\reroute\MinSizeRel\reroute.lib;..\modules\ffmpeg\MinSizeRel\ffmpeg.lib;..\modules\oal\MinSizeRel\oal.lib;..\modules\bluefish\MinSizeRel\bluefish.lib;..\modules\decklink\MinSizeRel\decklink.lib;..\modules\screen\MinSizeRel\screen.lib;..\modules\html\MinSizeRel\html.lib;..\modules\psd\MinSizeRel\psd.lib;..\modules\flash\MinSizeRel\flash.lib;..\modules\newtek\MinSizeRel\newtek.lib;..\modules\image\MinSizeRel\image.lib;..\modules\reroute\MinSizeRel\reroute.lib;OpenAL32.lib;..\modules\ffmpeg\MinSizeRel\ffmpeg.lib;avformat.lib;avcodec.lib;avutil.lib;avfilter.lib;avdevice.lib;swscale.lib;swresample.lib;release/libcef.lib;release/libcef_dll_wrapper.lib;..\core\MinSizeRel\core.lib;..\common\MinSizeRel\common.lib;alibcof64.lib;jpeg.lib;sndfile.lib;sfml-system-2.lib;sfml-window-2.lib;sfml-graphics-2.lib;Winmm.lib;Ws2_32.lib;tbb.lib;OpenGL32.lib;glew32.lib;openal32.lib;zlibstat.lib;freetype.lib;FreeImage.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/boost/stage/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/boost/stage/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/extlibs/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/extlibs/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freetype/objs/win32/vc2010;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freetype/objs/win32/vc2010/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/asmlib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/asmlib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/bluefish/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/bluefish/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/zlib/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/zlib/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/gtest/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/gtest/lib/win32/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>No</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/MinSizeRel/generate_docs.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/MinSizeRel/generate_docs.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version>
+      </Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalOptions> /Zm192 /bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <ForcedIncludeFiles>common/compiler/vs/disable_silly_warnings.h</ForcedIncludeFiles>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;BOOST_THREAD_VERSION=4;TBB_USE_CAPTURED_EXCEPTION=0;UNICODE;_UNICODE;GLEW_NO_GLU;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);_GLIBCXX_USE_CXX11_ABI=0;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;BOOST_THREAD_VERSION=4;TBB_USE_CAPTURED_EXCEPTION=0;UNICODE;_UNICODE;GLEW_NO_GLU;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);_GLIBCXX_USE_CXX11_ABI=0;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\protocol\RelWithDebInfo\protocol.lib;..\accelerator\RelWithDebInfo\accelerator.lib;..\modules\reroute\RelWithDebInfo\reroute.lib;..\modules\ffmpeg\RelWithDebInfo\ffmpeg.lib;..\modules\oal\RelWithDebInfo\oal.lib;..\modules\bluefish\RelWithDebInfo\bluefish.lib;..\modules\decklink\RelWithDebInfo\decklink.lib;..\modules\screen\RelWithDebInfo\screen.lib;..\modules\html\RelWithDebInfo\html.lib;..\modules\psd\RelWithDebInfo\psd.lib;..\modules\flash\RelWithDebInfo\flash.lib;..\modules\newtek\RelWithDebInfo\newtek.lib;..\modules\image\RelWithDebInfo\image.lib;..\modules\reroute\RelWithDebInfo\reroute.lib;OpenAL32.lib;..\modules\ffmpeg\RelWithDebInfo\ffmpeg.lib;avformat.lib;avcodec.lib;avutil.lib;avfilter.lib;avdevice.lib;swscale.lib;swresample.lib;release/libcef.lib;release/libcef_dll_wrapper.lib;..\core\RelWithDebInfo\core.lib;..\common\RelWithDebInfo\common.lib;alibcof64.lib;jpeg.lib;sndfile.lib;sfml-system-2.lib;sfml-window-2.lib;sfml-graphics-2.lib;Winmm.lib;Ws2_32.lib;tbb.lib;OpenGL32.lib;glew32.lib;openal32.lib;zlibstat.lib;freetype.lib;FreeImage.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/boost/stage/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/boost/stage/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/extlibs/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/extlibs/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freetype/objs/win32/vc2010;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freetype/objs/win32/vc2010/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/asmlib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/asmlib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/bluefish/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/bluefish/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/zlib/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/zlib/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/gtest/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/gtest/lib/win32/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>Debug</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/RelWithDebInfo/generate_docs.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/RelWithDebInfo/generate_docs.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version>
+      </Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main -BD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build --check-stamp-file D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\included_modules.tmpl;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main -BD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build --check-stamp-file D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\included_modules.tmpl;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main -BD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build --check-stamp-file D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\included_modules.tmpl;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main -BD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build --check-stamp-file D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\included_modules.tmpl;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\included_modules.h" />
+    <ClCompile Include="D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\generate_docs.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/accelerator/accelerator.vcxproj">
+      <Project>6E626C69-2EFA-34ED-B043-D9CFAEB696F4</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/bluefish/bluefish.vcxproj">
+      <Project>E08DE4C4-4CBB-3FAD-A97B-542C85D21895</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/common/common.vcxproj">
+      <Project>736EC3D0-F865-38DE-87B4-C038F8CCEBC1</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/core/core.vcxproj">
+      <Project>575AC9D3-9589-3F5F-890C-A879F361EF19</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/decklink/decklink.vcxproj">
+      <Project>65246D77-1F88-38DB-83EB-A9BABC75804C</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/ffmpeg/ffmpeg.vcxproj">
+      <Project>0CF7442B-0AF9-3161-9E6E-B1CC9F1C3D8C</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/flash/flash.vcxproj">
+      <Project>8A37CDAD-BA42-3F78-AF06-68D14DEA0E6B</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/html/html.vcxproj">
+      <Project>0B26CB41-D747-35FB-BEF6-0841107540A9</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/image/image.vcxproj">
+      <Project>703E8397-7573-3857-82D6-8F13C65F376F</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/newtek/newtek.vcxproj">
+      <Project>27062913-2A9A-38CB-B4F9-EE4DF36B3FDC</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/oal/oal.vcxproj">
+      <Project>2F87AF56-C402-348B-8A06-E295F8A88B61</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/protocol/protocol.vcxproj">
+      <Project>76D483EA-5C62-34C5-9076-08DE121ED5EA</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/psd/psd.vcxproj">
+      <Project>95DC000C-674A-3613-94AD-AFE79172731F</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/reroute/reroute.vcxproj">
+      <Project>3828EBAF-BF72-3D2A-A726-93F2042D1B5E</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/screen/screen.vcxproj">
+      <Project>9ECA5CAE-DA92-3A7F-AF0A-A5016CAD17C2</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

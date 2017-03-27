@@ -1,0 +1,558 @@
+﻿CasparCG 2.1.0 (w.r.t 2.0 Stable)
+=================================
+
+General
+-------
+
+  o 64 bit!
+  o Major code refactoring:
+    + Mixer abstraction so different implementations can be created. Currently
+      CPU mixer and GPU mixer (previously the usage of the GPU was ) exists.
+    + Flattened folder structure for easier inclusion of header files.
+    + Old Windows specific AsyncEventServer class has been replaced by platform
+      independent implementation based on Boost.Asio.
+    + Pimpl classes are now stack allocated with internal shared_ptr to
+      implementation, instead of both handle and body being dynamically
+      allocated. This means that objects are now often passed by value instead
+      of via safe_ptr/shared_ptr, because they are internally reference counted.
+    + Protocol strategies are now easier to implement correctly, because of
+      separation of state between different client connections.
+    + Much more...
+  o Data files are now stored in UTF-8 with BOM. Latin1 files are still
+    supported for backwards compatibility
+  o Commands written in UTF-8 to log file but only ascii characters to console.
+  o Added supported video formats:
+    + 720p2398 (not supported by decklink)
+    + 720p2400 (not supported by decklink)
+    + 1080p5994
+    + 1080p6000
+    + 720p30 (not supported by decklink)
+    + 720p29.976 (not supported by decklink)
+
+OSC
+---
+
+  o Technical information about the current state of the server is published via
+    the OSC protocol via different subjects.
+  o Examples of information published:
+    + Different performance metrics.
+    + Producer names
+    + Producer specific information
+    + Consumer names.
+    + Consumer specific information.
+
+CLK
+---
+
+  o CLK protocol implementation can now serve more than one connection at a time
+    safely.
+  o Added timeline support to the CLK protocol.
+  o Refactored parts of the CLK parser implementation.
+
+Consumers
+---------
+
+  o Consumers on same channel now invoked asynchronously to allow for proper
+    sync of multiple consumers.
+  o System audio consumer:
+    + No longer provides sync to caspar.
+    + Pushes data to openal instead of being callbacked by SFML when data is
+      needed.
+  o Screen consumer:
+    + Support for multiple screen consumers on the same channel
+    + No longer spin-waits for vsync
+    + Now deinterlaces to two separate frames so for example 50i will no longer
+      be converted to 25p but instead to 50p for smooth playback of interlaced
+      content.
+
+Producers
+---------
+
+  o Image scroll producer:
+    + Field-rate motion instead of frame-rate motion with interlaced video
+      formats. This can be overridden by giving the PROGRESSIVE parameter.
+    + SPEED parameter now defines pixels per frame/field instead of half pixels
+      per frame. The scrolling direction is also reversed so SPEED 0.5 is the
+      previous equivalent of SPEED -1. Movements are done with subpixel accuracy
+    + Fixed incorrect starting position of image.
+    + Rounding error fixes to allow for more exact scrolling.
+    + Added support for motion blur via a new BLUR parameter
+    + Added PREMULTIPLY parameter to support images stored with straight alpha.
+
+AMCP
+----
+
+  o DATA STORE now supports creating folders of path specified if they does not
+    exist.
+  o DATA REMOVE command was added.
+
+CasparCG 2.0 Stable (w.r.t Beta 3)
+==================================
+
+General
+-------
+
+  o Misc stability and performance fixes.
+
+Consumers
+---------
+
+  o File Consumer
+    + Changed semantics to more closely follow ffmpeg (see forums).
+    + Added options, -r, -acodec, -s, -pix_fmt, -f and more.
+  o Screen Consumer
+    + Added vsync support.
+
+CasparCG 2.0 Beta 3 (w.r.t Beta 1)
+==================================
+
+Formats
+-------
+
+  o ProRes Support
+    + Both encoding and decoding.
+  o NTSC Support
+    + Updated audio-pipeline for native NTSC support. Previous implementation
+      did not fully support NTSC audio and could cause incorrect behaviour or
+      even crashes.
+
+Consumers
+---------
+
+  o File Consumer added
+    + See updated wiki or ask in forum for more information.
+    + Should support anything ffmpeg supports. However, we will work mainly with
+      DNXHD, PRORES and H264.
+    - Key-only is not supported.
+  o Bluefish Consumer
+    + 24 bit audio support.
+    - Embedded-audio does not work with Epoch cards.
+  o Decklink Consumer
+    + Low latency enabled by default.
+    + Added graphs for driver buffers.
+  o Screen Consumer
+    + Changed screen consumer square PAL to the more common wide-square PAL.
+    + Can now be closed.
+    + Fixed interpolation artifacts when running non-square video-modes.
+    + Automatically deinterlace interlaced input.
+
+Producers
+---------
+
+  o Decklink Producer
+    + Improved color quality be avoiding uneccessary conversion to BGRA.
+  o FFMPEG Producer
+    + Fixed missing alpha for (RGB)A formats when deinterlacing.
+    + Updated buffering to work better with files with long audio/video
+      interleaving.
+    + Seekable while running and after reaching EOF. CALL 1-1 SEEK 200.
+    + Enable/disable/query looping while running. CALL 1-1 LOOP 1.
+    + Fixed bug with duration calculation.
+    + Fixed bug with fps calculation.
+    + Improved auto-transcode accuracy.
+    + Improved seeking accuracy.
+    + Fixed bug with looping and LENGTH.
+    + Updated to newer ffmpeg version.
+    + Fixed incorrect scaling of NTSC DV files.
+    + Optimized color conversion when using YADIF filters.
+  o Flash Producer
+    + Release flash-player when empty.
+    + Use native resolution template-host.
+    + Template-hosts are now choosen automatically if not configured. The
+      template-host with the corresponding video-mode name is now chosen.
+    + Use square pixel dimensions.
+
+AMCP
+----
+
+  o When possible, commands will no longer wait for rendering pipeline. This
+    reduces command execution latencies, especially when sending a lot of
+    commands in a short timespan.
+  o Fixed CINF command.
+  o ADD/REMOVE no longer require subindex,
+    e.g. "ADD 1 SCREEN" / "REMOVE 1 SCREEN" instead of "ADD 1-1 SCREEN" / ...
+  o PARAM is renamed to CALL.
+  o STATUS command is replaced by INFO.
+  o INFO command has been extended:
+    + INFO (lists channels).
+    + INFO 1 (channel info).
+    + INFO 1-1 (layer info).
+    + INFO 1-1 F (foreground producer info).
+    + INFO 1-1 B (background producer info).
+    + INFO TEMPLATE mytemplate (template meta-data info, e.g. field names).
+  o CG INFO command has been extended.
+    + CG INFO 1 (template-host information, e.g. what layers are occupied).
+
+Mixer
+-----
+
+  o Fixed alpha with blend modes.
+  o Automatically deinterlace for MIXER FILL commands.
+
+Channel
+-------
+
+  o SET MODE now reverts back to old video-mode on failure.
+
+Diagnostics
+-----------
+
+  o Improved graphs and added more status information.
+  o Print configuration into log at startup.
+  o Use the same log file for the entire day, instead of one per startup as
+    previously.
+  o Diagnostics window is now closable.
+
+Configuration
+-------------
+
+  o Simplified.
+
+CasparCG 2.0 Beta 1 (w.r.t Alpha)
+=================================
+
+  o Blending Modes (needs to be explicitly enabled)
+    + overlay
+    + screen
+    + multiply
+    + and many more.
+  o Added additive keyer in addition to linear keyer.
+  o Image adjustements
+    + saturation
+    + brightness
+    + contrast
+    + min input-level
+    + max input-level
+    + min output-level
+    + max output-level
+    + gamma
+  o Support for ffmpeg-filters such as (ee http://ffmpeg.org/libavfilter.html)
+    + yadif deinterlacer (optimized in CasparCG for full multi-core support)
+    + de-noising
+    + dithering
+    + box blur
+    + and many more
+  o 32-bit SSE optimized audio pipeline.
+  o Decklink-Consumer uses external-key by default.
+  o Decklink-Consumer has 32 bit embedded-audio support.
+  o Decklink-Producer has 32 bit embedded-audio support.
+  o LOADBG with AUTO feature which automatically playes queued clip when
+    foreground clip has ended.
+  o STATUS command for layers.
+  o LOG LEVEL command for log filtering.
+  o MIX transitation work with transparent clips.
+  o Freeze on last frame.
+  o Producer buffering is now configurable.
+  o Consumer buffering is now configurable.
+  o Now possible to configure template-hosts for different video-modes.
+  o Added auto transcoder for ffmpeg-producer which automatically transcodes
+    input video into compatible video format for the channel.
+    + interlacing (50p -> 50i)
+    + deinterlacing (50i -> 25p)
+    + bob-deinterlacing (50i -> 50p)
+    + bob-deinterlacing and reinterlacing (w1xh150i -> w2xh250i)
+    + doubling (25p -> 50p)
+    + halfing (50p -> 25p)
+    + field-order swap (upper <-> lower)
+  o Screen consumer now automatically deinterlaces when receiveing interlaced
+    content.
+  o Optimized renderer.
+  o Renderer can now be run asynchronously with producer by using a
+    producer-buffer size greater than 0.
+  o Improved error and crash recovery.
+  o Improved logging.
+  o Added Image-Scroll-Producer
+  o Key-only has now near zery performance overhead.
+  o Reduced memory requirements
+  o Removed "warm up lag" which occured when playing the first media clip after
+    the server has started.
+  o Added read-back fence for OpenGL device for improved multi-channel
+    performance.
+  o Memory support increased from standard 2 GB to 4 GB on 64 bit Win 7 OS.
+  o Added support for 2* Decklink cards in FullHD.
+  o Misc bugs fixes and performance improvements.
+  o Color producer now support some color codes in addition to color codes, e.g.
+    EMPTY, BLACK, RED etc...
+  o Alpha value in color codes is now optional.
+  o More than 2 Decklink cards might be possible but have not yet been tested.
+
+CasparCG 2.0 Alpha (w.r.t 1.8)
+==============================
+
+General
+-------
+
+  o Mayor refactoring for improved readability and mainainability.
+  o Some work towards platorm-independence. Currently the greatest challenge for
+    full platform-independence is flash-producer.
+  o Misc improved scalability.
+  o XML-configuration.
+  o Decklink
+    + Support for multiple decklink-cards.
+
+Core
+----
+
+  o Multiple producers per video_channel.
+  o Multiple consumers per video_channel.
+  o Swap producers between layers and channels during run-time.
+  o Support for upper-field and lower-field interlacing.
+  o Add and remove consumers during run-time.
+  o Preliminary support for NTSC.
+
+AMCP
+----
+
+  o Query flash and template-host version.
+  o Recursive media-folder listing.
+  o Misc changes.
+
+Mixer
+-----
+
+  o Animated tween transforms.
+  o Image-Mixer
+    + Fully GPU accelerated (all features listed below are done on the gpu),
+    + Layer composition.
+    + Colorspaces (rgba, bgra, argb, yuv, yuva, yuv-hd, yuva-hd).
+    + Interlacing.
+    + Per-layer image-transforms:
+      + Opacity
+      + Gain
+      + Scaling
+      + Clipping
+      + Translation
+  o Audio-Mixer
+    + Per-layer and per-sample audio-transforms:
+        + Gain
+    + Fully internal audio-mixing. Single output-video_channel.
+
+Consumers
+---------
+
+  o Decklink-Consumer
+    + Embedded audio.
+    + HD support.
+    + Hardware clock.
+  o Bluefish-Consumer
+    + Drivers are loaded on-demand (server now runs on computers without
+      installed bluefish-drivers).
+    + Embedded-audio.
+    + Allocated frames are no longer leaked.
+
+Producers
+---------
+
+  o Decklink-Producer
+    + Embedded audio.
+    + HD support.
+  o Color-Producer
+    + GPU accelerated.
+  o FFMPEG-Producer
+    + Asynchronous file IO.
+    + Parallel decoding of audio and video.
+    + Colorspace transform are moved to gpu.
+  o Transition-Producer
+    + Fully interlaced transition (previsously only progressive, even when
+      running in interlaced mode).
+    + Per-sample mixing between source and destination clips.
+    + Tween transitions.
+  o Flash-Producer
+    + DirectDraw access (sligthly improved performance).
+    + Improved time-sync. Smoother animations and proper interlacing.
+  o Image-Producer
+    + Support for various imageformats through FreeImage library.
+
+Diagnostics
+-----------
+
+  o Graphs for monitoring performance and events.
+  o Misc logging improvements.
+  o Seperate log-file for every run of the server.
+  o Error logging provides full exception details, instead of only printing that
+    an error has occured.
+  o Console with real-time logging output.
+  o Console with AMCP input.
+
+Removed
+-------
+
+  o Registry-configuration (replaced by XML-Configuration).
+  o TGA-Producer (replaced by Image-Producer).
+  o TGA-Scroll-Producer
+2016年10月27日13:52:33 zhaoyu
+	增加 layerstatus 命令 命令用法与老版本一直，代码不在amcpcommand类中做，拿到了lay类中做的，增加了上层调用函数get_status（层号）；
+	另外amcp命令会接到一个空的message，遇到空的message直接返回，不做处理，否则会出现400 error的错误，已经改完了，测试没发现问题。
+2016年10月28日13:44:49 zhaoyu
+	增加vdcp协议
+	主要的操作有
+	打开端口 
+	选择端口
+	关闭端口
+	查询素材列表
+	查询素材组合命令
+	查看文件大小
+	判断文件是否存在
+	预卷并停止前景
+	入出点预卷
+	播放
+	停止
+	暂停
+	继续
+	下面是具体的例子
+	vdcp新协议和老协议都支持 新协议的命令字减去0x80就是老协议的命令字 还有一个区别是，新协议的文件名支持可变长度的，文件名前面有长度的标志而老协议的文件名为8位物理ID
+打开通道端口流程
+    c-s 02 04 B0 01 02 00 4D //B0 -0x80就是老协议  为0x30  打开通道端口0x02
+    s-c 02 03 B0 81 01 CE 	
+选择通道端口
+    c-s 02 03 A0 22 02 3C    //选择通道端口2
+    s-c 04	
+关闭通道
+    c-s 02 03 A0 21 02 3D 
+    s-c 04
+查询服务器状态的命令
+    c-s 02 03 B0 05 01 4A 	
+    s-c 02 05 B0 85 01 01 02 C7 	
+查询素材的指令 首先发送idlist命令
+    c-s  02 02 B0 11 3F 	
+    s-c  02 62 B0 91 00 02 07 30 30 30 31 31 31 22 09 22 32 36 34 4D 50 31 48 44 08 32 36 34 4D 50 31 48 44 08 32 43 4C 54 30 30 30 31 08 35 35 4B 54 30 30 34 36 08 35 35 4B 54 30 30 34 38 08 35 35 4B 	
+查询素材nextdata命令
+    c-s 02 02  B0 02 4E 	
+    s-c 02 5D  B0 82 00 02 06 41 55 54 4F 32 4D 06 41 55 54 4F 35 4D 0E 22 41 56 43 49 4E 54 52 41 35 30 5F 50 32 0E 22 41 56 43 49 4E 54 52 41 35 30 5F 50 32 0E 22 41 56 43 49 4E 54 52 41 35 30 5F 50 	
+    。。。会一直发这个nextdata命令最后是
+    c-s 02 02 B0 02 4E 	
+    s-c 02 04 B0 82 00 00 CE //文件空了才算完事 如果还发这个命令会一直返回0000的
+查询素材是否存在
+    c-s 02 0B B0 16 08 35 35 4B 54 30 30 34 36 5F 	
+    s-c 02 05 B0 96 01 00 00 B9 	
+查询素材大小
+    c-s 02 0B B0 14 08 35 35 4B 54 30 30 34 36 61  // 08在老协议中不存在这个码子是协议的B0表示新协议  实际是 30 14 +8位物理ID 
+    s-c 02 06 B0 94 23 05 00 00 94 	//注意时间 0:0:5:23 
+播放命令
+下面是演示的播放组的命令
+    02 0B A0 24 08 73 64 31 73 64 31 73 64 4D 	//cue
+    04
+
+	02 13 A0 25 08 73 64 31 73 64 31 73 64 00 00 00 00 00 00 05 00 47 	//cue with data
+    04
+
+    02 02 90 01 6F 	 //play
+    04
+   
+    02 02 90 00 70 	//stop
+    04
+    02 02 90 06 6A 	//continue
+    04
+    02 02 90 04 6C     //still	
+    04
+2016年11月18日09:22:22
+	afd的使用说明，在fms2.0的基础上增加新的配置如下
+		<afd-mode>invalid-afd</afd-mode>，该配置表示不适用afd-mode的配置，不用afd条件。
+											如果没有配置afd-mode的情况下，默认为invalid-afd的模式。
+	afd参数的用法
+		<afd-mode>cut</afd-mode>  的值有五种
+			<1>auto：这时Famous会读取文件或者sdi信号源自身的afd信息，并根据afd信息、视频宽高比和输出格式进行自动的变换，并将AFD信息写入到下游。
+			<2>add：如果视频格式和输出格式不同，Famous会进行强制的加边处理，例如：标->高：左右加边。暂不支持上下加边的下变换。
+			<3>cut: 如果视频格式和输出格式不同，Famous会进行强制的切边处理，例如：标->高：上下切边。高->标：左右切边。
+			<4>stretch:对源视频按照目标格式进行默认的拉伸处理。
+			<5>table:查找table标签的变换列表
+			<6>invalid-afd:afd配置无效，即不配置afd，用系统默认的方法变换
+	table的使用方法如下
+		指定<afd-mode>的值为table
+		<afd-mode>table</afd-mode>
+		配置table变换的默认方法
+		<default>cut</default>，取值为以上四种如auto，add，cut，stretch，如果没有配置则默认是stretch
+	然后在同层即channel下配置table节点
+	<default>cut</default>
+	<table>
+	<afd-msg>
+	//<afd-value>sd_16_9_with_4_3_alternative_cente</afd-value>	
+	<!-- <description>Image with a 16:9 aspect ratio and with an alternative 4:3 center as a vertically centered letterbox in a 4:3 coded frame.<description> -->
+	<transform>left-right-add</transform> 
+	</afd-msg>
+	<afd-msg>
+	...
+	...
+	</afd-msg>
+	</table>
+	这样用户配置时候，如果输入源的AFD数值不在afd-table列表里面，那么默认进行default变换，
+	如果 default 值为空，则 famous 服务器默认进行stretch变换。
+	
+	afd-value节点可用值如下：
+		//SD
+		sd_16_9_top
+		sd_14_9_top
+		sd_greater_than_16_9_center
+		sd_full_frame
+		sd_16_9_center
+		sd_14_9_center
+		sd_4_3_with_14_9_alternative_center
+		sd_16_9_with_14_9_alternative_center
+		sd_16_9_with_4_3_alternative_center
+
+		// HD
+		hd_greater_than_16_9_center
+		hd_full_frame
+		hd_4_3_center
+		hd_16_9_with_16_9_image_protected
+		hd_14_9_center
+		hd_4_3_with_14_9_alternative_center
+		hd_16_9_with_14_9_alternative_center
+		hd_16_9_with_4_3_alternative_center
+2016年12月16日17:16:15
+	增加的ndi的模块，具体方法配置如下
+	<consumer>
+			<ndi>
+				<source>NDI001</source>
+				<ratio>16:9</ratio>
+			</ndi>
+	</consumer>
+	
+	amcp命令   loadbg 1-10 ndi source "源名称"  [ machine "计算机名称" ] [showlocal 1] [colorformat YUV] [groups "yanfa1"] [ips "172.0.0.1,172.255.255.255"]
+
+	解释：
+		
+		ndi 是producer设备  source是源名
+		
+		可选项
+		machine 这个参数能更准确的确定源路径 可以区分开出现重名
+		showlocal  设置为1表示显示本地的源 0 不显示本地的源
+		colorformat 设置成YUV 或者 RGB的方式，这个参数还有没有更好的完善，宏定义没有对上号
+		groups  这个是名称表达式，表示的是组名，NULL表示默认设置，例如：源nditest能在"yanfa1,yanfa2,yanfa4"三个源中都能找到
+		ips  IP组过滤的范围，这个值经测试效率不高，很慢，表示从ip到ip的，用逗号隔开。
+
+2016年12月29日17:04:21  zhaoyu 
+		
+	<consumers>
+			<matrox>
+				<device>0</device>    //物理卡标志
+				<ratio>16:9</ratio>  //输出比例，这个值对pal和ntsc不起作用。
+				<index>0[0|1|2|3]</index> // 输出的通道号，从0开始。麦创卡的输出通道需要设置生效后起作用。这个号不固定到某一个物理口，是输出的的口的序列号，看麦创卡设置口文档
+				<vanc-output>false</vanc-output> //是否生效
+				<channel-layout>stereo</channel-layout> // 在这个版本中，麦创卡是不支持mono的，当channel设置mono，fms会自动将转成2声道的。
+			</matrox>
+	</consumers>
+
+2017年1月5日16:43:01  wangxg
+		实现台标模糊功能，命令格式如下
+		loadbg 1-10 00000001 logo_killer {1,100,30,180,50,1,10}
+		set 1-10 logo_killer {1,100,30,180,50,1,10}
+		一旦设置就会保存到配置文件中，保持上次设置状态直到下次重新设置为止
+
+2017年1月5日16:47:22 zibj
+		对media目录子文件夹的支持
+		1.命令形如：loadbg 1-10 00000001
+		加载00000001素材，若未找到00000001素材，则加载00000001目录下00000001素材
+
+		2.命令形如：	loadbg 1-10 00000001//00000001
+				 or loadbg 1-10 00000001/00000001
+				or loadbg 1-10 00000001\\00000001
+				直接加载00000001目录下00000001素材
+2017年3月16日10:49:50 zibj
+     <consumers>
+		<mainconcept>
+			<path>udp://234.5.5.1:2345?localaddr=172.16.3.106</path>
+			<args>-format mpegts -vcodec mpeg2 -acodec mpa -vpreset 2 -vpref 15 -vbitrate 8000000 -vgop 15 -abitrateindex 12 -amode 2 -enablepaddings 1 -requiredbitrate 9000000 -pcrinterval 30 -psiinterval 100 -videopid 1234 -audiopid 2134</args>
+		</mainconcept>
+	 </consumers>
+	 配置说明详见 ..\docs\mainconceptconsumer参数说明.docx

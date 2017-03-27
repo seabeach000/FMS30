@@ -1,0 +1,19 @@
+MPEG2 
+	<video_format>MPEG2</video_format>
+  	<preset>2</preset>             2表示MPEG2，8表示DVB
+  	<profile>4</profile>           4表示MainProfile，1表示HIGHProfile
+  	<level>8</level>               8表示Mainlevel，4表示HighLevel
+  	<gop_size>30</gop_size>
+  	<performance>9</performance>
+  	<bit_rate>8000000</bit_rate>
+	<interlace_mode>1</interlace_mode>
+
+AVC 
+	<video_format>AVC</video_format>
+  	<preset>2</preset>             2表示VideoType_MAIN，5表示VideoType_HIGH 
+  	<profile>1</profile>           1表示MainProfile，3表示HIGHProfile，0表示baseline
+  	<level>30</level>               30表示level_3，40表示Level_4
+  	<gop_size>30</gop_size>
+  	<performance>9</performance>
+  	<bit_rate>8000000</bit_rate>
+	<interlace_mode>1</interlace_mode>

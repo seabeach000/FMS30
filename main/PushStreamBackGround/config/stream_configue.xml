@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<push_stream_configue>
+<stream1>
+    <source_name>ds1</source_name>
+    <stream_ip>236.0.0.4</stream_ip>
+    <stream_port>10004</stream_port>
+    <server_ip>192.168.0.110</server_ip>
+    <cachetime>1000</cachetime>
+	<Redundancy>0</Redundancy>
+<stream_ip_bak>235.0.0.1</stream_ip_bak>
+<stream_port_bak>10002</stream_port_bak>
+<server_ip_bak>192.168.0.110</server_ip_bak>
+<video> 	
+	<video_format>MPEG2</video_format>
+  	<preset>2</preset>
+  	<profile>4</profile>
+  	<level>8</level>
+  	<gop_size>30</gop_size>
+  	<performance>9</performance>
+  	<bit_rate>8000000</bit_rate>
+	<interlace_mode>1</interlace_mode>
+</video>
+<audio>
+<audio_format>AAC</audio_format>
+<audio_bitrate>192</audio_bitrate>
+<audio_layer>2</audio_layer>
+</audio>
+  	<mux>
+  	<padding_enable>1</padding_enable>
+  	<video_pid>1000</video_pid>
+  	<audio_pid>1001</audio_pid>
+  	<bit_rate>9000000</bit_rate>
+  	</mux> 
+<net_render>
+<render_type>0</render_type>
+<serial_number>{544B4544-0204-4000-8000-022162000051}</serial_number>
+<serial_number_bak>{544B4544-0204-4000-8000-022162000051}</serial_number_bak>
+<dektecCacheByte>2000000</dektecCacheByte>
+</net_render>
+</stream1>
+</push_stream_configue>

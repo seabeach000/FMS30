@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0"
+xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ExtensionsToDeleteOnClean>$(ExtensionsToDeleteOnClean);*.tmh</ExtensionsToDeleteOnClean>
+    </PropertyGroup>
+    <ItemGroup>
+        <CoreCppClean Include="@(CoreCppClean);$(ProjectDir)">
+            <FilePatternsToDelete>*.tmh</FilePatternsToDelete>
+        </CoreCppClean>
+    </ItemGroup>
+    <ItemGroup>
+        <WppSrc Include="@(ClCompile)" Exclude="StdAfx.cpp;*\StdAfx.cpp" />
+    </ItemGroup>
+  <Target Name ="CleanTMH" AfterTargets="CoreCppClean" BeforeTargets="TraceWpp">
+    <Exec Command="del $(TargetDir)*.tmh"></Exec>
+  </Target>
+  <Target Name="TraceWpp" BeforeTargets="ClCompile" Inputs="@(WppSrc)" Outputs="@(WppSrc -> '%(Filename).tmh')">     
+    <Exec WorkingDirectory="$(ProjectDir)" 
+          Command="$(DDKROOT)\bin\x86\tracewpp.EXE -scan:$(MVCOREIN)\Inc\_mvLogUserAPI.h -cfgdir:$(DDKROOT)\bin\wppconfig\rev1 -odir:$(TargetDir) %(WppSrc.identity)
+                       echo Generating $(TargetDir)%(WppSrc.filename).tmh"/>
+	</Target>					   
+</Project>

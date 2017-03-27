@@ -1,0 +1,2163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{94433554-7DC2-38EF-A292-BFF87FA8D68B}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>casparcg_copy_dependencies</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/bin/win32/glew32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/bin/win32/glew32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb_debug.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb_debug.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avcodec-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avcodec-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avdevice-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avdevice-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avfilter-5.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avfilter-5.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avformat-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avformat-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avutil-54.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avutil-54.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/postproc-53.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/postproc-53.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swresample-1.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swresample-1.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swscale-3.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swscale-3.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/bin/win32/OpenAL32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/bin/win32/OpenAL32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/locales" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/locales"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/locales" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/locales"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/cef.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/cef.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/devtools_resources.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/devtools_resources.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll.pdb" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll.pdb" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_43.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_43.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_46.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_46.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/ffmpegsumo.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/ffmpegsumo.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/icudt.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/icudt.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libEGL.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libEGL.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libGLESv2.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libGLESv2.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImage.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImage.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImaged.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImaged.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/liberation-fonts/LiberationSans-Regular.ttf" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/liberation-fonts/LiberationSans-Regular.ttf" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/casparcg.config" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/casparcg.config" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/bin/win32/glew32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/bin/win32/glew32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb_debug.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb_debug.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avcodec-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avcodec-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avdevice-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avdevice-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avfilter-5.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avfilter-5.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avformat-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avformat-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avutil-54.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avutil-54.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/postproc-53.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/postproc-53.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swresample-1.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swresample-1.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swscale-3.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swscale-3.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/bin/win32/OpenAL32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/bin/win32/OpenAL32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/locales" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/locales"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/locales" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/locales"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/cef.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/cef.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/devtools_resources.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/devtools_resources.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll.pdb" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll.pdb" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_43.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_43.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_46.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_46.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/ffmpegsumo.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/ffmpegsumo.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/icudt.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/icudt.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libEGL.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libEGL.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libGLESv2.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libGLESv2.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImage.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImage.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImaged.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImaged.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/liberation-fonts/LiberationSans-Regular.ttf" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/liberation-fonts/LiberationSans-Regular.ttf" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/casparcg.config" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/casparcg.config" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/bin/win32/glew32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/bin/win32/glew32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb_debug.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb_debug.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avcodec-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avcodec-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avdevice-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avdevice-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avfilter-5.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avfilter-5.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avformat-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avformat-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avutil-54.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avutil-54.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/postproc-53.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/postproc-53.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swresample-1.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swresample-1.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swscale-3.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swscale-3.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/bin/win32/OpenAL32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/bin/win32/OpenAL32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/locales" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/locales"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/locales" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/locales"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/cef.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/cef.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/devtools_resources.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/devtools_resources.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll.pdb" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll.pdb" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_43.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_43.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_46.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_46.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/ffmpegsumo.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/ffmpegsumo.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/icudt.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/icudt.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libEGL.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libEGL.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libGLESv2.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libGLESv2.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImage.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImage.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImaged.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImaged.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/liberation-fonts/LiberationSans-Regular.ttf" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/liberation-fonts/LiberationSans-Regular.ttf" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/casparcg.config" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/casparcg.config" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\..;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\boost;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\RxCpp\include;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message>
+      </Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/bin/win32/glew32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/bin/win32/glew32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb_debug.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/bin/win32/tbb_debug.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avcodec-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avcodec-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avdevice-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avdevice-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avfilter-5.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avfilter-5.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avformat-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avformat-56.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avutil-54.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/avutil-54.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/postproc-53.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/postproc-53.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swresample-1.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swresample-1.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swscale-3.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/bin/win32/swscale-3.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/bin/win32/OpenAL32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/bin/win32/OpenAL32.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/locales" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/locales"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/locales" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/locales"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/cef.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/cef.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/devtools_resources.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/devtools_resources.pak" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll.pdb" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libcef.dll.pdb" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_43.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_43.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_46.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/d3dcompiler_46.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/ffmpegsumo.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/ffmpegsumo.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/icudt.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/icudt.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libEGL.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libEGL.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libGLESv2.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/bin/win32/libGLESv2.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImage.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImage.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImaged.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/bin/win32/FreeImaged.dll" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/liberation-fonts/LiberationSans-Regular.ttf" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/liberation-fonts/LiberationSans-Regular.ttf" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/casparcg.config" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/$(Configuration)/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/casparcg.config" "D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main -BD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build --check-stamp-file D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\included_modules.tmpl;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main -BD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build --check-stamp-file D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\included_modules.tmpl;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main -BD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build --check-stamp-file D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\included_modules.tmpl;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main -BD:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build --check-stamp-file D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/shell/CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\included_modules.tmpl;D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\shell\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\ZqvideoCode\depot\MPRO\FMS\FMS30\main\build\shell\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
