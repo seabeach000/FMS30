@@ -14,7 +14,7 @@ struct port::impl
 {
 	int									index_;
 	spl::shared_ptr<monitor::subject>	monitor_subject_ = spl::make_shared<monitor::subject>("/port/" + boost::lexical_cast<std::string>(index_));
-	std::shared_ptr<frame_consumer>		consumer_;
+	spl::shared_ptr<frame_consumer>		consumer_;
 	int									channel_index_;
 public:
 	impl(int index, int channel_index, spl::shared_ptr<frame_consumer> consumer)
@@ -64,6 +64,11 @@ public:
 	{
 		return consumer_->presentation_frame_age_millis();
 	}
+
+	spl::shared_ptr<const frame_consumer> consumer() const
+	{
+		return consumer_;
+	}
 };
 
 port::port(int index, int channel_index, spl::shared_ptr<frame_consumer> consumer) : impl_(new impl(index, channel_index, std::move(consumer))){}
@@ -78,4 +83,5 @@ std::wstring port::print() const{ return impl_->print();}
 bool port::has_synchronization_clock() const{return impl_->has_synchronization_clock();}
 boost::property_tree::wptree port::info() const{return impl_->info();}
 int64_t port::presentation_frame_age_millis() const{ return impl_->presentation_frame_age_millis(); }
+spl::shared_ptr<const frame_consumer> port::consumer() const { return impl_->consumer(); }
 }}

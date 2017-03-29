@@ -44,6 +44,7 @@
 #include <core/producer/text/text_producer.h>
 #include <core/producer/color/color_producer.h>
 #include <core/consumer/output.h>
+#include <core/consumer/syncto/syncto_consumer.h>
 #include <core/mixer/mixer.h>
 #include <core/mixer/image/image_mixer.h>
 #include <core/thumbnail_generator.h>
@@ -179,6 +180,7 @@ struct server::impl : boost::noncopyable
 		initialize_modules(dependencies);
 		core::text::init(dependencies);
 		core::scene::init(dependencies);
+		core::syncto::init(dependencies);
 		help_repo_->register_item({ L"producer" }, L"Color Producer", &core::describe_color_producer);
 	}
 
@@ -288,13 +290,17 @@ struct server::impl : boost::noncopyable
 	void setup_channels(const boost::property_tree::wptree& pt)
 	{
 		using boost::property_tree::wptree;
+
+		std::vector<wptree> xml_channels;
+
 		for (auto& xml_channel : pt | witerate_children(L"configuration.channels") | welement_context_iteration)
 		{
+			xml_channels.push_back(xml_channel.second);
 			ptree_verify_element_name(xml_channel, L"channel");
 
 			auto format_desc_str = xml_channel.second.get(L"video-mode", L"PAL");
 			auto format_desc = video_format_desc(format_desc_str);
-			if(format_desc.format == video_format::invalid)
+			if (format_desc.format == video_format::invalid)
 				CASPAR_THROW_EXCEPTION(user_error() << msg_info(L"Invalid video-mode: " + format_desc_str));
 			//wxg20170228
 			auto delayFrames = xml_channel.second.get(L"delay-frames", L"0");
@@ -308,7 +314,7 @@ struct server::impl : boost::noncopyable
 			auto afd = xml_channel.second.get(L"afd-mode", L"invalid-afd");
 			//条件判断，如果afdmode的值不在参考范围内就默认是无效的
 			afd = boost::to_lower_copy(afd);
-			if (afd==L"auto"|| afd == L"add"|| afd== L"cut" || afd == L"stretch"|| afd == L"table"|| afd == L"invalid-afd")
+			if (afd == L"auto" || afd == L"add" || afd == L"cut" || afd == L"stretch" || afd == L"table" || afd == L"invalid-afd")
 			{
 				format_desc.afd_mode = afd;
 			}
@@ -360,10 +366,18 @@ struct server::impl : boost::noncopyable
 							));
 				}
 			}
+
+			channel->monitor_output().attach_parent(monitor_subject_);
+			channel->mixer().set_straight_alpha_output(xml_channel.second.get(L"straight-alpha-output", false));
+			channels_.push_back(channel);
+		}
+
+		for (auto& channel : channels_)
+		{
 			core::diagnostics::scoped_call_context save;
 			core::diagnostics::call_context::for_thread().video_channel = channel->index();
 
-			for (auto& xml_consumer : xml_channel.second | witerate_children(L"consumers") | welement_context_iteration)
+			for (auto& xml_consumer : xml_channels.at(channel->index()-1) | witerate_children(L"consumers") | welement_context_iteration)
 			{
 				boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
 				auto name = xml_consumer.first;
@@ -371,7 +385,7 @@ struct server::impl : boost::noncopyable
 				try
 				{
 					if (name != L"<xmlcomment>")
-						channel->output().add(consumer_registry_->create_consumer(name, xml_consumer.second, &channel->stage()));
+						channel->output().add(consumer_registry_->create_consumer(name, xml_consumer.second, &channel->stage(),channels_));
 				}
 				catch (const user_error& e)
 				{
@@ -383,10 +397,6 @@ struct server::impl : boost::noncopyable
 					CASPAR_LOG_CURRENT_EXCEPTION();
 				}
 			}
-
-		    channel->monitor_output().attach_parent(monitor_subject_);
-			channel->mixer().set_straight_alpha_output(xml_channel.second.get(L"straight-alpha-output", false));
-			channels_.push_back(channel);
 			
 		}
 

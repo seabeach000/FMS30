@@ -135,6 +135,7 @@ public:
 	int index() const override																										{return consumer_->index();}
 	int64_t presentation_frame_age_millis() const override																			{return consumer_->presentation_frame_age_millis();}
 	monitor::subject& monitor_output() override																						{return consumer_->monitor_output();}										
+	const frame_consumer* unwrapped() const override																				{return consumer_->unwrapped();}
 };
 
 class print_consumer_proxy : public frame_consumer
@@ -168,6 +169,7 @@ public:
 	int index() const override																										{return consumer_->index();}
 	int64_t presentation_frame_age_millis() const override																			{return consumer_->presentation_frame_age_millis();}
 	monitor::subject& monitor_output() override																						{return consumer_->monitor_output();}										
+	const frame_consumer* unwrapped() const override																				{ return consumer_->unwrapped(); }
 };
 
 class recover_consumer_proxy : public frame_consumer
@@ -221,6 +223,7 @@ public:
 	int index() const override												{return consumer_->index();}
 	int64_t presentation_frame_age_millis() const override					{return consumer_->presentation_frame_age_millis();}
 	monitor::subject& monitor_output() override								{return consumer_->monitor_output();}										
+	const frame_consumer* unwrapped() const override                        { return consumer_->unwrapped(); }
 };
 
 // This class is used to guarantee that audio cadence is correct. This is important for NTSC audio.
@@ -275,10 +278,11 @@ public:
 	int index() const override												{return consumer_->index();}
 	int64_t presentation_frame_age_millis() const override					{return consumer_->presentation_frame_age_millis();}
 	monitor::subject& monitor_output() override								{return consumer_->monitor_output();}										
+	const frame_consumer* unwrapped() const override						{ return consumer_->unwrapped(); }
 };
 
 spl::shared_ptr<core::frame_consumer> frame_consumer_registry::create_consumer(
-		const std::vector<std::wstring>& params, interaction_sink* sink) const
+		const std::vector<std::wstring>& params, interaction_sink* sink, std::vector<spl::shared_ptr<video_channel>> channels) const
 {
 	if(params.empty())
 		CASPAR_THROW_EXCEPTION(invalid_argument() << msg_info("params cannot be empty"));
@@ -289,7 +293,7 @@ spl::shared_ptr<core::frame_consumer> frame_consumer_registry::create_consumer(
 		{
 			try
 			{
-				consumer = factory(params, sink);
+				consumer = factory(params, sink,channels);
 			}
 			catch(...)
 			{
@@ -311,7 +315,8 @@ spl::shared_ptr<core::frame_consumer> frame_consumer_registry::create_consumer(
 spl::shared_ptr<frame_consumer> frame_consumer_registry::create_consumer(
 		const std::wstring& element_name,
 		const boost::property_tree::wptree& element,
-		interaction_sink* sink) const
+		interaction_sink* sink,
+	    std::vector<spl::shared_ptr<video_channel>> channels) const
 {
 	auto& preconfigured_consumer_factories = impl_->preconfigured_consumer_factories;
 	auto found = preconfigured_consumer_factories.find(element_name);
@@ -324,7 +329,7 @@ spl::shared_ptr<frame_consumer> frame_consumer_registry::create_consumer(
 			spl::make_shared<print_consumer_proxy>(
 					spl::make_shared<recover_consumer_proxy>(
 							spl::make_shared<cadence_guard>(
-									found->second(element, sink)))));
+									found->second(element, sink,channels)))));
 }
 
 const spl::shared_ptr<frame_consumer>& frame_consumer::empty()

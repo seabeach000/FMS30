@@ -64,6 +64,7 @@ public:
 
 	std::future<boost::property_tree::wptree> info() const;
 	std::future<boost::property_tree::wptree> delay_info() const;
+	std::vector<spl::shared_ptr<const frame_consumer>> get_consumers() const;
 
 private:
 	struct impl;

@@ -280,15 +280,20 @@ std::wstring ListTemplates(const spl::shared_ptr<core::cg_producer_registry>& cg
 	return replyString.str();
 }
 
+std::vector<spl::shared_ptr<core::video_channel>> get_channels(const command_context& ctx)
+{
+	return cpplinq::from(ctx.channels)
+		.select([](channel_context c) { return spl::make_shared_ptr(c.channel); })
+		.to_vector();
+}
+
 core::frame_producer_dependencies get_producer_dependencies(const std::shared_ptr<core::video_channel>& channel, const command_context& ctx)
 {
 	return core::frame_producer_dependencies(
-			channel->frame_factory(),
-			cpplinq::from(ctx.channels)
-					.select([](channel_context c) { return spl::make_shared_ptr(c.channel); })
-					.to_vector(),
-			channel->video_format_desc(),
-			ctx.producer_registry);
+		channel->frame_factory(),
+		get_channels(ctx),
+		channel->video_format_desc(),
+		ctx.producer_registry);
 }
 
 // Basic Commands
@@ -663,7 +668,7 @@ std::wstring add_command(command_context& ctx)
 	core::diagnostics::scoped_call_context save;
 	core::diagnostics::call_context::for_thread().video_channel = ctx.channel_index + 1;
 
-	auto consumer = ctx.consumer_registry->create_consumer(ctx.parameters, &ctx.channel.channel->stage());
+	auto consumer = ctx.consumer_registry->create_consumer(ctx.parameters, &ctx.channel.channel->stage(),get_channels(ctx));
 	ctx.channel.channel->output().add(ctx.layer_index(consumer->index()), consumer);
 
 	return L"202 ADD OK\r\n";
@@ -696,7 +701,7 @@ std::wstring remove_command(command_context& ctx)
 				ctx.client->address(),
 				ctx.parameters);
 
-		index = ctx.consumer_registry->create_consumer(ctx.parameters, &ctx.channel.channel->stage())->index();
+		index = ctx.consumer_registry->create_consumer(ctx.parameters, &ctx.channel.channel->stage(),get_channels(ctx))->index();
 	}
 
 	ctx.channel.channel->output().remove(index);
@@ -717,7 +722,7 @@ void print_describer(core::help_sink& sink, const core::help_repository& repo)
 
 std::wstring print_command(command_context& ctx)
 {
-	ctx.channel.channel->output().add(ctx.consumer_registry->create_consumer({ L"IMAGE" }, &ctx.channel.channel->stage()));
+	ctx.channel.channel->output().add(ctx.consumer_registry->create_consumer({ L"IMAGE" }, &ctx.channel.channel->stage(),get_channels(ctx)));
 
 	return L"202 PRINT OK\r\n";
 }
@@ -2124,7 +2129,7 @@ std::wstring channel_grid_command(command_context& ctx)
 	params.push_back(L"0");
 	params.push_back(L"NAME");
 	params.push_back(L"Channel Grid Window");
-	auto screen = ctx.consumer_registry->create_consumer(params, &self.channel->stage());
+	auto screen = ctx.consumer_registry->create_consumer(params, &self.channel->stage(),get_channels(ctx));
 
 	self.channel->output().add(screen);
 

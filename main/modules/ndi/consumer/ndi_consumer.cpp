@@ -434,7 +434,7 @@ namespace caspar {
 			sink.short_description(L"NDI Consumer.");
 		}
 
-		spl::shared_ptr<core::frame_consumer> create_consumer(const std::vector<std::wstring>& params, core::interaction_sink* sink)
+		spl::shared_ptr<core::frame_consumer> create_consumer(const std::vector<std::wstring>& params, core::interaction_sink* sink, std::vector<spl::shared_ptr<core::video_channel>> channels)
 		{
 			if (params.size() < 1 || !boost::iequals(params.at(0), L"NDI"))
 				return core::frame_consumer::empty();
@@ -460,7 +460,7 @@ namespace caspar {
 			return spl::make_shared<ndi_consumer_proxy>(config);
 		}
 
-		spl::shared_ptr<core::frame_consumer> create_preconfigured_consumer(const boost::property_tree::wptree& ptree, core::interaction_sink* sink)
+		spl::shared_ptr<core::frame_consumer> create_preconfigured_consumer(const boost::property_tree::wptree& ptree, core::interaction_sink* sink, std::vector<spl::shared_ptr<core::video_channel>> channels)
 		{
 			configuration config;
 			config.name = ptree.get(L"source", config.name);

@@ -70,14 +70,17 @@ public:
 	virtual int								buffer_depth() const = 0; // -1 to not participate in frame presentation synchronization
 	virtual int								index() const = 0;
 	virtual int64_t							presentation_frame_age_millis() const = 0;
+	virtual const frame_consumer*           unwrapped() const { return this; }
 };
 
 typedef std::function<spl::shared_ptr<frame_consumer>(
 		const std::vector<std::wstring>&,
-		interaction_sink* sink)> consumer_factory_t;
+		interaction_sink* sink,
+	    std::vector<spl::shared_ptr<video_channel>> channels)> consumer_factory_t;
 typedef std::function<spl::shared_ptr<frame_consumer>(
 		const boost::property_tree::wptree& element,
-		interaction_sink* sink)> preconfigured_consumer_factory_t;
+		interaction_sink* sink,
+	    std::vector<spl::shared_ptr<video_channel>> channels)> preconfigured_consumer_factory_t;
 
 class frame_consumer_registry : boost::noncopyable
 {
@@ -89,11 +92,13 @@ public:
 			const preconfigured_consumer_factory_t& factory);
 	spl::shared_ptr<frame_consumer> create_consumer(
 			const std::vector<std::wstring>& params,
-			interaction_sink* sink) const;
+			interaction_sink* sink,
+		    std::vector<spl::shared_ptr<video_channel>> channels) const;
 	spl::shared_ptr<frame_consumer> create_consumer(
 			const std::wstring& element_name,
 			const boost::property_tree::wptree& element,
-			interaction_sink* sink) const;
+			interaction_sink* sink,
+		    std::vector<spl::shared_ptr<video_channel>> channels) const;
 private:
 	struct impl;
 	spl::shared_ptr<impl> impl_;

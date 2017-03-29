@@ -176,7 +176,7 @@ void describe_consumer(core::help_sink& sink, const core::help_repository& repo)
 	sink.example(L">> ADD 1 IMAGE", L"creating media/20130228T210946.png if the current time is 2013-02-28 21:09:46.");
 }
 
-spl::shared_ptr<core::frame_consumer> create_consumer(const std::vector<std::wstring>& params, core::interaction_sink*)
+spl::shared_ptr<core::frame_consumer> create_consumer(const std::vector<std::wstring>& params, core::interaction_sink*, std::vector<spl::shared_ptr<core::video_channel>> channels)
 {
 	if (params.size() < 1 || !boost::iequals(params.at(0), L"IMAGE"))
 		return core::frame_consumer::empty();

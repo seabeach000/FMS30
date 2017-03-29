@@ -297,6 +297,19 @@ public:
 			return info;
 		}, task_priority::high_priority));
 	}
+
+	std::vector<spl::shared_ptr<const frame_consumer>> get_consumers()
+	{
+		return executor_.invoke([=]
+		{
+			std::vector<spl::shared_ptr<const frame_consumer>> consumers;
+
+			for (auto& port : ports_)
+				consumers.push_back(port.second.consumer());
+
+			return consumers;
+		});
+	}
 };
 
 output::output(spl::shared_ptr<diagnostics::graph> graph, const video_format_desc& format_desc, const core::audio_channel_layout& channel_layout, int channel_index) : impl_(new impl(std::move(graph), format_desc, channel_layout, channel_index)){}
@@ -306,6 +319,7 @@ void output::remove(int index){impl_->remove(index);}
 void output::remove(const spl::shared_ptr<frame_consumer>& consumer){impl_->remove(consumer);}
 std::future<boost::property_tree::wptree> output::info() const{return impl_->info();}
 std::future<boost::property_tree::wptree> output::delay_info() const{ return impl_->delay_info(); }
+std::vector<spl::shared_ptr<const frame_consumer>> output::get_consumers() const { return impl_->get_consumers(); }
 std::future<void> output::operator()(const_frame frame, const video_format_desc& format_desc, const core::audio_channel_layout& channel_layout){ return (*impl_)(std::move(frame), format_desc, channel_layout); }
 monitor::subject& output::monitor_output() {return *impl_->monitor_subject_;}
 }}

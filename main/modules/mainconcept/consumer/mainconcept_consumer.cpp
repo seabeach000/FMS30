@@ -302,7 +302,7 @@ namespace caspar {
 		}
 
 		spl::shared_ptr<core::frame_consumer> create_consumer(
-			const std::vector<std::wstring>& params, core::interaction_sink* sink)
+			const std::vector<std::wstring>& params, core::interaction_sink* sink, std::vector<spl::shared_ptr<core::video_channel>> channels)
 		{
 			if (params.size() < 1 || !boost::iequals(params.at(0), L"MAINCONCEPT"))
 				return core::frame_consumer::empty();
@@ -314,7 +314,7 @@ namespace caspar {
 		}
 
 		spl::shared_ptr<core::frame_consumer> create_preconfigured_consumer(
-			const boost::property_tree::wptree& ptree, core::interaction_sink* sink)
+			const boost::property_tree::wptree& ptree, core::interaction_sink* sink, std::vector<spl::shared_ptr<core::video_channel>> channels)
 		{
 			return spl::make_shared<mainconcept_consumer_proxy>(
 				u8(ptree_get<std::wstring>(ptree, L"path")),

@@ -293,7 +293,7 @@ void describe_consumer(core::help_sink& sink, const core::help_repository& repo)
 	sink.example(L">> ADD 1 AUDIO LATENCY 500", L"Specifies that the system-audio chain: openal => driver => sound card => speaker output is 500ms");
 }
 
-spl::shared_ptr<core::frame_consumer> create_consumer(const std::vector<std::wstring>& params, core::interaction_sink*)
+spl::shared_ptr<core::frame_consumer> create_consumer(const std::vector<std::wstring>& params, core::interaction_sink*, std::vector<spl::shared_ptr<core::video_channel>> channels)
 {
 	if(params.size() < 1 || !boost::iequals(params.at(0), L"AUDIO"))
 		return core::frame_consumer::empty();
@@ -316,7 +316,7 @@ spl::shared_ptr<core::frame_consumer> create_consumer(const std::vector<std::wst
 	return spl::make_shared<oal_consumer>(channel_layout, latency_millis);
 }
 
-spl::shared_ptr<core::frame_consumer> create_preconfigured_consumer(const boost::property_tree::wptree& ptree, core::interaction_sink*)
+spl::shared_ptr<core::frame_consumer> create_preconfigured_consumer(const boost::property_tree::wptree& ptree, core::interaction_sink*, std::vector<spl::shared_ptr<core::video_channel>> channels)
 {
 	auto channel_layout			= core::audio_channel_layout::invalid();
 	auto channel_layout_spec	= ptree.get_optional<std::wstring>(L"channel-layout");

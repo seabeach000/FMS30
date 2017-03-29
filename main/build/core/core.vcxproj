@@ -232,6 +232,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\core\consumer\syncto\syncto_consumer.cpp" />
     <ClInclude Include="..\..\..\main\core\consumer\frame_consumer.h" />
     <ClInclude Include="..\..\..\main\core\consumer\output.h" />
     <ClInclude Include="..\..\..\main\core\consumer\port.h" />
@@ -1025,6 +1026,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">StdAfx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Configuration)/core_cxx_pch/StdAfx.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
+    <ClInclude Include="..\..\core\consumer\syncto\syncto_consumer.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/common/common.vcxproj">
