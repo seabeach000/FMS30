@@ -325,4 +325,14 @@ void print_child(
 		print_child(level, indent + (elem.empty() ? L"" : elem + L"."), child.first, child.second);
 }
 
+const char* remove_source_prefix(const char* file)
+{
+	auto found = boost::ifind_first(file, get_source_prefix().c_str());
+
+	if (found)
+		return found.end();
+	else
+		return file;
+}
+
 }}
