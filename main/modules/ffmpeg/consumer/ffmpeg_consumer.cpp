@@ -703,6 +703,11 @@ namespace caspar {
 
 				adjust_video_filter(codec, in_video_format_, filt_vsink, filtergraph);
 
+				if (in_video_format_.width < 1280)
+					video_graph_->scale_sws_opts = "out_color_matrix=bt601";
+				else
+					video_graph_->scale_sws_opts = "out_color_matrix=bt709";
+
 				configure_filtergraph(
 					*video_graph_,
 					filtergraph,
