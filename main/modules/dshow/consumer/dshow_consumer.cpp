@@ -615,7 +615,7 @@ namespace caspar {
 			if (params.size() < 1 || !boost::iequals(params.at(0), L"DIRECTSHOW"))
 				return core::frame_consumer::empty();
 			configuration config;
-			if (contains_param(L"NAME", params))
+			if (contains_param(L"DS-SOURCENAME", params))
 				config.name = get_param(L"DS-SOURCENAME", params);
 			return spl::make_shared<dshow_consumer_proxy>(config);
 		}

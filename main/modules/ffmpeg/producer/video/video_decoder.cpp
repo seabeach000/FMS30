@@ -343,13 +343,14 @@ public:
 		int nPlanes = av_pix_fmt_count_planes(codec_context_->pix_fmt);
 		if (AV_PIX_FMT_YUV422P != codec_context_->pix_fmt && AV_PIX_FMT_YUV420P != codec_context_->pix_fmt)
 		{
-			auto decoded_frame_sws = av_frame_clone(decoded_frame.get());
-			byte_vector	picture_buf_;
-			picture_buf_.reserve(avpicture_get_size(AV_PIX_FMT_YUV420P, codec_context_->width, codec_context_->height) * 2);
-			avpicture_fill(reinterpret_cast<AVPicture*>(decoded_frame.get()), picture_buf_.data(), AV_PIX_FMT_YUV420P, codec_context_->width, codec_context_->height);
-			sws_scale(sws_.get(), decoded_frame_sws->data, decoded_frame_sws->linesize, 0, decoded_frame->height, decoded_frame->data, decoded_frame->linesize);
-			av_frame_free(&decoded_frame_sws);
-			decoded_frame->format = AV_PIX_FMT_YUV420P;
+			//auto decoded_frame_sws = av_frame_clone(decoded_frame.get());
+			//byte_vector	picture_buf_;
+			//picture_buf_.reserve(avpicture_get_size(AV_PIX_FMT_YUV420P, codec_context_->width, codec_context_->height) * 2);
+			//avpicture_fill(reinterpret_cast<AVPicture*>(decoded_frame.get()), picture_buf_.data(), AV_PIX_FMT_YUV420P, codec_context_->width, codec_context_->height);
+			//sws_scale(sws_.get(), decoded_frame_sws->data, decoded_frame_sws->linesize, 0, decoded_frame->height, decoded_frame->data, decoded_frame->linesize);
+			//av_frame_free(&decoded_frame_sws);
+			//decoded_frame->format = AV_PIX_FMT_YUV420P;
+			logo_killer_enable = false;
 		}
 		if (logo_killer_enable)
 		{

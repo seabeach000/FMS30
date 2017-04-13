@@ -13,6 +13,8 @@
     <ClCompile Include="..\..\..\modules\mainconcept\bufstream\sr_fifo.c">
       <Filter>bufstream</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\modules\mainconcept\DtNetRender.cpp" />
+    <ClCompile Include="..\..\..\modules\mainconcept\MCNetRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\modules\mainconcept\mainconcept.h" />
@@ -27,6 +29,9 @@
     <ClInclude Include="..\..\..\modules\mainconcept\bufstream\sr_fifo.h">
       <Filter>bufstream</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\modules\mainconcept\DtNetRender.h" />
+    <ClInclude Include="..\..\..\modules\mainconcept\params.h" />
+    <ClInclude Include="..\..\..\modules\mainconcept\MCNetRender.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="bufstream">

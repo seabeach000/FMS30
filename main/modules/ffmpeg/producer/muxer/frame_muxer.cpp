@@ -130,7 +130,7 @@ std::unique_ptr<audio_filter> create_amerge_filter(std::vector<audio_input_pad> 
 struct frame_muxer::impl : boost::noncopyable
 {
 	core::video_channel*							m_p_video_channel;
-	static constexpr std::size_t					max_stream_size			    = 120;
+	static constexpr std::size_t					max_stream_size = 120;
 	std::queue<std::queue<core::mutable_frame>>		video_streams_;
 	std::queue<core::mutable_audio_buffer>			audio_streams_;
 	std::queue<core::draw_frame>					frame_buffer_;

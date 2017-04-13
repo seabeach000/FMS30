@@ -1533,18 +1533,24 @@ bool is_valid_file(const std::wstring& filename, bool only_video)
 		return true;
 
 	std::ifstream file(u8filename, std::ios::binary);
+	int bRet = false;
+	for (int i = 1; i <= 10; i++)
+	{
+		if (bRet)
+			break;
+		std::vector<unsigned char> buf;
+		for (auto file_it = std::istreambuf_iterator<char>(file); file_it != std::istreambuf_iterator<char>() && buf.size() < i * 2048; ++file_it)
+			buf.push_back(*file_it);
 
-	std::vector<unsigned char> buf;
-	for(auto file_it = std::istreambuf_iterator<char>(file); file_it != std::istreambuf_iterator<char>() && buf.size() < 1024; ++file_it)
-		buf.push_back(*file_it);
+		if (buf.empty())
+			return false;
 
-	if(buf.empty())
-		return false;
+		pb.buf = buf.data();
+		pb.buf_size = static_cast<int>(buf.size());
 
-	pb.buf		= buf.data();
-	pb.buf_size = static_cast<int>(buf.size());
-
-	return av_probe_input_format2(&pb, true, &score) != nullptr;
+		bRet = av_probe_input_format2(&pb, true, &score) != nullptr;
+	}
+	return bRet;
 }
 
 bool try_get_duration(const std::wstring filename, std::int64_t& duration, boost::rational<std::int64_t>& time_base)

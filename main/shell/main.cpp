@@ -309,7 +309,7 @@ bool run(const std::wstring& config_file_name, tbb::atomic<bool>& should_wait_fo
 #if defined(WINDOWS)
 #ifndef _DEBUG
 #ifdef USE_ZQ_LICENSE
-	if (false/*CheckLicense()*/)
+	if (CheckLicense())
 	{
 		std::wstring wcmd1;
 		std::wstring upper_cmd1;

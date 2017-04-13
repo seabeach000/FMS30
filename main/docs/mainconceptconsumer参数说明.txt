@@ -1,0 +1,228 @@
+Mainconcept consumer采用maincocept sdk输出mpegts格式的udp流；
+	支持的编码格式有：
+		视频：H264、MPEG2
+		音频：MPEG-1 Layer 2、AAC
+	支持的出流方式有：Mainconcept出流和Dektec卡出流。
+
+在Famous3.0中配置如下：
+	<mainconcept>
+		<path>udp://234.5.5.1:2345</path>
+		<args>-netrender dt -devtype 2162 -devport 1 -delaytime 1000 -format mpegts -vcodec mpeg2 -acodec aac -vbitrate 8000000 -enablepaddings 1 -requiredbitrate 9000000</args>
+    </mainconcept>
+	或
+	<mainconcept>
+		<path>udp://234.5.5.1:2345</path>
+		<args>-netrender mc -format mpegts -vcodec mpeg2 -acodec aac -vbitrate 8000000 -enablepaddings 1 -requiredbitrate 9000000</args>
+    </mainconcept>
+也可通过发送AMCP命令来添加和移除mainconcept consumer：
+	ADD 1 MAINCONCEPT output.ts -format mpegts -vcodec mpeg2 -acodec aac
+	REMOVE 1 MAINCONCEPT output.ts
+
+	ADD 1 MAINCONCEPT e:/output.ts -format mpegts -vcodec mpeg2 -acodec aac
+	REMOVE 1 MAINCONCEPT e:/output.ts
+
+	ADD 1 MAINCONCEPT udp://234.5.5.1:2345 -netrender mc -format mpegts -vcodec mpeg2 -acodec aac
+	REMOVE 1 MAINCONCEPT udp://234.5.5.1:2345
+
+配置格式说明：
+	1.<path>：指定输出流的地址及出流网卡IP；
+	eg：
+		<!--流地址为udp://234.5.5.1:2345-->
+		<path>udp://234.5.5.1:2345</path> 
+
+		<!--mc方式出流时，可指定出流网卡IP，即172.16.3.186，流地址为udp://234.5.5.1:2345-->
+		<path>udp://234.1.1.1:2345?localaddr=172.16.3.186</path>
+	
+	2.<args>：指定出流方式、流复用格式、视频编码格式、音频编码格式及参数设置。args参数为空，默认输出H264+ MPEG-1 Layer 2的MPEGTS流。args中各参数项说明：
+		-netrender：指定出流方式，支持的格式有mc、dt，默认为mc。采用dt方式时，须指定复用参数-enablepaddings为1，并设置-requiredbitrate。
+		-format：指定流复用格式，仅支持mpegts，默认为mpegts。
+		-vcodec：指定视频编码格式，支持的格式有h264、mpeg2，默认为h264。
+		-acodec：指定音频编码格式，支持的格式有mpa、aac，默认为mpa。
+	    
+		视频编码器相关参数设置：
+		-vpreset：指定视频编码器的preset。
+			对h264而言，默认为2。推荐可选值为：2、5；
+				#define H264_MAIN   2    /**< @brief  similar to ISO/IEC 13818-1/2 @hideinitializer*/
+				#define H264_HIGH   5    /**< @brief  High Profile 1920x1080i @hideinitializer */
+			对mpeg2而言，默认为2。推荐可选值为：2；
+				#define MPEG_MPEG2  2    ///< generic ISO/IEC 13818-1/2
+		-vprof：默认值根据preset自动设定。
+			对h264而言，推荐可选值为0、1、3：
+				#define H264PROFILE_BASELINE   0   /**< @brief  Baseline Profile @hideinitializer */
+				#define H264PROFILE_MAIN       1   /**< @brief  Main Profile @hideinitializer */
+				#define H264PROFILE_HIGH       3   /**< @brief  High Profile @hideinitializer */
+			对mpeg2而言，推荐可选值为1、4、5、7：
+				#define PROFILE_HIGH      1
+				#define PROFILE_MAIN      4
+				#define PROFILE_SIMPLE    5
+				#define PROFILE_422       7
+		-vlevel：默认值根据preset自动设定。
+			对h264而言，推荐可选值为：10, 11, 12, 13, 16 (Level 1b), 20, 21, 22, 30, 31, 32, 40, 41, 42, 50, 51, 52和100(Auto)。
+			对mpeg2而言，推荐的可选值为：4，6，8，10。
+				#define LEVEL_HIGH         4
+				#define LEVEL_HIGH1440     6
+				#define LEVEL_MAIN         8
+				#define LEVEL_LOW         10
+		-vperf：指定performance。
+			对h264而言，默认值为9。取值范围为0~15。
+				#define H264_PERF_FASTEST  0      /**< @brief  fastest @hideinitializer */
+				#define H264_PERF_BALANCED 9      /**< @brief  recommended default value @hideinitializer */
+				#define H264_PERF_BEST_Q   15     /**< @brief  best quality @hideinitializer */
+			对mpeg2而言，默认值为15。取值范围为0~31。
+		-vframetype：指定帧类型。
+			对h264而言，默认值为1，即隔行。
+				#define H264_PROGRESSIVE   0   /**< @brief  progressive @hideinitializer */
+				#define H264_INTERLACED    1   /**< @brief  interlaced - encode every frame as 2 field pictures @hideinitializer */
+				#define H264_MBAFF         2   /**< @brief  interlaced - macroblock-adaptive frame-field coding @hideinitializer */
+			对mpeg2而言，默认值为0，即隔行。0-interlaced frames，1-progressive frames。
+		-vfieldorder：指定场序。
+			对h264而言，默认值为0，即顶场优先。
+				#define H264_TOPFIELD_FIRST      0   /**< @brief   @hideinitializer */
+				#define H264_BOTTOMFIELD_FIRST   1   /**< @brief   @hideinitializer */
+			对mpeg2而言，默认值为1，即顶场优先。0-bottom field first，1-top field first。
+			
+		-vframerate：指定帧率，默认25。	
+		-vratemode：指定码率模式。
+			对h264而言，默认值为0，即恒定码率。
+				#define H264_CBR    	0   /**< @brief  Constant bit rate @hideinitializer */
+				#define H264_CQT    	1   /**< @brief  Constant quantization @hideinitializer */
+				#define H264_VBR  		2   /**< @brief  Variable bit rate @hideinitializer */
+				#define H264_TQM	 	3   /**< @brief  Target quality mode @hideinitializer */
+				#define H264_INTRARC    4   /**< @brief  Special mode for Intra-only presets @hideinitializer */
+			对mpeg2而言，默认值为1，即恒定码率。
+				#define VBR_CONSTANT      1     ///< constant bitrate (default in all presets)
+				#define VBR_VARIABLE1     0     ///< variable bitrate
+				#define VBR_CQT           2     ///< constant quantization (see @ref mpeg_v_settings::mquant_value settings)
+				#define VBR_CQT_STRICT    3     ///< strict constant quantization (see @ref mpeg_v_settings::mquant_value settings)
+		-vbitrate：指定码率，默认为6000000bit/sec。
+		-vgop：指定GOP长度。
+			对h264而言，默认为33；
+			对mpeg2而言，默认为15；
+		-vbframes：指定参考帧间隔，默认为2。
+		
+		音频编码器相关参数设置：
+		-abitrateindex：音频比特率索引值，针对不同的音频编码器，取值代表的含义也不同。
+			对mpa（MPEG-1 Layer 2）而言，取值范围为1~14，其中1~3、5仅用于mono模式，11~14不适用于mono模式，默认为12，即256kbit/sec。
+				#define L2_AUDIOBITRATE32    1			///< 32 kbit/sec
+				#define L2_AUDIOBITRATE48    2			///< 48 kbit/sec
+				#define L2_AUDIOBITRATE56    3			///< 56 kbit/sec
+				#define L2_AUDIOBITRATE64    4			///< 64 kbit/sec
+				#define L2_AUDIOBITRATE80    5			///< 80 kbit/sec
+				#define L2_AUDIOBITRATE96    6			///< 96 kbit/sec
+				#define L2_AUDIOBITRATE112   7			///< 112 kbit/sec
+				#define L2_AUDIOBITRATE128   8			///< 128 kbit/sec
+				#define L2_AUDIOBITRATE160   9			///< 160 kbit/sec
+				#define L2_AUDIOBITRATE192   10			///< 192 kbit/sec
+				#define L2_AUDIOBITRATE224   11			///< 224 kbit/sec
+				#define L2_AUDIOBITRATE256   12			///< 256 kbit/sec
+				#define L2_AUDIOBITRATE320   13			///< 320 kbit/sec
+				#define L2_AUDIOBITRATE384   14			///< 384 kbit/sec
+			对aac而言，取值范围为1-31，默认为19，即128kbit/sec。
+				#define AAC_AUDIOBITRATE_CUSTOM 0       	///<   Custom audio bitrate
+				#define AAC_AUDIOBITRATE_006  	1			///<   6 kbits/sec
+				#define AAC_AUDIOBITRATE_007  	2			///<   7 kbits/sec
+				#define AAC_AUDIOBITRATE_008  	3			///<   8 kbits/sec
+				#define AAC_AUDIOBITRATE_010  	4			///<   10 kbits/sec
+				#define AAC_AUDIOBITRATE_012  	5			///<   12 kbits/sec
+				#define AAC_AUDIOBITRATE_014  	6			///<   14 kbits/sec
+				#define AAC_AUDIOBITRATE_016  	7			///<   16 kbits/sec
+				#define AAC_AUDIOBITRATE_020  	8			///<   20 kbits/sec
+				#define AAC_AUDIOBITRATE_024  	9			///<   24 kbits/sec
+				#define AAC_AUDIOBITRATE_028 	10			///<   28 kbits/sec
+				#define AAC_AUDIOBITRATE_032 	11			///<   32 kbits/sec
+				#define AAC_AUDIOBITRATE_040 	12			///<   40 kbits/sec
+				#define AAC_AUDIOBITRATE_048 	13			///<   48 kbits/sec
+				#define AAC_AUDIOBITRATE_056 	14			///<   56 kbits/sec
+				#define AAC_AUDIOBITRATE_064 	15			///<   64 kbits/sec
+				#define AAC_AUDIOBITRATE_080 	16			///<   80 kbits/sec
+				#define AAC_AUDIOBITRATE_096 	17			///<   96 kbits/sec
+				#define AAC_AUDIOBITRATE_112 	18			///<   112 kbits/sec
+				#define AAC_AUDIOBITRATE_128 	19			///<   128 kbits/sec
+				#define AAC_AUDIOBITRATE_160 	20			///<   160 kbits/sec
+				#define AAC_AUDIOBITRATE_192 	21			///<   192 kbits/sec
+				#define AAC_AUDIOBITRATE_224 	22			///<   224 kbits/sec
+				#define AAC_AUDIOBITRATE_256 	23			///<   256 kbits/sec
+				#define AAC_AUDIOBITRATE_320 	24			///<   320 kbits/sec
+				#define AAC_AUDIOBITRATE_384 	25			///<   384 kbits/sec
+				#define AAC_AUDIOBITRATE_448 	26			///<   448 kbits/sec
+ 				#define AAC_AUDIOBITRATE_512 	27			///<   512 kbits/sec
+				#define AAC_AUDIOBITRATE_640 	28			///<   640 kbits/sec
+				#define AAC_AUDIOBITRATE_768 	29			///<   768 kbits/sec
+				#define AAC_AUDIOBITRATE_896 	30			///<   896 kbits/sec
+				#define AAC_AUDIOBITRATE_1024 	31			///<   1024 kbits/sec	
+		-amode：指定通道模式，默认为0，即Stereo。该参数仅适用于mpa（MPEG-1 Layer 2）。	
+				#define MPG_MD_STEREO           0			///< Stereo mode
+				#define MPG_MD_JOINT_STEREO     1			///< Allow joint stereo (intensity stereo) mode
+				#define MPG_MD_DUAL_CHANNEL     2			///< Dual channel mode
+				#define MPG_MD_MONO             3			///< Single channel (mono) mode
+		-alayer：指定Audio layer，默认为2，即MPEG_AUDIO_LAYER2。该参数仅适用于mpa（MPEG-1 Layer 2）。可选取值如下：	
+				#define MPEG_AUDIO_LAYER1      1       ///<    ISO/IEC 11172-3 layer 1
+				#define MPEG_AUDIO_LAYER2      2       ///<    ISO/IEC 11172-3 layer 2
+		-aversion：指定编码采用的mpeg版本，默认为7，即MPEG4_AAC_AUDIO。该参数仅适用于aac。可选取值有6，7，16：	
+				#define MPEG2_AAC_AUDIO        6       ///<    MPEG-2 AAC
+				#define MPEG4_AAC_AUDIO        7       ///<    MPEG-4 AAC
+				#define MPEG4_AAC_AUDIO_PSP    16      ///<    MPEG-4 AAC with Sony Play Station Portable restrictions	
+		-aheader：指定编码的头类型，默认为1，即AAC_HEADER_ADTS。该参数仅适用于aac。可选取值为0、1、2：	
+				#define AAC_HEADER_RAW          0 ///< no header
+				#define AAC_HEADER_ADTS         1 ///< ADTS header
+				#define AAC_HEADER_LATMLOAS     2 ///< LATM in LOAS header
+				注：对mpegts复用出流，AAC_HEADER_RAW值不可用。
+		-ahe：指定是否采用High Efficiency AAC编码，默认为0，即AAC_HE_NOTUSED。该参数仅适用于aac。可选取值为0、1、2：	
+				#define AAC_HE_NOTUSED            0 ///< HE not used
+				#define AAC_HE_IMPLICIT           1 ///< HE v1 used and implicitly signaled in the bitstream
+				#define AAC_HE_IMPLICIT_WITH_PS   2 ///< HE v2 used and implicitly signaled in the bitstream	
+				注：采用HE时，不可用可变码率模式。
+		-avbr：指定是否采用vbr(可变码率)模式，默认取值为0，即AAC_VBR_NOTUSED，采用cbr(恒定码率)模式。该参数仅适用于aac。可选取值如下：		
+				#define AAC_VBR_NOTUSED		0 ///<  vbr mode not used
+				#define AAC_VBR_LOW1        1 ///<  low quality vbr mode 1 (worst quality)
+				#define AAC_VBR_LOW2        2 ///<  low quality vbr mode 2
+				#define AAC_VBR_LOW3        3 ///<  low quality vbr mode 3
+				#define AAC_VBR_MEDIUM1		4 ///<  medium quality vbr mode 1
+				#define AAC_VBR_MEDIUM2		5 ///<  medium quality vbr mode 2
+				#define AAC_VBR_MEDIUM3		6 ///<  medium quality vbr mode 3
+				#define AAC_VBR_HIGH1       7 ///<  high quality vbr mode 1
+				#define AAC_VBR_HIGH2       8 ///<  high quality vbr mode 2
+				#define AAC_VBR_HIGH3       9 ///<  high quality vbr mode 3 (best quality)	
+		
+		复用器相关参数设置：
+		-enablepaddings：是否允许加空包，即复用器为恒定码率还是可变码率。0-不允许加空包，可变码率；1-允许加空包，恒定码率，须配合requiredbitrate使用。默认为0。
+		-requiredbitrate：指定复用器的码率。enalbepaddings为1时，必须指定该值。
+		-pcrinterval：指定PCR间隔，默认为30ms。
+		-psiinterval：指定PSI间隔，默认为100ms。
+		-videopid：指定流中视频的pid，取值范围为100~8190，默认从1001开始。需与音频pid区分。
+		-audiopid：指定流中音频的pid，取值范围为100~8190，默认从1001开始。需与视频pid区分。
+
+		Dektec卡出流参数设置：
+		-devtype：指定板卡类型，默认为2162，目前仅有2162。 
+		-devport：指定出流端口，默认为1，可选值为1、2；
+		-txmode： 指定传输模式，默认为17（DTAPI_TXMODE_188），通常使用默认值，可选取值为：
+				#define DTAPI_TXMODE_TS             0x10
+				#define DTAPI_TXMODE_TS_MODE_BITS   0x0F
+				#define DTAPI_TXMODE_188            (DTAPI_TXMODE_TS | 0x01)
+				#define DTAPI_TXMODE_192            (DTAPI_TXMODE_TS | 0x02)
+				#define DTAPI_TXMODE_204            (DTAPI_TXMODE_TS | 0x03)
+				#define DTAPI_TXMODE_ADD16          (DTAPI_TXMODE_TS | 0x04)
+				#define DTAPI_TXMODE_MIN16          (DTAPI_TXMODE_TS | 0x05)
+				#define DTAPI_TXMODE_IPRAW          (DTAPI_TXMODE_TS | 0x06)
+				#define DTAPI_TXMODE_RAW            (DTAPI_TXMODE_TS | 0x07)
+				#define DTAPI_TXMODE_RAWASI         (DTAPI_TXMODE_TS | 0x08)
+				#define DTAPI_TXMODE_TS_MASK        (DTAPI_TXMODE_TS | DTAPI_TXMODE_TS_MODE_BITS)
+		-delaytime：指定缓存时间，单位ms，默认为1000，最小值为1000。
+	
+
+	eg：
+		<!—args参数为空，默认输出h264+mpa的mpegts-->
+		<args></args>
+    
+		<!—输出h264+aac的mpegts流-->
+		<args>-netrender mc -format mpegts -vcodec h264 -acodec aac</args>
+
+		<!—输出mpeg2+mpa的mpegts流-->
+		<args>-netrender dt -format mpegts -vcodec mpeg2 -acodec mpa</args>
+
+		<!—输出h264+aac的mpegts流，复用码率为9000000bit/secs，恒定码率-->
+		<args>-netrender dt -devtype 2162 -devport 1 -delaytime 1000 -format mpegts -vcodec h264 -acodec aac -vpreset 2 -vprof 1 -vlevel 30 -vpref 9 -vframetype 1 -vfieldorder 0 -vframerate 25 -vratemode 0 -vbitrate 8000000 -vgop 33 -vbframes 2 -abitrateindex 19 -aversion 7 -aheader 1 -ahe 0 -avbr 0 -enablepaddings 1 -requiredbitrate 9000000 -pcrinterval 30 -psiinterval 100 -videopid 1234 -audiopid 2134</args>
+
+		<!—输出mpeg2+mpa的mpegts流，复用码率为9000000bit/secs，恒定码率-->
+		<args>-netrender dt -format mpegts -vcodec mpeg2 -acodec mpa -vpreset 2 -vprof 4 -vlevel 8 -vpref 16 -vframetype 0 -vfieldorder 1 -vframerate 25 -vratemode 1 -vbitrate 8000000 -vgop 15 -vbframes 2 -abitrateindex 12 –amode 2 –alayer 2 -enablepaddings 1 -requiredbitrate 9000000 -pcrinterval 30 -psiinterval 100 -videopid 1234 -audiopid 2134</args>
+	

@@ -1,8 +1,5 @@
 #include "mc_enc_pumpstream.h"
-
 #include "enc_avc_def.h"
-#include "tools.h"
-#include "parser_sdp.h"
 #include "mcfourcc.h"
 #include "mccolorspace.h"
 #include "bufstream/buf_file.h"
@@ -92,27 +89,6 @@ void * MC_EXPORT_API get_rc(const char* name)
 	return nullptr;
 }
 
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-SenderNotifier::SenderNotifier()
-{
-
-}
-SenderNotifier::~SenderNotifier()
-{
-
-}
-void SenderNotifier::OnConfigChanged(void *pData, uint32_t *uiDataLen)
-{
-
-}
-void SenderNotifier::OnPacketSend(bool bMarker, uint32_t aBytesSent, int64_t i64TimeStamp, uint32_t uiSamplesCount)
-{
-	//CASPAR_LOG(info)<<L"OnPacketSend uiSamplesCount :"<<uiSamplesCount;
-}
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 namespace caspar {
@@ -148,6 +124,7 @@ namespace caspar {
 			v_enc_type = VIDEOENC_H264;
 			a_enc_type = AUDIOENC_MPA; 
 			muxer_type = MUXER_MPEGTS; 
+			netrender_type = NETRENDER_MC;
 
 			//video src
 			width = format_desc_.width;
@@ -167,6 +144,7 @@ namespace caspar {
 				h264OutVideoDone(v_enc_h264, 0);
 				h264OutVideoFree(v_enc_h264);
 			}
+#ifdef _MSC_VER
 			if (v_enc_mp2v)
 			{
 				mpegOutVideoDone(v_enc_mp2v, 0);
@@ -177,6 +155,7 @@ namespace caspar {
 				mpegOutAudioDone(a_enc_mpa, 0);
 				mpegOutAudioFree(a_enc_mpa);
 			}
+#endif
 			if (a_enc_aac)
 			{
 				aacOutAudioDone(a_enc_aac, 0);
@@ -192,17 +171,17 @@ namespace caspar {
 				mpegOutMP2MuxDone(mp2muxer, 0);
 				mpegOutMP2MuxFree(mp2muxer);
 			}
-			if (pSender)
+#ifdef _MSC_VER
+			if (mcrender)
 			{
-				pSender->Stop();
-				pSender->Flush();
-				delete pSender;
-				pSender = nullptr;
+				delete mcrender;
+				mcrender = nullptr;
 			}
-			if (pSenderNotifier)
+#endif
+			if (dtrender)
 			{
-				delete pSenderNotifier;
-				pSenderNotifier = nullptr;
+				delete dtrender;
+				dtrender = nullptr;
 			}
 
 			if (videobs)
@@ -231,7 +210,7 @@ namespace caspar {
 			audiobs = new_fifo_buf(1920 * 32 * 4, 1920 * 32);
 			if (is_output_stream_)
 			{
-				muxerbs = new_fifo_buf(1024 * 64 * 64 * 4, 1024 * 64 * 64);
+				muxerbs = new_fifo_buf(16 * 1024 * 1024, 4 * 1024 * 1024);
 			}
 			else
 			{
@@ -259,6 +238,18 @@ namespace caspar {
 					options,
 					boost::regex("^f|format$"));
 			if (!(oformat_name ? get_muxer_type(oformat_name->c_str()) : get_muxer_type(""))) return false;
+
+			//netrender
+			if (is_output_stream_)
+			{
+				const auto render_name =
+					try_remove_arg<std::string>(
+						options,
+						boost::regex("netrender$"));
+				if (!(render_name ? get_netrender_type(render_name->c_str()) : get_netrender_type(""))) return false;
+
+			}
+
 
 			//params
 			set_params(options);
@@ -307,9 +298,17 @@ namespace caspar {
 
 			if (is_output_stream_)
 			{
-				//renderer
-				if (false == init_net_renderer(path))
+				//netrender
+				switch (netrender_type)
 				{
+				case NETRENDER_MC:
+					if (false == init_mc_netrender(path)) { return false; }
+					break;
+				case NETRENDER_DT:
+					if (false == init_dt_netrender(path)) { return false; }
+					break;
+				case NETRENDER_UNKNOWN:
+				default:
 					return false;
 				}
 
@@ -429,6 +428,24 @@ namespace caspar {
 				{
 					mux_params.audio_pid = atol((it->second).c_str());
 				}
+				//dtnetrender
+				else if (it->first == "devtype")
+				{
+					dt_params.devtype = atoi((it->second).c_str());
+				}
+				else if (it->first == "devport")
+				{
+					dt_params.devport = atoi((it->second).c_str());
+				}
+				else if (it->first == "txmode")
+				{
+					dt_params.txmode = atoi((it->second).c_str());
+				}
+				else if (it->first == "delaytime")
+				{
+					dt_params.delaytime = atoi((it->second).c_str());
+				}
+
 				it = options.erase(it);
 			}
 		}
@@ -444,7 +461,7 @@ namespace caspar {
 			if (v_enc_params.bit_rate_mode == ITEM_NOT_INIT) v_enc_params.bit_rate_mode = H264_CBR;
 			if (v_enc_params.bit_rate == ITEM_NOT_INIT)      v_enc_params.bit_rate = 6000000;
 			if (v_enc_params.gop_size == ITEM_NOT_INIT)		 v_enc_params.gop_size = 33;
-			if (v_enc_params.b_frames == ITEM_NOT_INIT)		 v_enc_params.b_frames = 3;
+			if (v_enc_params.b_frames == ITEM_NOT_INIT)		 v_enc_params.b_frames = 2;
 						
 			h264OutVideoDefaultSettings(v_enc_params.preset, width, height, v_enc_params.frame_rate, v_enc_params.frame_type, get_rc, &v_settings, nullptr);
 			h264OutVideoPerformance(&v_settings, 0, v_enc_params.perf, 0);
@@ -455,7 +472,7 @@ namespace caspar {
 			v_settings.bit_rate_mode	= v_enc_params.bit_rate_mode;
 			v_settings.bit_rate			= v_enc_params.bit_rate;
 			v_settings.idr_interval		= v_enc_params.gop_size;
-			v_settings.reordering_delay = v_enc_params.b_frames;
+			v_settings.reordering_delay = v_enc_params.b_frames + 1;
 
 			if (h264OutVideoChkSettings(get_rc, &v_settings, H264_CHECK_AND_ADJUST | H264_CHECK_FOR_LEVEL, nullptr) == H264ERROR_FAILED)
 			{
@@ -483,6 +500,7 @@ namespace caspar {
 		}
 		bool mc_enc_pumpstream::init_mpeg2_encoder()
 		{
+#ifdef _MSC_VER
 			mpeg_v_settings v_settings;
 			if (v_enc_params.preset == ITEM_NOT_INIT)		 v_enc_params.preset = MPEG_MPEG2;
 			if (v_enc_params.perf == ITEM_NOT_INIT)          v_enc_params.perf = 15;  //0~31
@@ -492,7 +510,7 @@ namespace caspar {
 			if (v_enc_params.bit_rate_mode == ITEM_NOT_INIT) v_enc_params.bit_rate_mode = VBR_CONSTANT;
 			if (v_enc_params.bit_rate == ITEM_NOT_INIT)      v_enc_params.bit_rate = 6000000;
 			if (v_enc_params.gop_size == ITEM_NOT_INIT)		 v_enc_params.gop_size = 15;
-			if (v_enc_params.b_frames == ITEM_NOT_INIT)      v_enc_params.b_frames = 3;
+			if (v_enc_params.b_frames == ITEM_NOT_INIT)      v_enc_params.b_frames = 2;
 
 			mpegOutVideoDefaults(&v_settings, v_enc_params.preset, VM_PAL); 
 			
@@ -505,7 +523,7 @@ namespace caspar {
 			v_settings.constant_bitrate		= v_enc_params.bit_rate_mode;
 			v_settings.bit_rate				= v_enc_params.bit_rate;
 			v_settings.N					= v_enc_params.gop_size;
-			v_settings.M					= v_enc_params.b_frames;
+			v_settings.M					= v_enc_params.b_frames + 1;
 			v_settings.def_horizontal_size	= width;
 			v_settings.def_vertical_size	= height;
 
@@ -513,7 +531,7 @@ namespace caspar {
 				v_settings.fixed_vbv_delay = 0;
 
 			mpegOutVideoPerformance(&v_settings, PERF_ONLINE, v_enc_params.perf, 0);
-			if (mpegOutVideoChkSettings(get_rc, &v_settings, 0, nullptr))
+			if (mpegOutVideoChkSettings(get_rc, &v_settings, CHECK_ALL, nullptr))
 			{
 				CASPAR_LOG(error) << L"mpegOutVideoChkSettings failed.";
 				return false;
@@ -535,10 +553,14 @@ namespace caspar {
 			}
 
 			return true;
+#else
+			return false;
+#endif
 		}
 
 		bool mc_enc_pumpstream::init_mpa_encoder() 
 		{
+#ifdef _MSC_VER
 			mpeg_a_settings a_settings;
 			if (a_enc_params.audio_layer == ITEM_NOT_INIT) a_enc_params.audio_layer = MPEG_AUDIO_LAYER2;
 			if (a_enc_params.audio_mode == ITEM_NOT_INIT) a_enc_params.audio_mode = MPG_MD_STEREO;
@@ -549,7 +571,7 @@ namespace caspar {
 			a_settings.audio_mode = a_enc_params.audio_mode;
 			a_settings.audio_bitrate = a_enc_params.bit_rate_index;
 			a_settings.audio_layer = a_enc_params.audio_layer;
-			if (mpegOutAudioChkSettings(get_rc, &a_settings, MCPROFILE_DEFAULT, audio_sample_rate, 0, nullptr))
+			if (mpegOutAudioChkSettings(get_rc, &a_settings, MCPROFILE_DEFAULT, audio_sample_rate, CHECK_ALL, nullptr))
 			{
 				CASPAR_LOG(error) << L"mpegOutAudioChkSettings failed.";
 				return false;
@@ -570,6 +592,9 @@ namespace caspar {
 				return false;
 			}
 			return true;
+#else
+			return false;
+#endif
 		}
 		bool mc_enc_pumpstream::init_aac_encoder()
 		{
@@ -617,7 +642,7 @@ namespace caspar {
 				break;
 			}
 
-			if (aacOutAudioChkSettings(get_rc, &a_settings, MCPROFILE_DEFAULT, audio_sample_rate, 0, nullptr))
+			if (aacOutAudioChkSettings(get_rc, &a_settings, MCPROFILE_DEFAULT, audio_sample_rate, CHECK_ALL, nullptr))
 			{
 				CASPAR_LOG(error) << L"aacOutAudioChkSettings failed.";
 				return false;
@@ -646,7 +671,7 @@ namespace caspar {
 			a_settings.pcm_quantization = PCM_16BITS;
 			a_settings.audio_layer = AES3_302M_AUDIO;
 		
-			if (pcmOutAudioChkSettings(get_rc, &a_settings, 0, audio_sample_rate, 0, nullptr))
+			if (pcmOutAudioChkSettings(get_rc, &a_settings, 0, audio_sample_rate, CHECK_ALL, nullptr))
 			{
 				CASPAR_LOG(error) << L"pcmOutAudioChkSettings failed.";
 				return false;
@@ -746,7 +771,7 @@ namespace caspar {
 			}
 			return true;
 		}
-		bool mc_enc_pumpstream::pathparse(std::string path, net_params& netparams)
+		bool mc_enc_pumpstream::pathparse(std::string path, net_path_params& netparams)
 		{
 			//eg. udp://234.1.1.1:2345?localaddr=172.16.3.106 
 			int32_t nIdx = path.find(':');
@@ -800,74 +825,51 @@ namespace caspar {
 			return true;
 		}
 
-		bool mc_enc_pumpstream::init_net_renderer(std::string path)
+		bool mc_enc_pumpstream::init_mc_netrender(std::string path)
 		{
+#ifdef _MSC_VER
 			//parse path: udp://234.1.1.1:2345?localaddr=172.16.3.106 
-			net_params netparams;
+			net_path_params netparams;
 			bool bparse = pathparse(path, netparams);
 			if (bparse == false)
 			{
 				return false;
 			}
 
-			char* ipAddr = nullptr;
-			char* localAddr = nullptr;
-			if (!netparams.ipAddr.empty())
+			mcrender = new MCNetRender();
+			bool bret = mcrender->init(netparams);
+
+			return bret;
+#else 
+			return false;
+#endif
+		}
+
+		bool mc_enc_pumpstream::init_dt_netrender(std::string path)
+		{
+			//parse path: udp://234.1.1.1:2345?localaddr=172.16.3.106 
+			net_path_params netparams;
+			bool bparse = pathparse(path, netparams);
+			if (bparse == false)
 			{
-				ipAddr = new char[netparams.ipAddr.length() + 1];
-				strcpy(ipAddr, netparams.ipAddr.c_str());
+				return false;
+			}
+			dt_params.destip = netparams.ipAddr;
+			dt_params.destport = netparams.port;
+			dt_params.protocol = netparams.protocol;
+			if (mux_params.required_bitrate!= ITEM_NOT_INIT)
+			{
+				dt_params.tsbitrate = mux_params.required_bitrate;
+			}
+			else
+			{
+				CASPAR_LOG(error) << L"MPEG Muxer required bitrate is not set.";
+				return false;
 			}
 
-			if (!netparams.localAddr.empty())
-			{
-				localAddr = new char[netparams.localAddr.length() + 1];
-				strcpy(localAddr, netparams.localAddr.c_str());
-			}
-
-			// Create streaming engine
-			INetRendererEngine* pEngine = GetRtpRendererInterface(get_rc);    
-
-			// Create sender inctance
-			SENDERINFO sSenderInfo;
-			memset(&sSenderInfo, 0, sizeof(SENDERINFO));   // Clear fields
-			sSenderInfo.aConnectionType = protocolUdp;        // Streaming protocol
-			sSenderInfo.aStreamType = isMPEG2TransportStream;          // Stream format accordingly RTP specs, use STREAMTYPE values
-			sSenderInfo.mediaType = mediaVideo;     // Specified content format, ASF(wma, wmv) must be mediaApplication, MPEG multiplexed streams are mediaVideo
-			sSenderInfo.uiSampleRate	= 90000;        // Clock coefficient, samplerate for audio streams, for video use standart value 90000
- 			//sSenderInfo.pDescriptor = pClockProvider;
- 			//sSenderInfo.cbDescriptor = pClockProvider ? sizeof(pClockProvider) : 0;			
-			pSender = pEngine->CreateSenderInstance(&sSenderInfo);
-			pSender->SetDiscontinuity();
-
-			//set nework params
-			SENDERCONNECTIONPARAMS sSenderParams;
-			memset(&sSenderParams, 0, sizeof(SENDERCONNECTIONPARAMS)); //ResetSenderConnectionParams(&senderparams); // Clear fields
-			sSenderParams.aDstPort = netparams.port;             // Destination port, even value  
-			sSenderParams.aSrcPort = 0;          //1234;       // Local port, may be 0 to random port, or used from RTP tranport params
-			sSenderParams.iMtu = 1500;                  // Maximum Transmission Unit, 1500 is default value for Ethernet networks
-			sSenderParams.iProtocol = IPPROTO_UDP;      // Transport layer protocol: IPPROTO_TCP or IPPROTO_UDP
-			sSenderParams.iTtl = 64;                    // Time to live for packet, default for IP network is 64  
-			//sSenderParams.pRtcpNotifier = m_pRtcp;
-			pSenderNotifier = new SenderNotifier();
-			sSenderParams.pSenderNotifier = pSenderNotifier;
-			sSenderParams.ucPayloadType = isMPEG2TransportStream;       // RTP payload type, use STREAMTYPE value to do not be confused                
-			sSenderParams.bIsRawMode = true;//false;           // Enable/disable RTP packing media data, may be true only for MPEG Multiplexed streams and not for RTP mode        
-			sSenderParams.uiBurstnessValue = 0;         // Burstness value for each packet, time in millisecond to sleep on each packet
-			sSenderParams.aNIC = localAddr; //"172.16.3.106";                 // Sender Local Network interface, or NULL for system default
-			sSenderParams.aRemoteName = ipAddr;            // Destination address: client network address or multicast group
-			pSender->Init(&sSenderParams);
-			 
-			if (ipAddr)
-			{
-				delete []ipAddr;
-				ipAddr = nullptr;
-			}
-			if (localAddr)
-			{
-				delete[]localAddr;
-				localAddr = nullptr;
-			}
-			return true;
+			dtrender = new CDtNetRender();
+			bool bret =dtrender->init(dt_params);
+			return bret;
 		}
 
 		bool mc_enc_pumpstream::pushframe(core::const_frame &frame)
@@ -895,7 +897,9 @@ namespace caspar {
 					h264OutVideoPutFrame(v_enc_h264, tmp_video_buffer + img_start, line_size, width, height, fourcc, option_flags, ext_info);
 					break;
 				case VIDEOENC_MPEG2:
+#ifdef _MSC_VER
 					mpegOutVideoPutFrame(v_enc_mp2v, tmp_video_buffer + img_start, line_size, width, height, fourcc, option_flags);
+#endif
 					break;
 				case VIDEOENC_UNKNOWN:
 				default:
@@ -924,7 +928,9 @@ namespace caspar {
 				switch (a_enc_type)
 				{
 				case AUDIOENC_MPA:
+#ifdef _MSC_VER
 					mpegOutAudioPutBytes(a_enc_mpa, tmp_audio_buffer, frame.audio_data().size() * sizeof(int16_t));
+#endif
 					break;
 				case AUDIOENC_AAC:
 					aacOutAudioPutBytes (a_enc_aac, tmp_audio_buffer, frame.audio_data().size() * sizeof(int16_t));
@@ -950,41 +956,31 @@ namespace caspar {
 			while(is_running_)
 			{ 
 				uint32_t uiMediaDataLength = muxerbs->output.usable_bytes(&muxerbs->output);
-				if (uiMediaDataLength > 1500)
+				if (uiMediaDataLength > 0/* 1500*/)
 				{
 					uint8_t* pMediaData = (uint8_t*)malloc(uiMediaDataLength);
 					muxerbs->output.copybytes(&muxerbs->output, pMediaData, uiMediaDataLength);
-				
-					uint32_t uiSendedOffset = 0;           // Count of sended bytes 		 
-					// Use this flag to send last sample
-					bool bForcedSend = false;              // Flag forces sending immediately			 
-					do {
-						uint32_t uiConsumedBytes = 0;          // Count of consumed bytes in each iteration
-						NETRENDERERERRORS err = pSender->SendPacket(&pMediaData[uiSendedOffset], uiMediaDataLength - uiSendedOffset, &uiConsumedBytes, 0, bForcedSend);
-						uiSendedOffset += uiConsumedBytes;     // Moved data pointer to unsended part
-						switch (err)
+					switch (netrender_type)
+					{
+					case NETRENDER_MC:
+#ifdef _MSC_VER
+						if (mcrender)
 						{
-						case  NwrOk:// Data chunk successful consumed
-							break;
-						case NwrNotEnoughData:
-							// Data successfull consumed but not sended
-							// Not enough data to fill network packet
-							// Repeat sending with next data chunk from current media sample or start sending next sample
-							break;
-						case NwrDataChunkNotRecognized:
-							// Data successfull consumed but not sended
-							// Not enough to detect chunk boundaries
-							// Repeat sending with next data chunk from current media sample or start sending next sample 
-							break;
-						case NwrWrongState:
-							// Data is unexpected, engine not ready to send it
-							break;
-						default:
-							// Sending error
-							break;
+							mcrender->senddata(pMediaData, uiMediaDataLength);
 						}
-					} while (uiSendedOffset != uiMediaDataLength);
-					
+#endif
+						break;
+					case NETRENDER_DT:
+						if (dtrender)
+						{
+							dtrender->senddata(pMediaData, uiMediaDataLength);
+						}
+						break;
+					case NETRENDER_UNKNOWN:
+					default:
+						break;
+					}
+									
 					free(pMediaData);
 					pMediaData = nullptr;
 				}				
@@ -1071,6 +1067,29 @@ namespace caspar {
 			{
 				muxer_type = MUXER_UNKNOWN;
 				CASPAR_LOG(error) << L"not support this mxuer format:" << muxer;
+				return false;
+			}
+			return true;
+		}
+
+		bool mc_enc_pumpstream::get_netrender_type(std::string netrender)
+		{
+			if (netrender.empty())
+			{
+				return true;
+			}
+			else if (0 == netrender.compare("mc"))
+			{
+				netrender_type = NETRENDER_MC;
+			}
+			else if (0 == netrender.compare("dt"))
+			{
+				netrender_type = NETRENDER_DT;
+			}
+			else
+			{
+				netrender_type = NETRENDER_UNKNOWN;
+				CASPAR_LOG(error) << L"not support this netrender format:" << netrender;
 				return false;
 			}
 			return true;

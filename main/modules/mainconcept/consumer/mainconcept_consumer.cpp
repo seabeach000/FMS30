@@ -64,21 +64,19 @@ namespace caspar {
 
 			std::future<bool> send(core::const_frame frame)
 			{
-				if (!frame_buffer_.try_push(frame))
-					graph_->set_tag(diagnostics::tag_severity::WARNING, "dropped-frame");
-
-				int32_t nbuf = frame_buffer_.capacity();
-				int32_t nsize = frame_buffer_.size();
-				graph_->set_value("buffer-frames", ((double)frame_buffer_.size()) / frame_buffer_.capacity());
-				graph_->set_value("tick-time", tick_timer_.elapsed()*in_video_format_.fps*0.5);
-				tick_timer_.restart();
-
-				return make_ready_future(is_running_.load());
+ 				if (!frame_buffer_.try_push(frame))
+ 					graph_->set_tag(diagnostics::tag_severity::WARNING, "dropped-frame");
+  				graph_->set_text(print());
+ 				graph_->set_value("buffer-frames", ((double)frame_buffer_.size()) / frame_buffer_.capacity());
+ 				graph_->set_value("tick-time", tick_timer_.elapsed()*in_video_format_.fps*0.5);
+ 				tick_timer_.restart();
+ 
+ 				return make_ready_future(is_running_.load());
 			}
 		
 			std::wstring print() const
 			{
-				return L"mainconcept_consumer[" + u16(path_) + L"]";
+				return L"mainconcept_consumer[" + u16(path_) + L"|" + boost::lexical_cast<std::wstring>(frame_buffer_.size()) + L"]";
 			}
 
 			mainconcept_consumer(
