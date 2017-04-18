@@ -28,23 +28,29 @@
 #include <core/mixer/image/blend_modes.h>
 
 #include <boost/array.hpp>
+#include <boost/optional.hpp>
 #include <boost/property_tree/ptree.hpp>
 
 namespace caspar { namespace core {
 
 struct chroma
 {
-	enum class type
+	enum class legacy_type
 	{
 		none,
 		green,
 		blue
 	};
 
-	type	key			= type::none;
-	double	threshold	= 0.0;
-	double	softness	= 0.0;
-	double	spill		= 0.0;
+	bool		enable = false;
+	bool		show_mask = false;
+	double		target_hue = 0.0;
+	double		hue_width = 0.0;
+	double		min_saturation = 0.0;
+	double		min_brightness = 0.0;
+	double		softness = 0.0;
+	double		spill = 1.0;
+	double		spill_darken = 0.0;
 };
 
 struct levels final
@@ -183,8 +189,7 @@ public:
 	}
 };
 
-chroma::type get_chroma_mode(const std::wstring& str);
-std::wstring get_chroma_mode(chroma::type type);
+boost::optional<chroma::legacy_type> get_chroma_mode(const std::wstring& str);
 
 namespace detail {
 

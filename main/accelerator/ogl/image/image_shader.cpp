@@ -131,14 +131,7 @@ std::string get_chroma_func()
 		R"shader(
 				vec4 chroma_key(vec4 c)
 				{
-					switch (chroma_mode)
-					{
-					case 0: return c;
-					case 1: return ChromaOnGreen(c.bgra).bgra;
-					case 2: return ChromaOnBlue(c.bgra).bgra;
-					}
-
-					return c;
+					return ChromaOnCustomColor(c.bgra).bgra;
 				}
 		)shader";
 }
@@ -211,9 +204,14 @@ std::string get_fragment(bool blend_modes, bool post_processing)
 			uniform bool		straighten_alpha;
 
 			uniform bool		chroma;
-			uniform int			chroma_mode;
-			uniform vec2		chroma_blend;
+			uniform bool		chroma_show_mask;
+			uniform float		chroma_target_hue;
+			uniform float		chroma_hue_width;
+			uniform float		chroma_min_saturation;
+			uniform float		chroma_min_brightness;
+			uniform float		chroma_softness;
 			uniform float		chroma_spill;
+			uniform float		chroma_spill_darken;
 	)shader"
 
 	+

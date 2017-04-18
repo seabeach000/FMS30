@@ -266,12 +266,18 @@ struct image_kernel::impl
 		shader_->set("pixel_format",	params.pix_desc.format);
 		shader_->set("opacity",			params.transform.is_key ? 1.0 : params.transform.opacity);	
 
-		if (params.transform.chroma.key != core::chroma::type::none)
+		if (params.transform.chroma.enable)
 		{
 			shader_->set("chroma", true);
-			shader_->set("chroma_mode", static_cast<int>(params.transform.chroma.key));
-			shader_->set("chroma_blend", params.transform.chroma.threshold, params.transform.chroma.softness);
+
+			shader_->set("chroma_show_mask", params.transform.chroma.show_mask);
+			shader_->set("chroma_target_hue", params.transform.chroma.target_hue / 360.0);
+			shader_->set("chroma_hue_width", params.transform.chroma.hue_width);
+			shader_->set("chroma_min_saturation", params.transform.chroma.min_saturation);
+			shader_->set("chroma_min_brightness", params.transform.chroma.min_brightness);
+			shader_->set("chroma_softness", 1.0 + params.transform.chroma.softness);
 			shader_->set("chroma_spill", params.transform.chroma.spill);
+			shader_->set("chroma_spill_darken", params.transform.chroma.spill_darken);
 		}
 		else
 			shader_->set("chroma", false);
