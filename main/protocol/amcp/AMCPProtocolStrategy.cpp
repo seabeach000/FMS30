@@ -283,6 +283,22 @@ private:
 			if (!tokens.empty() && tokens.front().at(0) == L'/')
 				tokens.pop_front();
 
+			std::wstring request_id;
+
+			if (boost::iequals(tokens.front(), L"REQ"))
+			{
+				tokens.pop_front();
+
+				if (tokens.empty())
+				{
+					result.error = error_state::parameters_error;
+					return false;
+				}
+
+				request_id = tokens.front();
+				tokens.pop_front();
+			}
+
 			// Fail if no more tokens.
 			if (tokens.empty())
 			{
@@ -378,6 +394,9 @@ private:
 				if (result.command->parameters().size() < result.command->minimum_parameters())
 					result.error = error_state::parameters_error;
 			}
+
+			if (result.command)
+				result.command->set_request_id(std::move(request_id));
 		}
 		catch (std::out_of_range&)
 		{
