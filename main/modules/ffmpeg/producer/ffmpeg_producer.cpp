@@ -700,8 +700,17 @@ public:
 		tbb::parallel_invoke(
 		[&]
 		{
-			if (!muxer_->video_ready() && video_decoder_)
-				video = video_decoder_->poll();
+			do
+			{
+				if (!muxer_->video_ready() && video_decoder_)
+				{
+					video = video_decoder_->poll();
+					if (video)
+						break;
+				}
+				else
+					break;
+			} while (!video_decoder_->empty());
 		},
 		[&]
 		{
@@ -776,7 +785,8 @@ public:
 			frame.out_afd_command.afd_aspect_ratio_ = afd_aspect_ratio_;
 			frame.out_afd_command.afd_command_ = afd_command_;
 			buffer_mutex_.lock();
-			frame_buffer_.push(std::make_pair(frame, file_frame_number));
+			if (frame != core::draw_frame::empty())
+				frame_buffer_.push(std::make_pair(frame, file_frame_number));
 			buffer_mutex_.unlock();
 			bfirstSyncFrame_ = true;
 		}

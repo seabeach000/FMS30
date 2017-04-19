@@ -44,6 +44,7 @@ public:
 	explicit video_decoder(const spl::shared_ptr<AVFormatContext>& context);
 	
 	bool						ready() const;
+	bool						empty() const;
 	void						push(const std::shared_ptr<AVPacket>& packet);
 	std::shared_ptr<AVFrame>	poll();
 	
