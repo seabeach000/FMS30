@@ -615,7 +615,7 @@ spl::shared_ptr<core::frame_producer> create_producer(
 		? L"file://" + *found_filename
 		: params.at(1);
 
-	if (!html_prefix || boost::algorithm::ends_with(url, "_A") || boost::algorithm::ends_with(url, "_ALPHA"))
+	if (!html_prefix && (!boost::algorithm::contains(url, ".") || boost::algorithm::ends_with(url, "_A") || boost::algorithm::ends_with(url, "_ALPHA")))
 		return core::frame_producer::empty();
 
 	return core::create_destroy_proxy(spl::make_shared<html_producer>(
