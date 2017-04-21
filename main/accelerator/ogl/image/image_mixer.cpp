@@ -133,6 +133,8 @@ public:
 
 			kernel_.post_process(target_texture, straighten_alpha);
 
+			target_texture->attach();
+
 			return ogl_->copy_async(target_texture);
 		}));
 	}
