@@ -99,6 +99,8 @@ void win32_exception::Handler(unsigned int errorCode, EXCEPTION_POINTERS* pInfo)
 	{
 	case EXCEPTION_ACCESS_VIOLATION:
 		CASPAR_THROW_EXCEPTION(win32_access_violation() << generate_message(*(pInfo->ExceptionRecord)));
+	case EXCEPTION_STACK_OVERFLOW:
+		throw "Stack overflow. Not generating stack trace to protect from further overflowing the stack";
 	default:
 		CASPAR_THROW_EXCEPTION(win32_exception() << generate_message(*(pInfo->ExceptionRecord)));
 	}
