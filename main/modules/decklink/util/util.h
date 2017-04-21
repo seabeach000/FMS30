@@ -91,6 +91,9 @@ static BMDDisplayMode get_decklink_video_format(core::video_format fmt)
 	case core::video_format::x2160p2500:	return bmdMode4K2160p25;
 	case core::video_format::x2160p2997:	return bmdMode4K2160p2997;
 	case core::video_format::x2160p3000:	return bmdMode4K2160p30;
+	case core::video_format::x2160p5000:	return bmdMode4K2160p50;
+	case core::video_format::x2160p5994:	return bmdMode4K2160p5994;
+	case core::video_format::x2160p6000:	return bmdMode4K2160p60;
 	case core::video_format::dci2160p2398:	return bmdMode4kDCI2398;
 	case core::video_format::dci2160p2400:	return bmdMode4kDCI24;
 	case core::video_format::dci2160p2500:	return bmdMode4kDCI25;
