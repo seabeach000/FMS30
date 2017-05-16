@@ -15,17 +15,21 @@ cd ../dependencies64 || fail "Could not enter ../dependencies64"
 tar xvJf large_files_linux.tar.xz || fail "Could not unpack large_files_linux.tar.xz"
 
 # Clean and enter shadow build folder
-echo Cleaning...
-if [ -e ../build ]; then
-    rm -Rf ../build || fail "Could not delete ../build"
-fi
+#echo Cleaning...
+#if [ -e ../build ]; then
+#    rm -Rf ../build || fail "Could not delete ../build"
+#fi
 
 mkdir ../build || fail "Could not create ../build"
 cd ../build || fail "Could not enter ../build"
 
 # Run cmake
 echo Running cmake...
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo .. || fail "cmake failed"
+if [ $destos = 'centos' ]; then
+	cmake -G "Unix Makefiles" -A x64 -DCMAKE_BUILD_TYPE=RelWithDebInfo .. || fail "cmake failed"
+else
+	cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo .. || fail "cmake failed"
+fi
 
 # Run make using the number of hardware threads in BUILD_PARALLEL_THREADS
 echo Building...
@@ -45,7 +49,7 @@ echo Copying binaries...
 cp -f  shell/lib* "$SERVER_FOLDER/lib/" || fail "Could not copy server libraries"
 cp -f  shell/*.ttf "$SERVER_FOLDER/" || fail "Could not copy font(s)"
 cp -f  shell/casparcg "$SERVER_FOLDER/bin/" || fail "Could not copy server executable"
-cp -f  shell/casparcg.config "$SERVER_FOLDER/" || fail "Could not copy server config"
+cp -f  shell/FamousServer.config "$SERVER_FOLDER/" || fail "Could not copy server config"
 cp -Rf shell/locales "$SERVER_FOLDER/bin/" || fail "Could not copy server CEF locales"
 cp -f  shell/*.pak "$SERVER_FOLDER/" || fail "Could not copy CEF resources"
 
@@ -54,10 +58,7 @@ echo Copying binary dependencies...
 cp -Rf ../deploy/linux/* "$SERVER_FOLDER/" || fail "Could not copy binary dependencies"
 cp -f  ../deploy/general/*.pdf "$SERVER_FOLDER/" || fail "Could not copy pdf"
 cp -Rf ../deploy/general/wallpapers "$SERVER_FOLDER/" || fail "Could not copy wallpapers"
-cp -Rf ../deploy/general/logos "$SERVER_FOLDER/" || fail "Could not copy logos"
 cp -Rf ../deploy/general/server/media "$SERVER_FOLDER/" || fail "Could not copy media"
-cp -Rf ../deploy/general/server/template "$SERVER_FOLDER/" || fail "Could not copy template"
-cp -Rf ../deploy/general/server/font "$SERVER_FOLDER/" || fail "Could not copy font"
 
 # Copy documentation
 echo Copying documentation...
@@ -68,4 +69,3 @@ cp -f ../LICENSE "$SERVER_FOLDER/" || fail "Could not copy LICENSE"
 # Create tar.gz file
 echo Creating tag.gz...
 tar -cvzf "$BUILD_ARCHIVE_NAME.tar.gz" "$SERVER_FOLDER" || fail "Could not create archive"
-
