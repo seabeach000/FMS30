@@ -113,6 +113,10 @@
     <Lib>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -153,6 +157,10 @@
     <Lib>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
@@ -190,6 +198,10 @@
     <Lib>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
@@ -230,6 +242,10 @@
     <Lib>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\main\accelerator\ogl\image\blending_glsl.h" />
@@ -424,14 +440,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/common/common.vcxproj">
-      <Project>736EC3D0-F865-38DE-87B4-C038F8CCEBC1</Project>
+    <ProjectReference Include="..\common\common.vcxproj">
+      <Project>{736ec3d0-f865-38de-87b4-c038f8ccebc1}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/core/core.vcxproj">
-      <Project>575AC9D3-9589-3F5F-890C-A879F361EF19</Project>
+    <ProjectReference Include="..\core\core.vcxproj">
+      <Project>{575ac9d3-9589-3f5f-890c-a879f361ef19}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/ffmpeg/ffmpeg.vcxproj">
-      <Project>0CF7442B-0AF9-3161-9E6E-B1CC9F1C3D8C</Project>
+    <ProjectReference Include="..\modules\ffmpeg\ffmpeg.vcxproj">
+      <Project>{0cf7442b-0af9-3161-9e6e-b1cc9f1c3d8c}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -113,6 +113,11 @@
     <Lib>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
+    <PreBuildEvent>
+      <Command>cd ..\..\build-scripts
+call set-variables-and-build-windows.bat windev
+cd ..\build\common</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -153,6 +158,11 @@
     <Lib>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
+    <PreBuildEvent>
+      <Command>cd ..\..\build-scripts
+call set-variables-and-build-windows.bat windev
+cd ..\build\common</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
@@ -190,6 +200,11 @@
     <Lib>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
+    <PreBuildEvent>
+      <Command>cd ..\..\build-scripts
+call set-variables-and-build-windows.bat windev
+cd ..\build\common</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
@@ -230,6 +245,11 @@
     <Lib>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
+    <PreBuildEvent>
+      <Command>cd ..\..\build-scripts
+call set-variables-and-build-windows.bat windev
+cd ..\build\common</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\main\common\diagnostics\graph.h" />

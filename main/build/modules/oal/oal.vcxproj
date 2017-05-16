@@ -238,11 +238,11 @@
     <ClCompile Include="..\..\..\..\main\modules\oal\oal.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/common/common.vcxproj">
-      <Project>736EC3D0-F865-38DE-87B4-C038F8CCEBC1</Project>
+    <ProjectReference Include="..\..\common\common.vcxproj">
+      <Project>{736ec3d0-f865-38de-87b4-c038f8ccebc1}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/core/core.vcxproj">
-      <Project>575AC9D3-9589-3F5F-890C-A879F361EF19</Project>
+    <ProjectReference Include="..\..\core\core.vcxproj">
+      <Project>{575ac9d3-9589-3f5f-890c-a879f361ef19}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

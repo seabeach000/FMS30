@@ -154,7 +154,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\main\modules\mainconcept\..;..\..\..\..\main\modules\mainconcept\..\..;..\..\..\..\main\dependencies64\boost;..\..\..\..\main\dependencies64\tbb\include;..\..\..\..\main\dependencies64\RxCpp\include;..\..\..\..\main\dependencies64\asmlib;..\..\..\..\main\dependencies64\ffmpeg\include;..\..\..\..\main\dependencies64\mainconcept\include;..\..\..\..\main\dependencies64\DTAPI\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\main\modules\mainconcept\..;..\..\..\..\main\modules\mainconcept\..\..;..\..\..\..\main\dependencies64\boost;..\..\..\..\main\dependencies64\tbb\include;..\..\..\..\main\dependencies64\RxCpp\include;..\..\..\..\main\dependencies64\asmlib;..\..\..\..\main\dependencies64\ffmpeg\include;..\..\..\..\main\dependencies64\mainconcept\include;..\..\..\..\main\dependencies64\dtapi\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
@@ -194,7 +194,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\..\main\modules\mainconcept\..;..\..\..\..\main\modules\mainconcept\..\..;..\..\..\..\main\dependencies64\boost;..\..\..\..\main\dependencies64\tbb\include;..\..\..\..\main\dependencies64\RxCpp\include;..\..\..\..\main\dependencies64\asmlib;..\..\..\..\main\dependencies64\ffmpeg\include;..\..\..\..\main\dependencies64\mainconcept\include;..\..\..\..\main\dependencies64\DTAPI\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\main\modules\mainconcept\..;..\..\..\..\main\modules\mainconcept\..\..;..\..\..\..\main\dependencies64\boost;..\..\..\..\main\dependencies64\tbb\include;..\..\..\..\main\dependencies64\RxCpp\include;..\..\..\..\main\dependencies64\asmlib;..\..\..\..\main\dependencies64\ffmpeg\include;..\..\..\..\main\dependencies64\mainconcept\include;..\..\..\..\main\dependencies64\dtapi\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -214,6 +214,16 @@
     <Lib>
       <LinkTimeCodeGeneration />
     </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\main\modules\mainconcept\..;..\..\..\..\main\modules\mainconcept\..\..;..\..\..\..\main\dependencies64\boost;..\..\..\..\main\dependencies64\tbb\include;..\..\..\..\main\dependencies64\RxCpp\include;..\..\..\..\main\dependencies64\asmlib;..\..\..\..\main\dependencies64\ffmpeg\include;..\..\..\..\main\dependencies64\mainconcept\include;..\..\..\..\main\dependencies64\dtapi\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\main\modules\mainconcept\..;..\..\..\..\main\modules\mainconcept\..\..;..\..\..\..\main\dependencies64\boost;..\..\..\..\main\dependencies64\tbb\include;..\..\..\..\main\dependencies64\RxCpp\include;..\..\..\..\main\dependencies64\asmlib;..\..\..\..\main\dependencies64\ffmpeg\include;..\..\..\..\main\dependencies64\mainconcept\include;..\..\..\..\main\dependencies64\dtapi\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

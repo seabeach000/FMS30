@@ -87,7 +87,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalOptions> /Zm192 /bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\main\shell\..;..\..\..\main\dependencies64\boost;..\..\..\main\dependencies64\RxCpp\include;..\..\..\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\main\shell\..;..\..\..\main\dependencies64\boost;..\..\..\main\dependencies64\RxCpp\include;..\..\..\main\dependencies64\tbb\include;..\..\..\main\dependencies64\ldkdog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -121,11 +121,11 @@
     <Link>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;zlibstat.lib;..\accelerator\Debug\accelerator.lib;..\common\Debug\common.lib;..\core\Debug\core.lib;..\protocol\Debug\protocol.lib;..\modules\reroute\Debug\reroute.lib;..\modules\ffmpeg\Debug\ffmpeg.lib;..\modules\oal\Debug\oal.lib;..\modules\bluefish\Debug\bluefish.lib;..\modules\decklink\Debug\decklink.lib;..\modules\screen\Debug\screen.lib;..\modules\html\Debug\html.lib;..\modules\psd\Debug\psd.lib;..\modules\flash\Debug\flash.lib;..\modules\newtek\Debug\newtek.lib;..\modules\image\Debug\image.lib;..\modules\dshow\Debug\dshow.lib;..\modules\ndi\Debug\ndi.lib;..\modules\matrox\Debug\matrox.lib;..\modules\mainconcept\Debug\mainconcept.lib;OpenAL32.lib;avformat.lib;avcodec.lib;avutil.lib;avfilter.lib;avdevice.lib;swscale.lib;swresample.lib;debug/libcef.lib;debug/libcef_dll_wrapper.lib;alibcof64.lib;jpeg.lib;sndfile.lib;sfml-system-d-2.lib;sfml-window-d-2.lib;sfml-graphics-d-2.lib;Winmm.lib;Ws2_32.lib;tbb_debug.lib;OpenGL32.lib;glew32.lib;openal32.lib;freetype.lib;FreeImaged.lib;MVCOM.lib;MvCOMEntry.lib;MvfFlexAPI.lib;mvFileIO.lib;MvfOpenGLHelper.lib;mvsCommon.lib;mvsCommonMFCDialogs.lib;MvUtility.lib;enc_avc.lib;enc_mp2v.lib;enc_mpa.lib;enc_aac.lib;enc_pcm.lib;mux_mp2.lib;parser_sdp.lib;bc_net_renderer.lib;net_tools.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\main/dependencies64/boost/stage/lib/win32;..\..\..\main/dependencies64/boost/stage/lib/win32/$(Configuration);..\..\..\main/dependencies64/tbb/lib/win32;..\..\..\main/dependencies64/tbb/lib/win32/$(Configuration);..\..\..\main/dependencies64/glew/lib/win32;..\..\..\main/dependencies64/glew/lib/win32/$(Configuration);..\..\..\main/dependencies64/sfml/lib/win32;..\..\..\main/dependencies64/sfml/lib/win32/$(Configuration);..\..\..\main/dependencies64/sfml/extlibs/lib;..\..\..\main/dependencies64/sfml/extlibs/lib/$(Configuration);..\..\..\main/dependencies64/freetype/objs/win32/vc2010;..\..\..\main/dependencies64/freetype/objs/win32/vc2010/$(Configuration);..\..\..\main/dependencies64/ffmpeg/lib/win32;..\..\..\main/dependencies64/ffmpeg/lib/win32/$(Configuration);..\..\..\main/dependencies64/asmlib;..\..\..\main/dependencies64/asmlib/$(Configuration);..\..\..\main/dependencies64/freeimage/lib/win32;..\..\..\main/dependencies64/freeimage/lib/win32/$(Configuration);..\..\..\main/dependencies64/openal/lib/win32;..\..\..\main/dependencies64/openal/lib/win32/$(Configuration);..\..\..\main/dependencies64/bluefish/lib;..\..\..\main/dependencies64/bluefish/lib/$(Configuration);..\..\..\main/dependencies64/zlib/lib;..\..\..\main/dependencies64/zlib/lib/$(Configuration);..\..\..\main/dependencies64/cef/lib/win32;..\..\..\main/dependencies64/cef/lib/win32/$(Configuration);..\..\..\main/dependencies64/gtest/lib/win32;..\..\..\main/dependencies64/gtest/lib/win32/$(Configuration);..\..\..\main/ndi/lib/x64;..\..\..\main/matrox/lib/64/debug;..\..\..\main\dependencies64\mainconcept\lib;..\..\..\main\dependencies64\DTAPI\Lib\VC14;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\main/dependencies64/boost/stage/lib/win32;..\..\..\main/dependencies64/boost/stage/lib/win32/$(Configuration);..\..\..\main/dependencies64/tbb/lib/win32;..\..\..\main/dependencies64/tbb/lib/win32/$(Configuration);..\..\..\main/dependencies64/glew/lib/win32;..\..\..\main/dependencies64/glew/lib/win32/$(Configuration);..\..\..\main/dependencies64/sfml/lib/win32;..\..\..\main/dependencies64/sfml/lib/win32/$(Configuration);..\..\..\main/dependencies64/sfml/extlibs/lib;..\..\..\main/dependencies64/sfml/extlibs/lib/$(Configuration);..\..\..\main/dependencies64/freetype/objs/win32/vc2010;..\..\..\main/dependencies64/freetype/objs/win32/vc2010/$(Configuration);..\..\..\main/dependencies64/ffmpeg/lib/win32;..\..\..\main/dependencies64/ffmpeg/lib/win32/$(Configuration);..\..\..\main/dependencies64/asmlib;..\..\..\main/dependencies64/asmlib/$(Configuration);..\..\..\main/dependencies64/freeimage/lib/win32;..\..\..\main/dependencies64/freeimage/lib/win32/$(Configuration);..\..\..\main/dependencies64/openal/lib/win32;..\..\..\main/dependencies64/openal/lib/win32/$(Configuration);..\..\..\main/dependencies64/bluefish/lib;..\..\..\main/dependencies64/bluefish/lib/$(Configuration);..\..\..\main/dependencies64/zlib/lib;..\..\..\main/dependencies64/zlib/lib/$(Configuration);..\..\..\main/dependencies64/cef/lib/win32;..\..\..\main/dependencies64/cef/lib/win32/$(Configuration);..\..\..\main/dependencies64/gtest/lib/win32;..\..\..\main/dependencies64/gtest/lib/win32/$(Configuration);..\..\..\main/dependencies64\ldkdog\lib\win32;..\..\..\main/dependencies64\ndi\lib\win32/x64;..\..\..\main/dependencies64\matrox\lib\win32\x64\$(Configuration);..\..\..\main\dependencies64\mainconcept\lib\win32;..\..\..\main\dependencies64\dtapi\lib\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/Debug/casparcg.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/Debug/casparcg.pdb</ProgramDataBaseFile>
+      <ImportLibrary>../../../main/build/shell/Debug/casparcg.lib</ImportLibrary>
+      <ProgramDataBaseFile>../../../main/build/shell/Debug/casparcg.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -145,14 +145,14 @@ copy "..\..\dependencies64\openal\bin\win32\*.dll" "$(OutDir)"
 copy "..\..\dependencies64\liberation-fonts\LiberationSans-Regular.ttf" "$(OutDir)"
 copy "$(SolutionDir)\shell\FamousServer.config" "$(OutDir)"
 copy "..\..\dependencies64\Zq\*.dll" "$(OutDir)
-copy "..\..\ndi\bin\x64\*.dll" "$(OutDir)
+copy "..\..\dependencies64\ndi\bin\win32\x64\*.dll" "$(OutDir)
 copy "..\..\dependencies64\mainconcept\bin\*.dll" "$(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalOptions> /Zm192 /bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\main\shell\..;..\..\..\main\dependencies64\boost;..\..\..\main\dependencies64\RxCpp\include;..\..\..\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\main\shell\..;..\..\..\main\dependencies64\boost;..\..\..\main\dependencies64\RxCpp\include;..\..\..\main\dependencies64\tbb\include;..\..\..\main\dependencies64\ldkdog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -170,7 +170,7 @@ copy "..\..\dependencies64\mainconcept\bin\*.dll" "$(OutDir)</Command>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <TreatWarningAsError>false</TreatWarningAsError>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;BOOST_THREAD_VERSION=4;TBB_USE_CAPTURED_EXCEPTION=0;UNICODE;_UNICODE;GLEW_NO_GLU;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);_GLIBCXX_USE_CXX11_ABI=0;CMAKE_INTDIR="Release";USE_ZQ_LICENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SFML_STATIC;BOOST_THREAD_VERSION=4;TBB_USE_CAPTURED_EXCEPTION=0;UNICODE;_UNICODE;GLEW_NO_GLU;BOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true);_GLIBCXX_USE_CXX11_ABI=0;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
@@ -187,12 +187,12 @@ copy "..\..\dependencies64\mainconcept\bin\*.dll" "$(OutDir)</Command>
     </Midl>
     <Link>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;zlibstat.lib;..\accelerator\Release\accelerator.lib;..\common\Release\common.lib;..\core\Release\core.lib;..\protocol\Release\protocol.lib;..\modules\reroute\Release\reroute.lib;..\modules\ffmpeg\Release\ffmpeg.lib;..\modules\oal\Release\oal.lib;..\modules\bluefish\Release\bluefish.lib;..\modules\decklink\Release\decklink.lib;..\modules\screen\Release\screen.lib;..\modules\html\Release\html.lib;..\modules\psd\Release\psd.lib;..\modules\flash\Release\flash.lib;..\modules\newtek\Release\newtek.lib;..\modules\image\Release\image.lib;..\modules\dshow\Release\dshow.lib;..\modules\ndi\Release\ndi.lib;..\modules\matrox\Release\matrox.lib;..\modules\mainconcept\Release\mainconcept.lib;OpenAL32.lib;avformat.lib;avcodec.lib;avutil.lib;avfilter.lib;avdevice.lib;swscale.lib;swresample.lib;release/libcef.lib;release/libcef_dll_wrapper.lib;alibcof64.lib;jpeg.lib;sndfile.lib;sfml-system-2.lib;sfml-window-2.lib;sfml-graphics-2.lib;Winmm.lib;Ws2_32.lib;tbb.lib;OpenGL32.lib;glew32.lib;openal32.lib;freetype.lib;FreeImage.lib;MVCOM.lib;MvCOMEntry.lib;MvfFlexAPI.lib;mvFileIO.lib;MvfOpenGLHelper.lib;mvsCommon.lib;mvsCommonMFCDialogs.lib;MvUtility.lib;enc_avc.lib;enc_mp2v.lib;enc_mpa.lib;enc_aac.lib;enc_pcm.lib;mux_mp2.lib;parser_sdp.lib;bc_net_renderer.lib;net_tools.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\main/dependencies64/boost/stage/lib/win32;..\..\..\main/dependencies64/boost/stage/lib/win32/$(Configuration);..\..\..\main/dependencies64/tbb/lib/win32;..\..\..\main/dependencies64/tbb/lib/win32/$(Configuration);..\..\..\main/dependencies64/glew/lib/win32;..\..\..\main/dependencies64/glew/lib/win32/$(Configuration);..\..\..\main/dependencies64/sfml/lib/win32;..\..\..\main/dependencies64/sfml/lib/win32/$(Configuration);..\..\..\main/dependencies64/sfml/extlibs/lib;..\..\..\main/dependencies64/sfml/extlibs/lib/$(Configuration);..\..\..\main/dependencies64/freetype/objs/win32/vc2010;..\..\..\main/dependencies64/freetype/objs/win32/vc2010/$(Configuration);..\..\..\main/dependencies64/ffmpeg/lib/win32;..\..\..\main/dependencies64/ffmpeg/lib/win32/$(Configuration);..\..\..\main/dependencies64/asmlib;..\..\..\main/dependencies64/asmlib/$(Configuration);..\..\..\main/dependencies64/freeimage/lib/win32;..\..\..\main/dependencies64/freeimage/lib/win32/$(Configuration);..\..\..\main/dependencies64/openal/lib/win32;..\..\..\main/dependencies64/openal/lib/win32/$(Configuration);..\..\..\main/dependencies64/bluefish/lib;..\..\..\main/dependencies64/bluefish/lib/$(Configuration);..\..\..\main/dependencies64/zlib/lib;..\..\..\main/dependencies64/zlib/lib/$(Configuration);..\..\..\main/dependencies64/cef/lib/win32;..\..\..\main/dependencies64/cef/lib/win32/$(Configuration);..\..\..\main/dependencies64/gtest/lib/win32;..\..\..\main/dependencies64/gtest/lib/win32/$(Configuration);..\..\..\main/ndi/lib/x64;..\..\..\main/matrox/lib/64/release;..\..\..\main\dependencies64\mainconcept\lib;..\..\..\main\dependencies64\DTAPI\Lib\VC14;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;zlibstat.lib;..\accelerator\Release\accelerator.lib;..\common\Release\common.lib;..\core\Release\core.lib;..\protocol\Release\protocol.lib;..\modules\reroute\Release\reroute.lib;..\modules\ffmpeg\Release\ffmpeg.lib;..\modules\oal\Release\oal.lib;..\modules\bluefish\Release\bluefish.lib;..\modules\decklink\Release\decklink.lib;..\modules\screen\Release\screen.lib;..\modules\html\Release\html.lib;..\modules\psd\Release\psd.lib;..\modules\flash\Release\flash.lib;..\modules\newtek\Release\newtek.lib;..\modules\image\Release\image.lib;..\modules\dshow\Release\dshow.lib;..\modules\ndi\Release\ndi.lib;..\modules\matrox\Release\matrox.lib;..\modules\mainconcept\Release\mainconcept.lib;OpenAL32.lib;avformat.lib;avcodec.lib;avutil.lib;avfilter.lib;avdevice.lib;swscale.lib;swresample.lib;release/libcef.lib;release/libcef_dll_wrapper.lib;alibcof64.lib;jpeg.lib;sndfile.lib;sfml-system-2.lib;sfml-window-2.lib;sfml-graphics-2.lib;Winmm.lib;Ws2_32.lib;tbb.lib;OpenGL32.lib;glew32.lib;openal32.lib;freetype.lib;FreeImage.lib;MVCOM.lib;MvCOMEntry.lib;MvfFlexAPI.lib;mvFileIO.lib;MvfOpenGLHelper.lib;mvsCommon.lib;mvsCommonMFCDialogs.lib;MvUtility.lib;enc_avc.lib;enc_mp2v.lib;enc_mpa.lib;enc_aac.lib;enc_pcm.lib;mux_mp2.lib;parser_sdp.lib;bc_net_renderer.lib;net_tools.lib;LDKDogLicens.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\main/dependencies64/boost/stage/lib/win32;..\..\..\main/dependencies64/boost/stage/lib/win32/$(Configuration);..\..\..\main/dependencies64/tbb/lib/win32;..\..\..\main/dependencies64/tbb/lib/win32/$(Configuration);..\..\..\main/dependencies64/glew/lib/win32;..\..\..\main/dependencies64/glew/lib/win32/$(Configuration);..\..\..\main/dependencies64/sfml/lib/win32;..\..\..\main/dependencies64/sfml/lib/win32/$(Configuration);..\..\..\main/dependencies64/sfml/extlibs/lib;..\..\..\main/dependencies64/sfml/extlibs/lib/$(Configuration);..\..\..\main/dependencies64/freetype/objs/win32/vc2010;..\..\..\main/dependencies64/freetype/objs/win32/vc2010/$(Configuration);..\..\..\main/dependencies64/ffmpeg/lib/win32;..\..\..\main/dependencies64/ffmpeg/lib/win32/$(Configuration);..\..\..\main/dependencies64/asmlib;..\..\..\main/dependencies64/asmlib/$(Configuration);..\..\..\main/dependencies64/freeimage/lib/win32;..\..\..\main/dependencies64/freeimage/lib/win32/$(Configuration);..\..\..\main/dependencies64/openal/lib/win32;..\..\..\main/dependencies64/openal/lib/win32/$(Configuration);..\..\..\main/dependencies64/bluefish/lib;..\..\..\main/dependencies64/bluefish/lib/$(Configuration);..\..\..\main/dependencies64/zlib/lib;..\..\..\main/dependencies64/zlib/lib/$(Configuration);..\..\..\main/dependencies64/cef/lib/win32;..\..\..\main/dependencies64/cef/lib/win32/$(Configuration);..\..\..\main/dependencies64/gtest/lib/win32;..\..\..\main/dependencies64/gtest/lib/win32/$(Configuration);..\..\..\main/dependencies64\ldkdog\lib\win32;..\..\..\main/dependencies64\ndi/lib/win32/x64;..\..\..\main/dependencies64\matrox\lib\win32\x64\$(Configuration);..\..\..\main\dependencies64\mainconcept\lib\win32;..\..\..\main\dependencies64\dtapi\lib\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>No</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/Release/casparcg.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/Release/casparcg.pdb</ProgramDataBaseFile>
+      <ImportLibrary>../../../main/build/shell/Release/casparcg.lib</ImportLibrary>
+      <ProgramDataBaseFile>../../../main/build/shell/Release/casparcg.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -212,14 +212,15 @@ copy "..\..\dependencies64\openal\bin\win32\*.dll" "$(OutDir)"
 copy "..\..\dependencies64\liberation-fonts\LiberationSans-Regular.ttf" "$(OutDir)"
 copy "$(SolutionDir)\shell\FamousServer.config" "$(OutDir)"
 copy "..\..\dependencies64\Zq\*.dll" "$(OutDir)
-copy "..\..\ndi\bin\x64\*.dll" "$(OutDir)
-copy "..\..\dependencies64\mainconcept\bin\*.dll" "$(OutDir)</Command>
+copy "..\..\dependencies64\ndi\bin\win32\x64\*.dll" "$(OutDir)
+copy "..\..\dependencies64\mainconcept\bin\win32\*.dll" "$(OutDir)
+copy "..\..\dependencies64\ldkdog\bin\win32\*.dll" "$(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
       <AdditionalOptions> /Zm192 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\main\shell\..;..\..\..\main\dependencies64\boost;..\..\..\main\dependencies64\RxCpp\include;..\..\..\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\main\shell\..;..\..\..\main\dependencies64\boost;..\..\..\main\dependencies64\RxCpp\include;..\..\..\main\dependencies64\tbb\include;..\..\..\main\dependencies64\ldkdog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -252,7 +253,7 @@ copy "..\..\dependencies64\mainconcept\bin\*.dll" "$(OutDir)</Command>
     <Link>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;zlibstat.lib;..\accelerator\MinSizeRel\accelerator.lib;..\common\MinSizeRel\common.lib;..\core\MinSizeRel\core.lib;..\protocol\MinSizeRel\protocol.lib;..\modules\reroute\MinSizeRel\reroute.lib;..\modules\ffmpeg\MinSizeRel\ffmpeg.lib;..\modules\oal\MinSizeRel\oal.lib;..\modules\bluefish\MinSizeRel\bluefish.lib;..\modules\decklink\MinSizeRel\decklink.lib;..\modules\screen\MinSizeRel\screen.lib;..\modules\html\MinSizeRel\html.lib;..\modules\psd\MinSizeRel\psd.lib;..\modules\flash\MinSizeRel\flash.lib;..\modules\newtek\MinSizeRel\newtek.lib;..\modules\image\MinSizeRel\image.lib;..\modules\reroute\MinSizeRel\reroute.lib;OpenAL32.lib;..\modules\ffmpeg\MinSizeRel\ffmpeg.lib;avformat.lib;avcodec.lib;avutil.lib;avfilter.lib;avdevice.lib;swscale.lib;swresample.lib;release/libcef.lib;release/libcef_dll_wrapper.lib;..\core\MinSizeRel\core.lib;..\common\MinSizeRel\common.lib;alibcof64.lib;jpeg.lib;sndfile.lib;sfml-system-2.lib;sfml-window-2.lib;sfml-graphics-2.lib;Winmm.lib;Ws2_32.lib;tbb.lib;OpenGL32.lib;glew32.lib;openal32.lib;zlibstat.lib;freetype.lib;FreeImage.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/boost/stage/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/boost/stage/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/extlibs/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/extlibs/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freetype/objs/win32/vc2010;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freetype/objs/win32/vc2010/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/asmlib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/asmlib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/bluefish/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/bluefish/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/zlib/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/zlib/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/gtest/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/gtest/lib/win32/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\main/dependencies64/boost/stage/lib/win32;..\..\..\main/dependencies64/boost/stage/lib/win32/$(Configuration);..\..\..\main/dependencies64/tbb/lib/win32;..\..\..\main/dependencies64/tbb/lib/win32/$(Configuration);..\..\..\main/dependencies64/glew/lib/win32;..\..\..\main/dependencies64/glew/lib/win32/$(Configuration);..\..\..\main/dependencies64/sfml/lib/win32;..\..\..\main/dependencies64/sfml/lib/win32/$(Configuration);..\..\..\main/dependencies64/sfml/extlibs/lib;..\..\..\main/dependencies64/sfml/extlibs/lib/$(Configuration);..\..\..\main/dependencies64/freetype/objs/win32/vc2010;..\..\..\main/dependencies64/freetype/objs/win32/vc2010/$(Configuration);..\..\..\main/dependencies64/ffmpeg/lib/win32;..\..\..\main/dependencies64/ffmpeg/lib/win32/$(Configuration);..\..\..\main/dependencies64/asmlib;..\..\..\main/dependencies64/asmlib/$(Configuration);..\..\..\main/dependencies64/freeimage/lib/win32;..\..\..\main/dependencies64/freeimage/lib/win32/$(Configuration);..\..\..\main/dependencies64/openal/lib/win32;..\..\..\main/dependencies64/openal/lib/win32/$(Configuration);..\..\..\main/dependencies64/bluefish/lib;..\..\..\main/dependencies64/bluefish/lib/$(Configuration);..\..\..\main/dependencies64/zlib/lib;..\..\..\main/dependencies64/zlib/lib/$(Configuration);..\..\..\main/dependencies64/cef/lib/win32;..\..\..\main/dependencies64/cef/lib/win32/$(Configuration);..\..\..\main/dependencies64/gtest/lib/win32;..\..\..\main/dependencies64/gtest/lib/win32/$(Configuration);..\..\..\main/dependencies64\ldkdog\lib\win32;..\..\..\main/ndi/lib/x64;..\..\..\main/matrox/lib/64/release;..\..\..\main\dependencies64\mainconcept\lib\win32;..\..\..\main\dependencies64\dtapi\lib\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>No</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/MinSizeRel/casparcg.lib</ImportLibrary>
@@ -268,7 +269,7 @@ copy "..\..\dependencies64\mainconcept\bin\*.dll" "$(OutDir)</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
       <AdditionalOptions> /Zm192 /bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\main\shell\..;..\..\..\main\dependencies64\boost;..\..\..\main\dependencies64\RxCpp\include;..\..\..\main\dependencies64\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\main\shell\..;..\..\..\main\dependencies64\boost;..\..\..\main\dependencies64\RxCpp\include;..\..\..\main\dependencies64\tbb\include;..\..\..\main\dependencies64\ldkdog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -304,7 +305,7 @@ copy "..\..\dependencies64\mainconcept\bin\*.dll" "$(OutDir)</Command>
     <Link>
       <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;zlibstat.lib;..\accelerator\RelWithDebInfo\accelerator.lib;..\common\RelWithDebInfo\common.lib;..\core\RelWithDebInfo\core.lib;..\protocol\RelWithDebInfo\protocol.lib;..\modules\reroute\RelWithDebInfo\reroute.lib;..\modules\ffmpeg\RelWithDebInfo\ffmpeg.lib;..\modules\oal\RelWithDebInfo\oal.lib;..\modules\bluefish\RelWithDebInfo\bluefish.lib;..\modules\decklink\RelWithDebInfo\decklink.lib;..\modules\screen\RelWithDebInfo\screen.lib;..\modules\html\RelWithDebInfo\html.lib;..\modules\psd\RelWithDebInfo\psd.lib;..\modules\flash\RelWithDebInfo\flash.lib;..\modules\newtek\RelWithDebInfo\newtek.lib;..\modules\image\RelWithDebInfo\image.lib;..\modules\reroute\RelWithDebInfo\reroute.lib;OpenAL32.lib;..\modules\ffmpeg\RelWithDebInfo\ffmpeg.lib;avformat.lib;avcodec.lib;avutil.lib;avfilter.lib;avdevice.lib;swscale.lib;swresample.lib;release/libcef.lib;release/libcef_dll_wrapper.lib;..\core\RelWithDebInfo\core.lib;..\common\RelWithDebInfo\common.lib;alibcof64.lib;jpeg.lib;sndfile.lib;sfml-system-2.lib;sfml-window-2.lib;sfml-graphics-2.lib;Winmm.lib;Ws2_32.lib;tbb.lib;OpenGL32.lib;glew32.lib;openal32.lib;zlibstat.lib;freetype.lib;FreeImage.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/boost/stage/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/boost/stage/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/tbb/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/glew/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/extlibs/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/sfml/extlibs/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freetype/objs/win32/vc2010;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freetype/objs/win32/vc2010/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/ffmpeg/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/asmlib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/asmlib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/freeimage/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/openal/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/bluefish/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/bluefish/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/zlib/lib;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/zlib/lib/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/cef/lib/win32/$(Configuration);D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/gtest/lib/win32;D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/dependencies64/gtest/lib/win32/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\main/dependencies64/boost/stage/lib/win32;..\..\..\main/dependencies64/boost/stage/lib/win32/$(Configuration);..\..\..\main/dependencies64/tbb/lib/win32;..\..\..\main/dependencies64/tbb/lib/win32/$(Configuration);..\..\..\main/dependencies64/glew/lib/win32;..\..\..\main/dependencies64/glew/lib/win32/$(Configuration);..\..\..\main/dependencies64/sfml/lib/win32;..\..\..\main/dependencies64/sfml/lib/win32/$(Configuration);..\..\..\main/dependencies64/sfml/extlibs/lib;..\..\..\main/dependencies64/sfml/extlibs/lib/$(Configuration);..\..\..\main/dependencies64/freetype/objs/win32/vc2010;..\..\..\main/dependencies64/freetype/objs/win32/vc2010/$(Configuration);..\..\..\main/dependencies64/ffmpeg/lib/win32;..\..\..\main/dependencies64/ffmpeg/lib/win32/$(Configuration);..\..\..\main/dependencies64/asmlib;..\..\..\main/dependencies64/asmlib/$(Configuration);..\..\..\main/dependencies64/freeimage/lib/win32;..\..\..\main/dependencies64/freeimage/lib/win32/$(Configuration);..\..\..\main/dependencies64/openal/lib/win32;..\..\..\main/dependencies64/openal/lib/win32/$(Configuration);..\..\..\main/dependencies64/bluefish/lib;..\..\..\main/dependencies64/bluefish/lib/$(Configuration);..\..\..\main/dependencies64/zlib/lib;..\..\..\main/dependencies64/zlib/lib/$(Configuration);..\..\..\main/dependencies64/cef/lib/win32;..\..\..\main/dependencies64/cef/lib/win32/$(Configuration);..\..\..\main/dependencies64/gtest/lib/win32;..\..\..\main/dependencies64/gtest/lib/win32/$(Configuration);..\..\..\main/dependencies64\ldkdog\lib\win32;..\..\..\main/ndi/lib/x64;..\..\..\main/matrox/lib/64/release;..\..\..\main\dependencies64\mainconcept\lib\win32;..\..\..\main\dependencies64\dtapi\lib\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/shell/RelWithDebInfo/casparcg.lib</ImportLibrary>
@@ -397,57 +398,66 @@ copy "..\..\dependencies64\mainconcept\bin\*.dll" "$(OutDir)</Command>
     <None Include="..\..\..\main\shell\included_modules.tmpl" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\shell\Famous.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\accelerator\accelerator.vcxproj">
+      <Project>{6e626c69-2efa-34ed-b043-d9cfaeb696f4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\common\common.vcxproj">
+      <Project>{736ec3d0-f865-38de-87b4-c038f8ccebc1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\core\core.vcxproj">
+      <Project>{575ac9d3-9589-3f5f-890c-a879f361ef19}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\modules\bluefish\bluefish.vcxproj">
+      <Project>{e08de4c4-4cbb-3fad-a97b-542c85d21895}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\modules\decklink\decklink.vcxproj">
+      <Project>{65246d77-1f88-38db-83eb-a9babc75804c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\modules\dshow\dshow.vcxproj">
       <Project>{ca60b5ac-a9be-44df-8267-337420bf5cbd}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/accelerator/accelerator.vcxproj">
-      <Project>6E626C69-2EFA-34ED-B043-D9CFAEB696F4</Project>
+    <ProjectReference Include="..\modules\ffmpeg\ffmpeg.vcxproj">
+      <Project>{0cf7442b-0af9-3161-9e6e-b1cc9f1c3d8c}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/bluefish/bluefish.vcxproj">
-      <Project>E08DE4C4-4CBB-3FAD-A97B-542C85D21895</Project>
+    <ProjectReference Include="..\modules\flash\flash.vcxproj">
+      <Project>{8a37cdad-ba42-3f78-af06-68d14dea0e6b}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/common/common.vcxproj">
-      <Project>736EC3D0-F865-38DE-87B4-C038F8CCEBC1</Project>
+    <ProjectReference Include="..\modules\html\html.vcxproj">
+      <Project>{0b26cb41-d747-35fb-bef6-0841107540a9}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/core/core.vcxproj">
-      <Project>575AC9D3-9589-3F5F-890C-A879F361EF19</Project>
+    <ProjectReference Include="..\modules\image\image.vcxproj">
+      <Project>{703e8397-7573-3857-82d6-8f13c65f376f}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/decklink/decklink.vcxproj">
-      <Project>65246D77-1F88-38DB-83EB-A9BABC75804C</Project>
+    <ProjectReference Include="..\modules\mainconcept\mainconcept.vcxproj">
+      <Project>{2b7f6a11-c581-4fca-98de-fb9b7defd231}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/ffmpeg/ffmpeg.vcxproj">
-      <Project>0CF7442B-0AF9-3161-9E6E-B1CC9F1C3D8C</Project>
+    <ProjectReference Include="..\modules\matrox\matrox.vcxproj">
+      <Project>{1f0547a7-28be-4516-9cac-b030777155e6}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/flash/flash.vcxproj">
-      <Project>8A37CDAD-BA42-3F78-AF06-68D14DEA0E6B</Project>
+    <ProjectReference Include="..\modules\ndi\ndi.vcxproj">
+      <Project>{7f113302-6713-4aea-b0d5-8db5fbcbd41c}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/html/html.vcxproj">
-      <Project>0B26CB41-D747-35FB-BEF6-0841107540A9</Project>
+    <ProjectReference Include="..\modules\newtek\newtek.vcxproj">
+      <Project>{27062913-2a9a-38cb-b4f9-ee4df36b3fdc}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/image/image.vcxproj">
-      <Project>703E8397-7573-3857-82D6-8F13C65F376F</Project>
+    <ProjectReference Include="..\modules\oal\oal.vcxproj">
+      <Project>{2f87af56-c402-348b-8a06-e295f8a88b61}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/newtek/newtek.vcxproj">
-      <Project>27062913-2A9A-38CB-B4F9-EE4DF36B3FDC</Project>
+    <ProjectReference Include="..\modules\psd\psd.vcxproj">
+      <Project>{95dc000c-674a-3613-94ad-afe79172731f}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/oal/oal.vcxproj">
-      <Project>2F87AF56-C402-348B-8A06-E295F8A88B61</Project>
+    <ProjectReference Include="..\modules\reroute\reroute.vcxproj">
+      <Project>{3828ebaf-bf72-3d2a-a726-93f2042d1b5e}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/protocol/protocol.vcxproj">
-      <Project>76D483EA-5C62-34C5-9076-08DE121ED5EA</Project>
+    <ProjectReference Include="..\modules\screen\screen.vcxproj">
+      <Project>{9eca5cae-da92-3a7f-af0a-a5016cad17c2}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/psd/psd.vcxproj">
-      <Project>95DC000C-674A-3613-94AD-AFE79172731F</Project>
+    <ProjectReference Include="..\protocol\protocol.vcxproj">
+      <Project>{76d483ea-5c62-34c5-9076-08de121ed5ea}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/reroute/reroute.vcxproj">
-      <Project>3828EBAF-BF72-3D2A-A726-93F2042D1B5E</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/screen/screen.vcxproj">
-      <Project>9ECA5CAE-DA92-3A7F-AF0A-A5016CAD17C2</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\shell\Famous.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

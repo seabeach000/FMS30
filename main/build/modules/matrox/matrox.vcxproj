@@ -150,7 +150,7 @@
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ForcedIncludeFiles>common/compiler/vs/disable_silly_warnings.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>..\..\..\..\main\dependencies64\boost;..\..\..\..\main\dependencies64\tbb\include;..\..\..\..\main\dependencies64\RxCpp\include;..\..\..\..\main\dependencies64\asmlib;..\..\..\..\main\dependencies64\ffmpeg\include;..\..\..\..\main\dependencies64\medialooks\include;..\..\..\..\main\matrox\include;..\..\..\..\main\modules\matrox\..;..\..\..\..\main\modules\matrox\..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\main\dependencies64\boost;..\..\..\..\main\dependencies64\tbb\include;..\..\..\..\main\dependencies64\RxCpp\include;..\..\..\..\main\dependencies64\asmlib;..\..\..\..\main\dependencies64\ffmpeg\include;..\..\..\..\main\dependencies64\medialooks\include;..\..\..\..\main\dependencies64\matrox\include;..\..\..\..\main\modules\matrox\..;..\..\..\..\main\modules\matrox\..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions> /Zm192 /bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -189,7 +189,7 @@
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ForcedIncludeFiles>common/compiler/vs/disable_silly_warnings.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>..\..\..\..\main\dependencies64\boost;..\..\..\..\main\dependencies64\tbb\include;..\..\..\..\main\dependencies64\RxCpp\include;..\..\..\..\main\dependencies64\asmlib;..\..\..\..\main\dependencies64\ffmpeg\include;..\..\..\..\main\dependencies64\medialooks\include;..\..\..\..\main\matrox\include;..\..\..\..\main\modules\matrox\..;..\..\..\..\main\modules\matrox\..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\main\dependencies64\boost;..\..\..\..\main\dependencies64\tbb\include;..\..\..\..\main\dependencies64\RxCpp\include;..\..\..\..\main\dependencies64\asmlib;..\..\..\..\main\dependencies64\ffmpeg\include;..\..\..\..\main\dependencies64\medialooks\include;..\..\..\..\main\dependencies64\matrox\include;..\..\..\..\main\modules\matrox\..;..\..\..\..\main\modules\matrox\..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -199,7 +199,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\main\modules\dshow\..;..\..\..\..\main\modules\dshow\..\..;..\..\..\..\main\dependencies64\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\main\dependencies64\boost;..\..\..\..\main\dependencies64\tbb\include;..\..\..\..\main\dependencies64\RxCpp\include;..\..\..\..\main\dependencies64\asmlib;..\..\..\..\main\dependencies64\ffmpeg\include;..\..\..\..\main\dependencies64\medialooks\include;..\..\..\..\main\matrox\include;..\..\..\..\main\modules\matrox\..;..\..\..\..\main\modules\matrox\..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -236,6 +236,7 @@
       <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ForcedIncludeFiles>common/compiler/vs/disable_silly_warnings.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>..\..\..\..\main\dependencies64\boost;..\..\..\..\main\dependencies64\tbb\include;..\..\..\..\main\dependencies64\RxCpp\include;..\..\..\..\main\dependencies64\asmlib;..\..\..\..\main\dependencies64\ffmpeg\include;..\..\..\..\main\dependencies64\medialooks\include;..\..\..\..\main\matrox\include;..\..\..\..\main\modules\matrox\..;..\..\..\..\main\modules\matrox\..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

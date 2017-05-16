@@ -1029,8 +1029,8 @@
     <ClInclude Include="..\..\core\consumer\syncto\syncto_consumer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/common/common.vcxproj">
-      <Project>736EC3D0-F865-38DE-87B4-C038F8CCEBC1</Project>
+    <ProjectReference Include="..\common\common.vcxproj">
+      <Project>{736ec3d0-f865-38de-87b4-c038f8ccebc1}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

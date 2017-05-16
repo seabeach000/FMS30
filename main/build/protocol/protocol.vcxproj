@@ -661,14 +661,14 @@
     <ClInclude Include="..\..\protocol\vdcp\vdcp_shared.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/common/common.vcxproj">
-      <Project>736EC3D0-F865-38DE-87B4-C038F8CCEBC1</Project>
+    <ProjectReference Include="..\common\common.vcxproj">
+      <Project>{736ec3d0-f865-38de-87b4-c038f8ccebc1}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/core/core.vcxproj">
-      <Project>575AC9D3-9589-3F5F-890C-A879F361EF19</Project>
+    <ProjectReference Include="..\core\core.vcxproj">
+      <Project>{575ac9d3-9589-3f5f-890c-a879f361ef19}</Project>
     </ProjectReference>
-    <ProjectReference Include="D:/ZqvideoCode/depot/MPRO/FMS/FMS30/main/build/modules/reroute/reroute.vcxproj">
-      <Project>3828EBAF-BF72-3D2A-A726-93F2042D1B5E</Project>
+    <ProjectReference Include="..\modules\reroute\reroute.vcxproj">
+      <Project>{3828ebaf-bf72-3d2a-a726-93f2042d1b5e}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
