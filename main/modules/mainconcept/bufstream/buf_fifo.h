@@ -11,7 +11,7 @@
  *
  * ----------------------------------------------------------------------------
  */
-#include "bufstrm.h"
+#include <bufstrm.h>
 #include "sr_fifo.h"
 
 typedef struct fifo_buf_struct fifo_stream_tt;

@@ -158,11 +158,11 @@ public:
 		{
 			currentFrameNum_ = 0;
 			regionIndex_ = 0;
-			auto format_desc = video_format_desc();
-			auto channel_layout = audio_channel_layout();
+			auto format_desc1 = video_format_desc();
+			auto channel_layout1 = audio_channel_layout();
 			audio_mixer		audio_mixer_{ graph_ };
-			auto audio = audio_mixer_(format_desc, channel_layout);
-			int frameSize = format_desc.width * format_desc.height * 4 + audio.size()*sizeof(int32_t);
+			auto audio = audio_mixer_(format_desc1, channel_layout1);
+			int frameSize = format_desc1.width * format_desc1.height * 4 + (int)audio.size()*sizeof(int32_t);
 			totalFrames_ = (delayFrames / fileMappingFrequency_ + 0)*fileMappingFrequency_;
 
 			firstReadInterval_ = fileMappingFrequency_;
@@ -443,8 +443,8 @@ public:
 			caspar::timer write_timer;
 			//
 			auto imageSize = mixed_frame.image_data().size();
-			int audio_frame_size = ((boost::iterator_range<const int32_t*>)mixed_frame.audio_data()).size() * sizeof(int32_t);
-			int mappedSize = imageSize + audio_frame_size;
+			int audio_frame_size = (int)((boost::iterator_range<const int32_t*>)mixed_frame.audio_data()).size() * sizeof(int32_t);
+			int mappedSize = (int)imageSize + audio_frame_size;
 			regionIndex_ = regionIndex_%regoinIndexMax_;
 			if (currentFrameNum_%fileMappingFrequency_ == 0)
 			{

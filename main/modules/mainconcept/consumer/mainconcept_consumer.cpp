@@ -11,6 +11,7 @@
 #include <common/os/general_protection_fault.h>
 #include <common/diagnostics/graph.h>
 #include <common/env.h>
+#include <common/executor.h>
 
 #include <core/video_format.h>
 #include <core/frame/frame.h>
@@ -23,8 +24,8 @@
 #include <tbb/parallel_for.h>
 #include <tbb/mutex.h>
 
-#include <boost\filesystem\operations.hpp>
-#include <boost\filesystem\path.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/path.hpp>
 
 #pragma warning(push)
 #pragma warning(disable: 4244)
@@ -59,16 +60,19 @@ namespace caspar {
 			boost::thread										thread_;
 
 			mc_enc_pumpstream*                                  enc_pumpstream = nullptr;
+			
+			executor									video_encoder_executor_;
+			executor									audio_encoder_executor_;
 
 		public:
 
 			std::future<bool> send(core::const_frame frame)
 			{
+				graph_->set_value("tick-time", tick_timer_.elapsed()*in_video_format_.fps*0.5);
  				if (!frame_buffer_.try_push(frame))
  					graph_->set_tag(diagnostics::tag_severity::WARNING, "dropped-frame");
   				graph_->set_text(print());
  				graph_->set_value("buffer-frames", ((double)frame_buffer_.size()) / frame_buffer_.capacity());
- 				graph_->set_value("tick-time", tick_timer_.elapsed()*in_video_format_.fps*0.5);
  				tick_timer_.restart();
  
  				return make_ready_future(is_running_.load());
@@ -84,6 +88,8 @@ namespace caspar {
 				std::string options)
 				:path_(path)
 				,full_path_(path)
+				, audio_encoder_executor_(print() + L" audio_encoder")
+				, video_encoder_executor_(print() + L" video_encoder")
   			{
 				frame_buffer_.set_capacity(4);
 				is_running_ = true;
@@ -176,14 +182,27 @@ namespace caspar {
 						boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
 						continue;
 					}
-					pushframe_timer.restart();	
-					enc_pumpstream->pushframe(frame);//push frame to encoder
+					pushframe_timer.restart();
+					video_encoder_executor_.begin_invoke([=]() mutable
+					{
+						enc_pumpstream->encode_video(frame);
+					});
+
+					audio_encoder_executor_.begin_invoke([=]() mutable
+					{
+						enc_pumpstream->encode_audio(frame);
+					});
 					graph_->set_value("pushframe-time", pushframe_timer.elapsed() * in_video_format_.fps * 0.5);
 				}
  			}
 
    			~mainconcept_consumer()
  			{
+				video_encoder_executor_.stop();
+				audio_encoder_executor_.stop();
+				video_encoder_executor_.join();
+				audio_encoder_executor_.join();
+
 				is_running_ = false;
 				thread_.join();
 				if (enc_pumpstream)

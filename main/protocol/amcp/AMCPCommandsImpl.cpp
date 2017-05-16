@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright (c) 2011 Sveriges Television AB <info@casparcg.com>
 *
 * This file is part of CasparCG (www.casparcg.com).
@@ -207,7 +207,7 @@ std::wstring MediaInfo(const boost::filesystem::path& path, const spl::shared_pt
 	if (!media_info)
 		return L"";
 
-	auto is_not_digit = [](char c){ return std::isdigit(c) == 0; };
+	auto is_not_digit = [](wchar_t c){ return std::iswdigit(c) == 0; };
 
 	auto writeTimeStr = boost::posix_time::to_iso_string(boost::posix_time::from_time_t(boost::filesystem::last_write_time(path)));
 	writeTimeStr.erase(std::remove_if(writeTimeStr.begin(), writeTimeStr.end(), is_not_digit), writeTimeStr.end());
@@ -231,6 +231,23 @@ std::wstring MediaInfo(const boost::filesystem::path& path, const spl::shared_pt
 		+ L" " + boost::lexical_cast<std::wstring>(media_info->duration) +
 		+ L" " + boost::lexical_cast<std::wstring>(media_info->time_base.numerator()) + L"/" + boost::lexical_cast<std::wstring>(media_info->time_base.denominator())
 		+ L"\r\n";
+}
+
+boost::optional<media_info> GetMediaInfoByFileName(const std::wstring& strFileName, const spl::shared_ptr<media_info_repository>& media_info_repo)
+{
+	for (boost::filesystem::recursive_directory_iterator itr(env::media_folder()), end; itr != end; ++itr)
+	{
+		auto path = itr->path();
+		auto file = path.stem().wstring();
+		if (boost::iequals(file, strFileName))
+		{
+			if (!boost::filesystem::is_regular_file(path))
+				return boost::optional<media_info>(boost::none);
+			auto media_info = media_info_repo->get(path.wstring());
+			return media_info;
+		}
+	}
+	return boost::optional<media_info>(boost::none);
 }
 
 std::wstring get_sub_directory(const std::wstring& base_folder, const std::wstring& sub_directory)
@@ -351,6 +368,21 @@ void loadbg_describer(core::help_sink& sink, const core::help_repository& reposi
 
 std::wstring loadbg_command(command_context& ctx)
 {
+	//先判断文件参数是否正确
+	//-----------------------------------
+	auto mediainfo = GetMediaInfoByFileName(ctx.parameters.at(0), ctx.media_info_repo);
+	if (mediainfo)
+	{
+		auto ndur = mediainfo->duration;
+		const std::vector<std::wstring>& param = ctx.parameters;
+		int64_t nseek = get_param(L"SEEK", param, 0);
+		int64_t nlength = get_param(L"LENGTH", param, 0);
+		if (nseek + nlength > ndur)
+		{
+			return L"404 LOADBG PARAMETERS ERROR\r\n";
+		}
+	}
+	//-----------------------------------
 	transition_info transitionInfo;
 
 	// TRANSITION
@@ -455,6 +487,21 @@ void load_describer(core::help_sink& sink, const core::help_repository& repo)
 
 std::wstring load_command(command_context& ctx)
 {
+	//先判断文件参数是否正确
+	//-----------------------------------
+	auto mediainfo = GetMediaInfoByFileName(ctx.parameters.at(0), ctx.media_info_repo);
+	if (mediainfo)
+	{
+		auto ndur = mediainfo->duration;
+		const std::vector<std::wstring>& param = ctx.parameters;
+		int64_t nseek = get_param(L"SEEK", param, 0);
+		int64_t nlength = get_param(L"LENGTH", param, 0);
+		if (nseek + nlength > ndur)
+		{
+			return L"404 LOAD PARAMETERS ERROR\r\n";
+		}
+	}
+	//-----------------------------------
 	core::diagnostics::scoped_call_context save;
 	core::diagnostics::call_context::for_thread().video_channel = ctx.channel_index + 1;
 	core::diagnostics::call_context::for_thread().layer = ctx.layer_index();
@@ -484,7 +531,13 @@ void play_describer(core::help_sink& sink, const core::help_repository& reposito
 std::wstring play_command(command_context& ctx)
 {
 	if (!ctx.parameters.empty())
-		loadbg_command(ctx);
+	{
+		auto ret = loadbg_command(ctx);
+		if (ret == L"404 LOADBG PARAMETERS ERROR\r\n")
+		{
+			return L"404 PLAY PARAMETERS ERROR\r\n";
+		}
+	}
 
 	ctx.channel.channel->stage().play(ctx.layer_index());
 
@@ -826,7 +879,7 @@ std::wstring set_command(command_context& ctx)
 			try
 			{
 				ctx.channel.channel->set_logokiller(ctx.layer_index(), value);
-				//wxg20170104���浽�����ļ���
+				//wxg20170104保存到配置文件中
 				int channelindex = ctx.channel.channel->index();
 				boost::property_tree::wptree pt = env::properties();
 				auto child = pt.get_child(L"configuration.channels");

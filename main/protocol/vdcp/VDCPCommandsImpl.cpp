@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 * Copyright (c) 2011 Sveriges Television AB <info@casparcg.com>
 *
 * This file is part of CasparCG (www.casparcg.com).
@@ -208,14 +208,14 @@ std::wstring MediaInfo(const boost::filesystem::path& path, const spl::shared_pt
 	if (!media_info)
 		return L"";
 
-	auto is_not_digit = [](char c){ return std::isdigit(c) == 0; };
+	//auto is_not_digit = [](char c){ return std::isdigit(c) == 0; };
 
 	auto writeTimeStr = boost::posix_time::to_iso_string(boost::posix_time::from_time_t(boost::filesystem::last_write_time(path)));
-	writeTimeStr.erase(std::remove_if(writeTimeStr.begin(), writeTimeStr.end(), is_not_digit), writeTimeStr.end());
+	writeTimeStr.erase(std::remove_if(writeTimeStr.begin(), writeTimeStr.end(), [](char c) { return std::isdigit(c) == 0; }), writeTimeStr.end());
 	auto writeTimeWStr = std::wstring(writeTimeStr.begin(), writeTimeStr.end());
 
 	auto sizeStr = boost::lexical_cast<std::wstring>(boost::filesystem::file_size(path));
-	sizeStr.erase(std::remove_if(sizeStr.begin(), sizeStr.end(), is_not_digit), sizeStr.end());
+	sizeStr.erase(std::remove_if(sizeStr.begin(), sizeStr.end(), [](wchar_t c) { return std::iswdigit(c) == 0; }), sizeStr.end());
 	auto sizeWStr = std::wstring(sizeStr.begin(), sizeStr.end());
 
 	auto relativePath = get_relative_without_extension(path, env::media_folder());
@@ -332,10 +332,10 @@ std::wstring  openport_command(command_context& ctx)
 	unsigned Sum = 0x81 + 0x01 + boost::lexical_cast<HexTo<int>>(message.substr(4, 2));
 	Sum = (unsigned char)(~(Sum & 0xFF) + 0x01);
 	if (Sum > 0x0f)
-		swprintf(buf, L"%2x", (unsigned char)Sum);
+		swprintf(buf, 2, L"%2x", (unsigned char)Sum);
 	else
-		swprintf(buf, L"0%x", (unsigned char)Sum);
-	sendmessage.append(buf);//Ğ£ÑéºÏ
+		swprintf(buf, 2, L"0%x", (unsigned char)Sum);
+	sendmessage.append(buf);//æ ¡éªŒåˆ
 	return sendmessage;
 }
 std::wstring  idlist_command(command_context& ctx)
@@ -367,11 +367,11 @@ std::wstring  idlist_command(command_context& ctx)
 		if (its != IDvector.end()) {
 			itnext = its;
 			itnext++;
-			//ÅĞ¶ÏĞÂÀÏĞ­Òé
+			//åˆ¤æ–­æ–°è€åè®®
 			if (boost::lexical_cast<HexTo<int>>(message.substr(4,2))== 0x30)
 			{
 
-				if ((*its).size() == 8)	   //ÎÄ¼şÃû³¤¶È´óÓÚ8µÄ»°£¬Õâ¸öÎÄ¼ş²»ÒªÁË
+				if ((*its).size() == 8)	   //æ–‡ä»¶åé•¿åº¦å¤§äº8çš„è¯ï¼Œè¿™ä¸ªæ–‡ä»¶ä¸è¦äº†
 				{
 					if (Count == 10)
 						break;
@@ -385,7 +385,7 @@ std::wstring  idlist_command(command_context& ctx)
 				if (Count == 10)
 					break;
 				wchar_t buff[2] = { 0 };
-				swprintf(buff, L"%c", (unsigned char)(*its).size());
+				swprintf(buff, 1, L"%c", (unsigned char)(*its).size());
 				std::wstring s = buff;
 				s.append(*its);
 				relen += s.size();
@@ -417,21 +417,21 @@ std::wstring  idlist_command(command_context& ctx)
 			{
 				wchar_t b8[10] = { 0 };
 				if (itnext->at(i) > 0x0f)
-					swprintf(b8, L"%2x", itnext->at(i));
+					swprintf(b8, 2, L"%2x", itnext->at(i));
 				else
-					swprintf(b8, L"0%x", itnext->at(i));
+					swprintf(b8, 2, L"0%x", itnext->at(i));
 				sd.append(b8);
 			}
 			filearry.append(sd);
 			datalen += itnext->size();
 		}
 		if (datalen > 0x0f)
-			swprintf(buf, L"%2x", datalen);
+			swprintf(buf, 2, L"%2x", datalen);
 		else
-			swprintf(buf, L"0%x", datalen);
+			swprintf(buf, 2, L"0%x", datalen);
 
 		sendmessage.append(L"02");	
-		sendmessage.append(buf);//×Ö½Ú´óĞ¡/2
+		sendmessage.append(buf);//å­—èŠ‚å¤§å°/2
 		sendmessage.append(message.substr(4, 2));
 		sendmessage.append(L"91");
 		sendmessage.append(L"00");
@@ -447,9 +447,9 @@ std::wstring  idlist_command(command_context& ctx)
 
 		Sum = (unsigned char)((~Sum) + 0x01);
 		if (Sum > 0x0f)
-			swprintf(buf, L"%2x", (unsigned char)Sum);
+			swprintf(buf, 2, L"%2x", (unsigned char)Sum);
 		else
-			swprintf(buf, L"0%x", (unsigned char)Sum);
+			swprintf(buf, 2, L"0%x", (unsigned char)Sum);
 		sendmessage.append(buf);
 	}
 	else
@@ -461,10 +461,10 @@ std::wstring  idlist_command(command_context& ctx)
 
 		Sum = (unsigned char)(~(Sum & 0xFF) + 0x01);
 		if (Sum > 0x0f)
-			swprintf(buf, L"%2x", (unsigned char)Sum);
+			swprintf(buf, 2, L"%2x", (unsigned char)Sum);
 		else
-			swprintf(buf, L"0%x", (unsigned char)Sum);
-		sendmessage.append(buf);//Ğ£ÑéºÏ
+			swprintf(buf, 2, L"0%x", (unsigned char)Sum);
+		sendmessage.append(buf);//æ ¡éªŒåˆ
 	}
 	return sendmessage;
 }
@@ -484,11 +484,11 @@ std::wstring  nextdata_command(command_context& ctx)
 		if (its != IDvector.end()) {
 			itnext = its;
 			itnext++;
-			//ÅĞ¶ÏĞÂÀÏĞ­Òé
+			//åˆ¤æ–­æ–°è€åè®®
 			if (boost::lexical_cast<HexTo<int>>(message.substr(4, 2)) == 0x30)
 			{
 
-				if ((*its).size() ==8)	   //ÎÄ¼şÃû³¤¶È´óÓÚ8µÄ»°£¬Õâ¸öÎÄ¼ş²»ÒªÁË
+				if ((*its).size() ==8)	   //æ–‡ä»¶åé•¿åº¦å¤§äº8çš„è¯ï¼Œè¿™ä¸ªæ–‡ä»¶ä¸è¦äº†
 				{
 					if (Count == 10)
 						break;
@@ -501,7 +501,7 @@ std::wstring  nextdata_command(command_context& ctx)
 				if (Count == 10)
 					break;
 				wchar_t buff[2] = { 0 };
-				swprintf(buff, L"%c", (*its).size());
+				swprintf(buff, 1, L"%c", static_cast<int>((*its).size()));
 				std::wstring s = buff;
 				s.append(*its);
 				relen += s.size();
@@ -532,21 +532,21 @@ std::wstring  nextdata_command(command_context& ctx)
 			{
 				wchar_t b8[10] = { 0 };
 				if (itnext->at(i) > 0x0f)
-					swprintf(b8, L"%2x", itnext->at(i));
+					swprintf(b8, 2, L"%2x", itnext->at(i));
 				else
-					swprintf(b8, L"0%x", itnext->at(i));
+					swprintf(b8, 2, L"0%x", itnext->at(i));
 				sd.append(b8);
 			}
 			filearry.append(sd);
 			datalen += itnext->size();
 		}
 		if (datalen > 0x0f)
-			swprintf(buf, L"%2x", datalen);
+			swprintf(buf, 2, L"%2x", datalen);
 		else
-			swprintf(buf, L"0%x", datalen);
+			swprintf(buf, 2, L"0%x", datalen);
 
 		sendmessage.append(L"02");
-		sendmessage.append(buf);//×Ö½Ú´óĞ¡/2
+		sendmessage.append(buf);//å­—èŠ‚å¤§å°/2
 		sendmessage.append(message.substr(4, 2));
 		sendmessage.append(L"82");
 		sendmessage.append(L"00");
@@ -561,9 +561,9 @@ std::wstring  nextdata_command(command_context& ctx)
 
 		Sum = (char)((~Sum) + 0x01);
 		if (Sum > 0x0f)
-			swprintf(buf, L"%2x", (unsigned char)Sum);
+			swprintf(buf, 2, L"%2x", (unsigned char)Sum);
 		else
-			swprintf(buf, L"0%x", (unsigned char)Sum);
+			swprintf(buf, 2, L"0%x", (unsigned char)Sum);
 		sendmessage.append(buf);
 	}
 	else
@@ -575,10 +575,10 @@ std::wstring  nextdata_command(command_context& ctx)
 
 		Sum = (unsigned char)(~(Sum & 0xFF) + 0x01);
 		if (Sum > 0x0f)
-			swprintf(buf, L"%2x", (unsigned char)Sum);
+			swprintf(buf, 2, L"%2x", (unsigned char)Sum);
 		else
-			swprintf(buf, L"0%x", (unsigned char)Sum);
-		sendmessage.append(buf);//Ğ£ÑéºÏ
+			swprintf(buf, 2, L"0%x", (unsigned char)Sum);
+		sendmessage.append(buf);//æ ¡éªŒåˆ
 	}
 	return sendmessage;
 }
@@ -603,45 +603,45 @@ std::wstring  portstatus_command(command_context& ctx)
 	if (statustype == VDCP_PS_STATE)
 	{
 		sendmessage.append(L"02"); // RET
-		sendmessage.append(L"05"); //³¤¶È
-		sendmessage.append(message_current.substr(4, 2)); // Ô­Ê¼µÄÃüÁî×ÖÈçB0
-		sendmessage.append(L"85");//·´À¡µÄÃüÁîÂë
-		sendmessage.append(L"01");//²éÑ¯µÄ×´Ì¬ÃüÁî×Ö
+		sendmessage.append(L"05"); //é•¿åº¦
+		sendmessage.append(message_current.substr(4, 2)); // åŸå§‹çš„å‘½ä»¤å­—å¦‚B0
+		sendmessage.append(L"85");//åé¦ˆçš„å‘½ä»¤ç 
+		sendmessage.append(L"01");//æŸ¥è¯¢çš„çŠ¶æ€å‘½ä»¤å­—
 		if (nret>0x0f)
-			swprintf(buf, L"%2x", (unsigned int)nret);
+			swprintf(buf, 2, L"%2x", (unsigned int)nret);
 		else
-			swprintf(buf,L"0%x",(unsigned int)nret);
-		sendmessage.append(buf);//×´Ì¬Âğ
-		sendmessage.append(openportmessage.substr(8, 2));//´ò¿ªµÄ¶Ë¿Ú
+			swprintf(buf, 2, L"0%x",(unsigned int)nret);
+		sendmessage.append(buf);//çŠ¶æ€å—
+		sendmessage.append(openportmessage.substr(8, 2));//æ‰“å¼€çš„ç«¯å£
 		unsigned Sum = 0x85 + 0x01 + nret + port + boost::lexical_cast<HexTo<int>>(message_current.substr(4, 2));
 			Sum = (unsigned char)(~(Sum & 0xFF) + 0x01);
 		if (Sum > 0x0f)
-			swprintf(buf, L"%2x", (unsigned char)Sum);
+			swprintf(buf, 2, L"%2x", (unsigned char)Sum);
 		else
-			swprintf(buf, L"0%x", (unsigned char)Sum);
-		sendmessage.append(buf);//Ğ£ÑéºÏ
+			swprintf(buf, 2, L"0%x", (unsigned char)Sum);
+		sendmessage.append(buf);//æ ¡éªŒåˆ
 	}
 	else if (statustype == VDCP_PS_MEDIA_STATUS||statustype == VDCP_PS_SETTING)
 	{
-		//ÔİÊ±»¹Ã»ÓĞ·µ»ØÖµ£¬ÏÈÅª³É¼ÙÊı¾İ
+		//æš‚æ—¶è¿˜æ²¡æœ‰è¿”å›å€¼ï¼Œå…ˆå¼„æˆå‡æ•°æ®
 		sendmessage.append(L"02"); // RET
-		sendmessage.append(L"04"); //²ÎÊı³¤¶È
-		sendmessage.append(message_current.substr(4, 2)); // Ô­Ê¼µÄÃüÁî×ÖÈçB0
-		sendmessage.append(L"85");//·´À¡µÄÃüÁîÂë 
+		sendmessage.append(L"04"); //å‚æ•°é•¿åº¦
+		sendmessage.append(message_current.substr(4, 2)); // åŸå§‹çš„å‘½ä»¤å­—å¦‚B0
+		sendmessage.append(L"85");//åé¦ˆçš„å‘½ä»¤ç  
 		if (statustype > 0x0f)
-			swprintf(buf, L"%2x", (unsigned int)statustype);
+			swprintf(buf, 2, L"%2x", (unsigned int)statustype);
 		else
-			swprintf(buf, L"0%x", (unsigned int)statustype);
+			swprintf(buf, 2, L"0%x", (unsigned int)statustype);
 		sendmessage.append(buf);
 		sendmessage.append(L"0000");
-		sendmessage.append(openportmessage.substr(4, 2));//´ò¿ªµÄ¶Ë¿Ú
+		sendmessage.append(openportmessage.substr(4, 2));//æ‰“å¼€çš„ç«¯å£
 		unsigned Sum = 0x85 + statustype + boost::lexical_cast<HexTo<int>>(message_current.substr(4, 2));
 			Sum = (unsigned char)(~(Sum & 0xFF) + 0x01);
 		if (Sum > 0x0f)
-			swprintf(buf, L"%2x", (unsigned char)Sum);
+			swprintf(buf, 2, L"%2x", (unsigned char)Sum);
 		else
-			swprintf(buf, L"0%x", (unsigned char)Sum);
-		sendmessage.append(buf);//Ğ£ÑéºÏ
+			swprintf(buf, 2, L"0%x", (unsigned char)Sum);
+		sendmessage.append(buf);//æ ¡éªŒåˆ
 	}
 	else if (statustype == VDCP_PS_ERRORS)
 	{
@@ -651,48 +651,48 @@ std::wstring  portstatus_command(command_context& ctx)
 		sendmessage.append(L"85");//commandcode
 		sendmessage.append(L"040000");//VDCP_PS_ERRORS
 		if (nret > 0x0f)
-			swprintf(buf, L"%2x", (unsigned int)nret);
+			swprintf(buf, 2, L"%2x", (unsigned int)nret);
 		else
-			swprintf(buf, L"0%x", (unsigned int)nret);
-		sendmessage.append(buf);//×´Ì¬Âğ
+			swprintf(buf, 2, L"0%x", (unsigned int)nret);
+		sendmessage.append(buf);//çŠ¶æ€å—
 		unsigned Sum = 0x85 + statustype + boost::lexical_cast<HexTo<int>>(message_current.substr(4, 2));
 		Sum = (unsigned char)(~(Sum & 0xFF) + 0x01);
 		if (Sum > 0x0f)
-			swprintf(buf, L"%2x", (unsigned char)Sum);
+			swprintf(buf, 2, L"%2x", (unsigned char)Sum);
 		else
-			swprintf(buf, L"0%x", (unsigned char)Sum);
-		sendmessage.append(buf);//Ğ£ÑéºÏ
+			swprintf(buf, 2, L"0%x", (unsigned char)Sum);
+		sendmessage.append(buf);//æ ¡éªŒåˆ
 	}
 	else if (statustype == VDCP_PS_COMPRESSION_TYPE)
 	{
 		return ack_command(ctx);
 	}
-	else if (statustype == VDCP_PS_STATEEX)	   //×éºÏÃüÁî£¬²éÇ°ËÄÖÖ×´Ì¬£¬µ«ÊÇsetting»¹²»Ö§³Ö£¬²»·µ»ØÈÎºÎÂë×Ö
+	else if (statustype == VDCP_PS_STATEEX)	   //ç»„åˆå‘½ä»¤ï¼ŒæŸ¥å‰å››ç§çŠ¶æ€ï¼Œä½†æ˜¯settingè¿˜ä¸æ”¯æŒï¼Œä¸è¿”å›ä»»ä½•ç å­—
 	{
 		sendmessage.append(L"020A");
 		sendmessage.append(message_current.substr(4, 2));
 		sendmessage.append(L"85");
 		sendmessage.append(L"0F");
 		if (nret > 0x0f)
-			swprintf(buf, L"%2x", (unsigned int)nret);
+			swprintf(buf, 2, L"%2x", (unsigned int)nret);
 		else
-			swprintf(buf, L"0%x", (unsigned int)nret);
-		sendmessage.append(buf);//×´Ì¬Âğ
-		sendmessage.append(openportmessage.substr(8, 2));//´ò¿ªµÄ¶Ë¿Ú
+			swprintf(buf, 2, L"0%x", (unsigned int)nret);
+		sendmessage.append(buf);//çŠ¶æ€å—
+		sendmessage.append(openportmessage.substr(8, 2));//æ‰“å¼€çš„ç«¯å£
 		sendmessage.append(L"00000000");
 		if (nret > 0x0f)
-			swprintf(buf, L"%2x", (unsigned int)nret);
+			swprintf(buf, 2, L"%2x", (unsigned int)nret);
 		else
-			swprintf(buf, L"0%x", (unsigned int)nret);
-		sendmessage.append(buf);//×´Ì¬
+			swprintf(buf, 2, L"0%x", (unsigned int)nret);
+		sendmessage.append(buf);//çŠ¶æ€
 
 		unsigned Sum = 0x85+0x0f + nret+nret+port + boost::lexical_cast<HexTo<int>>(message_current.substr(4, 2));
 		Sum = (unsigned char)(~(Sum & 0xFF) + 0x01);
 		if (Sum > 0x0f)
-			swprintf(buf, L"%2x", (unsigned char)Sum);
+			swprintf(buf, 2, L"%2x", (unsigned char)Sum);
 		else
-			swprintf(buf, L"0%x", (unsigned char)Sum);
-		sendmessage.append(buf);//Ğ£ÑéºÏ
+			swprintf(buf, 2, L"0%x", (unsigned char)Sum);
+		sendmessage.append(buf);//æ ¡éªŒåˆ
 	}
 
 	return sendmessage;
@@ -704,13 +704,13 @@ void cinf_describer(core::help_sink& sink, const core::help_repository& repo)
 	sink.para()->text(L"Returns information about a media file.");
 }
 
-std::wstring cinf_command(command_context& ctx)//ÎÄ¼ş´óĞ¡
+std::wstring cinf_command(command_context& ctx)//æ–‡ä»¶å¤§å°
 {
 	std::wstring sendmessage;
 	std::wstring filename_hex;
 	std::wstring message = ctx.parameters[0];
 	wchar_t buf[20] = { 0 };
-	if (boost::iequals(message.substr(4, 2), L"b0"))//ĞÂĞ­Òé
+	if (boost::iequals(message.substr(4, 2), L"b0"))//æ–°åè®®
 	{
 		int flen = boost::lexical_cast<HexTo<int>>(message.substr(8, 2)) * 2;
 		filename_hex = message.substr(10, flen);
@@ -735,12 +735,12 @@ std::wstring cinf_command(command_context& ctx)//ÎÄ¼ş´óĞ¡
 	if (info.empty())
 	{
 		//CASPAR_THROW_EXCEPTION(file_not_found());
-		//Ê±¼äÎª0
+		//æ—¶é—´ä¸º0
 		goto err;
 	}
 	else
 	{
-		//½âÎöÊ±¼ä
+		//è§£ææ—¶é—´
 		std::vector<std::wstring> tokens;
 		boost::split(tokens,info,boost::is_any_of(L" "));
 		if (tokens.size() != 6)
@@ -750,7 +750,7 @@ std::wstring cinf_command(command_context& ctx)//ÎÄ¼ş´óĞ¡
 		else
 		{
 			sendmessage.append(L"02");
-			sendmessage.append(L"06");//×Ö½Ú´óĞ¡/2
+			sendmessage.append(L"06");//å­—èŠ‚å¤§å°/2
 			sendmessage.append(message.substr(4, 2));
 			sendmessage.append(L"94");
 			int sumframe = boost::lexical_cast<int>(tokens[4]);
@@ -772,31 +772,31 @@ std::wstring cinf_command(command_context& ctx)//ÎÄ¼ş´óĞ¡
 			
 			if (ff > 9)
 			{
-				swprintf(buf, L"%d", ff);
+				swprintf(buf, 2, L"%d", ff);
 			}
 			else
-				swprintf(buf, L"0%d", ff);
+				swprintf(buf, 2, L"0%d", ff);
 			sendmessage.append(buf);
 			if (second > 9)
 			{
-				swprintf(buf, L"%d", second);
+				swprintf(buf, 2, L"%d", second);
 			}
 			else
-				swprintf(buf, L"0%d", second);
+				swprintf(buf, 2, L"0%d", second);
 			sendmessage.append(buf);
 			if (min > 9)
 			{
-				swprintf(buf, L"%d", min);
+				swprintf(buf, 2, L"%d", min);
 			}
 			else
-				swprintf(buf, L"0%d", min);
+				swprintf(buf, 2, L"0%d", min);
 			sendmessage.append(buf);
 			if (hour > 9)
 			{
-				swprintf(buf, L"%d", hour);
+				swprintf(buf, 2, L"%d", hour);
 			}
 			else
-				swprintf(buf, L"0%d", hour);
+				swprintf(buf, 2, L"0%d", hour);
 			sendmessage.append(buf);
 			goto sus;
 		}
@@ -806,7 +806,7 @@ std::wstring cinf_command(command_context& ctx)//ÎÄ¼ş´óĞ¡
 err:
 	sendmessage.clear();
 	sendmessage.append(L"02");
-	sendmessage.append(L"06");//×Ö½Ú´óĞ¡/2
+	sendmessage.append(L"06");//å­—èŠ‚å¤§å°/2
 	sendmessage.append(message.substr(4, 2));
 	sendmessage.append(L"9400000000");
 sus:
@@ -820,19 +820,19 @@ sus:
 
 	Sum = (unsigned char)((~Sum) + 0x01);
 	if (Sum > 0x0f)
-		swprintf(buf, L"%2x", (unsigned char)Sum);
+		swprintf(buf, 2, L"%2x", (unsigned char)Sum);
 	else
-		swprintf(buf, L"0%x", (unsigned char)Sum);
+		swprintf(buf, 2, L"0%x", (unsigned char)Sum);
 	sendmessage.append(buf);
 	return sendmessage;
 }
-std::wstring idexist_command(command_context& ctx)//ÎÄ¼ş´óĞ¡
+std::wstring idexist_command(command_context& ctx)//æ–‡ä»¶å¤§å°
 {
 	std::wstring sendmessage;
 	std::wstring filename_hex;
 	std::wstring message = ctx.parameters[0];
 	wchar_t buf[20] = { 0 };
-	if (boost::iequals(message.substr(4, 2), L"b0"))//ĞÂĞ­Òé
+	if (boost::iequals(message.substr(4, 2), L"b0"))//æ–°åè®®
 	{
 		int flen = boost::lexical_cast<HexTo<int>>(message.substr(8, 2)) * 2;
 		filename_hex = message.substr(10, flen);
@@ -876,9 +876,9 @@ std::wstring idexist_command(command_context& ctx)//ÎÄ¼ş´óĞ¡
 
 	Sum = (unsigned char)((~Sum) + 0x01);
 	if (Sum > 0x0f)
-		swprintf(buf, L"%2x", (unsigned char)Sum);
+		swprintf(buf, 2, L"%2x", (unsigned char)Sum);
 	else
-		swprintf(buf, L"0%x", (unsigned char)Sum);
+		swprintf(buf, 2, L"0%x", (unsigned char)Sum);
 	sendmessage.append(buf);
 	return sendmessage;
 }
@@ -886,12 +886,12 @@ std::wstring idexist_command(command_context& ctx)//ÎÄ¼ş´óĞ¡
 
 std::wstring cuedata_command(command_context& ctx)
 {
-	//ÌáÈ¡ÎÄ¼şÃûºÍÊ±¼ä
+	//æå–æ–‡ä»¶åå’Œæ—¶é—´
 	std::wstring filename_hex;
 	std::wstring stime_str;
 	std::wstring etime_str;
 	std::wstring message = ctx.parameters[0];
-	if (boost::lexical_cast<HexTo<int>>(message.substr(4, 2)) > 0x80)//ĞÂĞ­Òé
+	if (boost::lexical_cast<HexTo<int>>(message.substr(4, 2)) > 0x80)//æ–°åè®®
 	{
 		int lens = boost::lexical_cast<HexTo<int>>(message.substr(8, 2)) * 2;
 		filename_hex = message.substr(10, lens);
@@ -912,7 +912,7 @@ std::wstring cuedata_command(command_context& ctx)
 		realname.push_back(boost::lexical_cast<HexTo<int>>(filename_hex.substr(i, 2)));
 	}
 
-	//ÖØÖÃ²ÎÊı
+	//é‡ç½®å‚æ•°
 	ctx.parameters.clear();
 	ctx.parameters.push_back(realname);
 
@@ -957,10 +957,10 @@ std::wstring cuedata_command(command_context& ctx)
 std::wstring cue_command(command_context& ctx)
 {
 	
-	//ÌáÈ¡ÎÄ¼şÃû
+	//æå–æ–‡ä»¶å
 	std::wstring filename_hex;
 	std::wstring message = ctx.parameters[0];
-	if (boost::lexical_cast<HexTo<int>>(message.substr(4,2))>0x80)//ĞÂĞ­Òé
+	if (boost::lexical_cast<HexTo<int>>(message.substr(4,2))>0x80)//æ–°åè®®
 	{
 		int lens = boost::lexical_cast<HexTo<int>>(message.substr(8, 2))*2;
 		filename_hex = message.substr(10, lens);
@@ -977,7 +977,7 @@ std::wstring cue_command(command_context& ctx)
 		realname.push_back(boost::lexical_cast<HexTo<int>>(filename_hex.substr(i, 2)));
 	}
 
-	//ÖØÖÃ²ÎÊı
+	//é‡ç½®å‚æ•°
 	ctx.parameters.clear();
 	ctx.parameters.push_back(realname);
 

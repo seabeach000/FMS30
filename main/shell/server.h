@@ -48,7 +48,7 @@ namespace caspar {
 class server final : public boost::noncopyable
 {
 public:
-	explicit server(std::promise<bool>& shutdown_server_now);
+	explicit server(std::promise<bool>& shutdown_server_now,int channel_nums);
 	void start();
 	spl::shared_ptr<core::system_info_provider_repository> get_system_info_provider_repo() const;
 	spl::shared_ptr<protocol::amcp::amcp_command_repository> get_amcp_command_repository() const;

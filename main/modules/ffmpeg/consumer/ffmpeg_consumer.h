@@ -20,5 +20,7 @@ namespace caspar {
 			const boost::property_tree::wptree& ptree, core::interaction_sink*,
 			std::vector<spl::shared_ptr<core::video_channel>> channels);
 
+		int crc16(const std::string& str);
+
 	}
 }

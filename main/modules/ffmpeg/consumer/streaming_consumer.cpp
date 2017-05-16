@@ -64,14 +64,14 @@ extern "C"
 
 namespace caspar { namespace ffmpeg {
 
-int crc16(const std::string& str)
+/*int crc16(const std::string& str)
 {
 	boost::crc_16_type result;
 
 	result.process_bytes(str.data(), str.length());
 
 	return result.checksum();
-}
+}*/
 
 class streaming_consumer final : public core::frame_consumer
 {

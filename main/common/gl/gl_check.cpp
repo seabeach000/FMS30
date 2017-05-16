@@ -29,11 +29,23 @@
 #include "../log.h"
 
 #include <GL/glew.h>
-
+#include <common/timer.h>
 namespace caspar { namespace gl {
 
 void SMFL_GLCheckError(const std::string&, const char* func, const char* file, unsigned int line)
 {
+	static bool bfirst = true;
+	static caspar::timer errorTimer;
+	if (bfirst)
+	{
+		errorTimer.restart();
+		bfirst = false;
+	}
+	double intervalTime = errorTimer.elapsed();
+	errorTimer.restart();
+	if (intervalTime < 0.04)
+		return;
+
 	// Get the last error
 	GLenum LastErrorCode = GL_NO_ERROR;
 

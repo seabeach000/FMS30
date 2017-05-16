@@ -12,7 +12,7 @@
  * ----------------------------------------------------------------------------
  */
 
-#include "bufstrm.h"
+#include <bufstrm.h>
 
 // Configuration Option
 // sometime can improve performance on Win32-platform

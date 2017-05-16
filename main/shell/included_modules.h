@@ -19,9 +19,11 @@
 #include <modules/flash/flash.h>
 #include <modules/newtek/newtek.h>
 #include <modules/image/image.h>
+#if defined(_MSC_VER)
 #include <modules/dshow/dshow.h>//add by zibj 20161027
 #include <modules/ndi/ndi.h>
 #include <modules/matrox/matrox.h>
+#endif
 #include <modules/mainconcept/mainconcept.h>//add by zibj 20170210
 
 namespace caspar {
@@ -68,16 +70,16 @@ static void initialize_modules(const core::module_dependencies& dependencies)
 
 	image::init(dependencies);
 	CASPAR_LOG(info) << L"Initialized image module.";
-
+#if defined(_MSC_VER)
 	dshow::init(dependencies);
 	CASPAR_LOG(info) << L"Initialized dshow module.";
-	
+
 	ndi::init(dependencies);
 	CASPAR_LOG(info) << L"Initialized ndi module.";
 
 	matrox::init(dependencies);
 	CASPAR_LOG(info) << L"Initialized matrox module.";
-
+#endif
 	mainconcept::init(dependencies);
 	CASPAR_LOG(info) << L"Initialized mainconcept module.";
 }

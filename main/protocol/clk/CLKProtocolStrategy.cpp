@@ -110,7 +110,7 @@ public:
 				std::transform(
 					command_name_.begin(), command_name_.end(), 
 					command_name_.begin(), 
-					toupper);
+					towupper);
 
 				try
 				{

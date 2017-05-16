@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 * Copyright (c) 2011 Sveriges Television AB <info@casparcg.com>
 *
 * This file is part of CasparCG (www.casparcg.com).
@@ -582,7 +582,7 @@ public:
 				CASPAR_LOG(info) << "WARNING late-frame dframe->audio_data().size() = "<< dframe->audio_data().size();
 				CASPAR_LOG(info) << "WARNING late-frame in_channel_layout_.num_channels = " << in_channel_layout_.num_channels;*/
 				//audio_scheduled_ += dframe->audio_data().size() / in_channel_layout_.num_channels;
-				audio_scheduled_ += format_desc_.audio_sample_rate / format_desc_.fps;//ÉÏÃæÕâ¾ä»°audio µÄsize¿ÉÄÜ²»ÕıÈ·£¬ÊÇÒ»¸ö±È½Ï´óµÄÖµ£¬´Ó¶øÔì³Éaudio_scheduledÖµºÜ´ó£¬ËùÒÔdecklink»á¿¨×¡²»¶¯£¬ËùÒÔ¸üĞÂÎªÏÂÃæµÄÓï¾äÍ¨¹ısample rateºÍÊÓÆµÖ¡ÂÊÀ´¼ÆËã
+				audio_scheduled_ += static_cast<long long>(format_desc_.audio_sample_rate / format_desc_.fps);//ä¸Šé¢è¿™å¥è¯audio çš„sizeå¯èƒ½ä¸æ­£ç¡®ï¼Œæ˜¯ä¸€ä¸ªæ¯”è¾ƒå¤§çš„å€¼ï¼Œä»è€Œé€ æˆaudio_scheduledå€¼å¾ˆå¤§ï¼Œæ‰€ä»¥decklinkä¼šå¡ä½ä¸åŠ¨ï¼Œæ‰€ä»¥æ›´æ–°ä¸ºä¸‹é¢çš„è¯­å¥é€šè¿‡sample rateå’Œè§†é¢‘å¸§ç‡æ¥è®¡ç®—
 				//CASPAR_LOG(info) << "WARNING late-frame audio_scheduled_ = " << audio_scheduled_;
 			}
 			else if(result == bmdOutputFrameDropped)
@@ -670,15 +670,16 @@ public:
 		
 		if (key_context_)
 		{
-		//	CComPtr<IDeckLinkVideoFrame> key_frame(new mutable_decklink_frame(std::make_shared<core::const_frame>(frame), format_desc_, true, V210Encoder_));
-			com_ptr<IDeckLinkVideoFrame> key_frame(new mutable_decklink_frame(std::make_shared<core::const_frame>(frame), format_desc_, true, V210Encoder_));
-			if (FAILED(key_context_->output_->ScheduleVideoFrame(key_frame, video_scheduled_, format_desc_.duration, format_desc_.time_scale)))
+			auto key_frame = wrap_raw<com_ptr, IDeckLinkVideoFrame>(new decklink_frame(frame, format_desc_, true, will_attempt_dma_));
+			if (FAILED(key_context_->output_->ScheduleVideoFrame(get_raw(key_frame), video_scheduled_, format_desc_.duration, format_desc_.time_scale)))
 				CASPAR_LOG(error) << print() << L" Failed to schedule key video.";
 		}
-		
+
 		mutable_decklink_frame *mut_frame = new mutable_decklink_frame(std::make_shared<core::const_frame>(frame), format_desc_, config_.key_only, V210Encoder_);
 		//CComPtr<IDeckLinkVideoFrame> fill_frame(mut_frame);
-		com_ptr<IDeckLinkVideoFrame> fill_frame(mut_frame);
+		//com_ptr<IDeckLinkVideoFrame> fill_frame(mut_frame);
+		//auto fill_frame = wrap_raw<com_ptr, IDeckLinkVideoFrame>(new decklink_frame(frame, format_desc_, config_.key_only, will_attempt_dma_));
+		auto fill_frame = wrap_raw<com_ptr, IDeckLinkVideoFrame>(mut_frame);   //new mutable_decklink_frame(std::make_shared<core::const_frame>(frame), format_desc_, config_.key_only, V210Encoder_));
 		if (frame.afd_command())
 		{
 			int nAR = frame.afd_command()->afd_aspect_ratio_;
@@ -695,7 +696,7 @@ public:
 			memcpy(buf, (void*)myAfdData.data(), myAfdData.size());
 			mut_frame->SetAncillaryData(pAncData);
 		}
-		if (FAILED(output_->ScheduleVideoFrame(fill_frame, video_scheduled_, format_desc_.duration, format_desc_.time_scale)))
+		if (FAILED(output_->ScheduleVideoFrame(mut_frame, video_scheduled_, format_desc_.duration, format_desc_.time_scale)))
 			CASPAR_LOG(error) << print() << L" Failed to schedule fill video.";
 
 		video_scheduled_ += format_desc_.duration;
@@ -719,7 +720,7 @@ public:
 
 		if(!is_running_)
 			CASPAR_THROW_EXCEPTION(caspar_exception() << msg_info(print() + L" Is not running."));
-
+	
 		boost::lock_guard<boost::mutex> lock(send_completion_mutex_);
 
 		if (frame_buffer_.try_push(frame))

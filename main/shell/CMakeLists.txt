@@ -19,7 +19,7 @@ elseif (CMAKE_COMPILER_IS_GNUCXX)
 	)
 endif ()
 set(SOURCES
-		casparcg.config
+		#casparcg.config
 		included_modules.tmpl
 		main.cpp
 		server.cpp
@@ -33,6 +33,11 @@ set(HEADERS
 		stdafx.h
 )
 
+MESSAGE(STATUS "shell need")
+MESSAGE(STATUS ${SOURCES})
+MESSAGE(STATUS ${HEADERS})
+MESSAGE(STATUS ${OS_SPECIFIC_SOURCES})
+
 add_executable(casparcg ${SOURCES} ${HEADERS} ${OS_SPECIFIC_SOURCES})
 add_precompiled_header(casparcg stdafx.h FORCEINCLUDE)
 
@@ -42,6 +47,8 @@ target_link_libraries(generate_docs
 		accelerator
 
 		"${CASPARCG_MODULE_PROJECTS}"
+
+		reroute
 )
 
 
@@ -49,13 +56,16 @@ include_directories(..)
 include_directories(${BOOST_INCLUDE_PATH})
 include_directories(${RXCPP_INCLUDE_PATH})
 include_directories(${TBB_INCLUDE_PATH})
+include_directories(${LDKDOG_INCLUDE_PATH})
 
 source_group(sources ./*)
 
 if (MSVC)
 	target_link_libraries(casparcg
 		zlibstat.lib
+		LDKDogLicens.lib
 	)
+else ()
 endif ()
 
 target_link_libraries(casparcg
@@ -63,14 +73,20 @@ target_link_libraries(casparcg
 		common
 		core
 		protocol
-
+		
 		"${CASPARCG_MODULE_PROJECTS}"
+		hasp_cpp_linux_x86_64 hasp_linux_x86_64_demo -lpthread
+		reroute
 )
 
 add_custom_target(casparcg_copy_dependencies ALL)
 
 casparcg_add_runtime_dependency("${LIBERATION_FONTS_BIN_PATH}/LiberationSans-Regular.ttf")
-casparcg_add_runtime_dependency("${CMAKE_CURRENT_SOURCE_DIR}/casparcg.config")
+casparcg_add_runtime_dependency("${CMAKE_CURRENT_SOURCE_DIR}/FamousServer.config")
+if (MSVC)
+	casparcg_add_runtime_dependency("${LDKDOG_BIN_PATH}/LDKDogLicens.dll")
+else ()
+endif ()
 
 set(OUTPUT_FOLDER "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}")
 add_custom_command(TARGET casparcg_copy_dependencies POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory \"${OUTPUT_FOLDER}\")

@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 * Copyright (c) 2011 Sveriges Television AB <info@casparcg.com>
 *
 * This file is part of CasparCG (www.casparcg.com).
@@ -234,15 +234,15 @@ public:
 
 			for (int i = 1; i < width / 2; i++)
 			{
-				uint8_t h_lumi1 = (pCurrentLine_Y[1] * (width - i * 2) + pCurrentLine_Y[width - 1] * (i * 2)) / (width);
-				uint8_t h_lumi2 = (pCurrentLine_Y[1] * (width - i * 2 - 1) + pCurrentLine_Y[width - 1] * (i * 2 + 1)) / (width);
-				uint8_t h_chroma1 = (pCurrentLine_U[0] * (width - i * 2) + pCurrentLine_U[width / 2] * (i * 2)) / (width);
-				uint8_t h_chroma2 = (pCurrentLine_V[0] * (width - i * 2) + pCurrentLine_V[width / 2] * (i * 2)) / (width);
+				uint8_t h_lumi1 = static_cast<uint8_t>((pCurrentLine_Y[1] * (width - i * 2) + pCurrentLine_Y[width - 1] * (i * 2)) / (width));
+				uint8_t h_lumi2 = static_cast<uint8_t>((pCurrentLine_Y[1] * (width - i * 2 - 1) + pCurrentLine_Y[width - 1] * (i * 2 + 1)) / (width));
+				uint8_t h_chroma1 = static_cast<uint8_t>((pCurrentLine_U[0] * (width - i * 2) + pCurrentLine_U[width / 2] * (i * 2)) / (width));
+				uint8_t h_chroma2 = static_cast<uint8_t>((pCurrentLine_V[0] * (width - i * 2) + pCurrentLine_V[width / 2] * (i * 2)) / (width));
 
-				uint8_t v_lumi1 = (pFirstLine_Y[i * 2] * (height - j) + pLastLine_Y[i * 2] * j) / (height);
-				uint8_t v_lumi2 = (pFirstLine_Y[i * 2 + 1] * (height - j) + pLastLine_Y[i * 2 + 1] * j) / (height);
-				uint8_t v_chroma1 = (pFirstLine_U[i] * (height - j) + pLastLine_U[i] * j) / (height);
-				uint8_t v_chroma2 = (pFirstLine_V[i] * (height - j) + pLastLine_V[i] * j) / (height);
+				uint8_t v_lumi1 = static_cast<uint8_t>((pFirstLine_Y[i * 2] * (height - j) + pLastLine_Y[i * 2] * j) / (height));
+				uint8_t v_lumi2 = static_cast<uint8_t>((pFirstLine_Y[i * 2 + 1] * (height - j) + pLastLine_Y[i * 2 + 1] * j) / (height));
+				uint8_t v_chroma1 = static_cast<uint8_t>((pFirstLine_U[i] * (height - j) + pLastLine_U[i] * j) / (height));
+				uint8_t v_chroma2 = static_cast<uint8_t>((pFirstLine_V[i] * (height - j) + pLastLine_V[i] * j) / (height));
 
 				pCurrentLine_Y[i * 2] = (h_lumi1 + v_lumi1) / 2;
 				pCurrentLine_Y[i * 2 + 1] = (h_lumi2 + v_lumi2) / 2;
@@ -252,7 +252,7 @@ public:
 		}
 
 		// Patch from Jochen Trener to add adjustable smoothing (Gaussian blur)
-		// It is based ón the paper ' An efficient algorithm for Gaussian
+		// It is based n the paper ' An efficient algorithm for Gaussian
 		// blur using finite state machines' by F. Waltz and J. Miller
 		if (smoothing)
 		{

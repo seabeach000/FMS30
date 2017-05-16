@@ -182,7 +182,7 @@ public:
 		if (hasAudioSyncVideo_)  //只有在开头的同步已经做好了之后才处理中间的同步
 		{
 			int64_t sampleDur = (decoded_frame->nb_samples * 1000) / decoded_frame->sample_rate;
-			int audioGap = (decoded_frame->pkt_pts - lastAudioPts_) / uints - sampleDur;
+			int64_t audioGap = (decoded_frame->pkt_pts - lastAudioPts_) / uints - sampleDur;
 			if (audioGap > 1 && audioGap < 5000)
 			{
 				needAddSample = (out_samplerate_ * codec_context_->channels)*audioGap / 1000;

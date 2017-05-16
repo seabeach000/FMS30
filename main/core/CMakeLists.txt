@@ -2,6 +2,8 @@ cmake_minimum_required (VERSION 2.6)
 project (core)
 
 set(SOURCES
+		consumer/syncto/syncto_consumer.cpp
+
 		consumer/frame_consumer.cpp
 		consumer/output.cpp
 		consumer/port.cpp
@@ -58,6 +60,8 @@ set(SOURCES
 		video_format.cpp
 )
 set(HEADERS
+		consumer/syncto/syncto_consumer.h
+
 		consumer/frame_consumer.h
 		consumer/output.h
 		consumer/port.h
@@ -140,6 +144,7 @@ add_library(core ${SOURCES} ${HEADERS})
 add_precompiled_header(core StdAfx.h FORCEINCLUDE)
 
 include_directories(..)
+include_directories(${ASMLIB_INCLUDE_PATH})	# video_channel.cpp:57 ref ../common/memcpy.h:24 ref asmlib.h
 include_directories(${BOOST_INCLUDE_PATH})
 include_directories(${RXCPP_INCLUDE_PATH})
 include_directories(${TBB_INCLUDE_PATH})

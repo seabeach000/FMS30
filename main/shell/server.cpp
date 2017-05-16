@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 * Copyright (c) 2011 Sveriges Television AB <info@casparcg.com>
 *
 * This file is part of CasparCG (www.casparcg.com).
@@ -157,13 +157,15 @@ struct server::impl : boost::noncopyable
 	tbb::atomic<bool>									running_;
 	std::shared_ptr<thumbnail_generator>				thumbnail_generator_;
 	std::promise<bool>&									shutdown_server_now_;
+	int													channel_nums_;
 
-	explicit impl(std::promise<bool>& shutdown_server_now)
+	explicit impl(std::promise<bool>& shutdown_server_now,int channel_nums)
 		: accelerator_(env::properties().get(L"configuration.accelerator", L"auto"))
 		, media_info_repo_(create_in_memory_media_info_repository())
 		, producer_registry_(spl::make_shared<core::frame_producer_registry>(help_repo_))
 		, consumer_registry_(spl::make_shared<core::frame_consumer_registry>(help_repo_))
 		, shutdown_server_now_(shutdown_server_now)
+		, channel_nums_(channel_nums)
 	{
 		running_ = false;
 		core::diagnostics::register_graph_to_log_sink();
@@ -295,6 +297,12 @@ struct server::impl : boost::noncopyable
 
 		for (auto& xml_channel : pt | witerate_children(L"configuration.channels") | welement_context_iteration)
 		{
+			#ifndef _DEBUG
+			if (0!=channel_nums_ && xml_channels.size()==channel_nums_)
+			{
+				break;
+			}
+			#endif // !_DEBUG
 			xml_channels.push_back(xml_channel.second);
 			ptree_verify_element_name(xml_channel, L"channel");
 
@@ -312,7 +320,7 @@ struct server::impl : boost::noncopyable
 			//AFD change
 			//---------------------------------------------
 			auto afd = xml_channel.second.get(L"afd-mode", L"invalid-afd");
-			//Ìõ¼şÅĞ¶Ï£¬Èç¹ûafdmodeµÄÖµ²»ÔÚ²Î¿¼·¶Î§ÄÚ¾ÍÄ¬ÈÏÊÇÎŞĞ§µÄ
+			//æ¡ä»¶åˆ¤æ–­ï¼Œå¦‚æœafdmodeçš„å€¼ä¸åœ¨å‚è€ƒèŒƒå›´å†…å°±é»˜è®¤æ˜¯æ— æ•ˆçš„
 			afd = boost::to_lower_copy(afd);
 			if (afd == L"auto" || afd == L"add" || afd == L"cut" || afd == L"stretch" || afd == L"table" || afd == L"invalid-afd")
 			{
@@ -354,7 +362,7 @@ struct server::impl : boost::noncopyable
 					auto afd_value = afd_msg.second.get(L"afd-value", L"");
 					int afd_code = get_afd_code_by_string(afd_value);
 					auto transform = afd_msg.second.get(L"transform", L"stretch");
-					//ÅĞ¶ÏtransformÊÇ·ñÓĞĞ§£¬Èç¹û³öÏÖÎŞĞ§µÄÅäÖÃ£¬±¨´í²¢ÇÒ½«afdµÄÖµÉèÖÃ³Éstretch
+					//åˆ¤æ–­transformæ˜¯å¦æœ‰æ•ˆï¼Œå¦‚æœå‡ºç°æ— æ•ˆçš„é…ç½®ï¼ŒæŠ¥é”™å¹¶ä¸”å°†afdçš„å€¼è®¾ç½®æˆstretch
 					if (!(afd == L"auto" || afd == L"add" || afd == L"cut" || afd == L"stretch"))
 					{
 						transform = L"stretch";
@@ -519,7 +527,7 @@ struct server::impl : boost::noncopyable
 
 			if(boost::iequals(name,L"tcp"))
 			{
-				auto port = ptree_get<unsigned int>(xml_controller.second, L"port");
+				auto port = ptree_get<unsigned short>(xml_controller.second, L"port");
 				auto asyncbootstrapper = spl::make_shared<IO::AsyncEventServer>(
 						io_service_,
 						create_protocol(protocol, L"TCP Port " + boost::lexical_cast<std::wstring>(port)),
@@ -533,9 +541,9 @@ struct server::impl : boost::noncopyable
 			{
 				if (boost::iequals(protocol, L"vdcp"))
 				{
-					auto port = ptree_get<unsigned int>(xml_controller.second, L"port");
-					auto channelIndex = ptree_get<unsigned int>(xml_controller.second, L"channel");
-					auto Layer = ptree_get<unsigned int>(xml_controller.second, L"layer");
+					auto port = ptree_get<unsigned short>(xml_controller.second, L"port");
+					auto channelIndex = ptree_get<unsigned short>(xml_controller.second, L"channel");
+					auto Layer = ptree_get<unsigned short>(xml_controller.second, L"layer");
 					std::wstring protocol_express=protocol+ L" ";
 					protocol_express.append(boost::lexical_cast<std::wstring>(channelIndex)+ L" ");
 					protocol_express.append(boost::lexical_cast<std::wstring>(Layer));
@@ -544,10 +552,10 @@ struct server::impl : boost::noncopyable
 						create_protocol(protocol_express, L"Serial Port " + boost::lexical_cast<std::wstring>(port)),
 						port);
 					async_servers_serial.push_back(asyncbootstrapper);
-				}//ÆäËû´®¿ÚĞ­Òé
+				}//å…¶ä»–ä¸²å£åè®®
 				else
 				{
-					auto port = ptree_get<unsigned int>(xml_controller.second, L"port");
+					auto port = ptree_get<unsigned short>(xml_controller.second, L"port");
 					auto asyncbootstrapper = spl::make_shared<IO::AsyncEventServer_Serial>(
 						io_service_,
 						create_protocol(protocol, L"Serial Port " + boost::lexical_cast<std::wstring>(port)),
@@ -579,7 +587,7 @@ struct server::impl : boost::noncopyable
 		{
 			std::vector<std::wstring>tokens;
 			boost::split(tokens, protocol_expresion, boost::is_any_of(L" "));
-			if (tokens.size() == 3)
+			if (tokens.size() == static_cast<size_t>(3))
 			{
 				return wrap_legacy_protocol("\r\n", spl::make_shared<vdcp::VDCPProtocolStrategy>(port_description, spl::make_shared_ptr(vdcp_command_repo_),boost::lexical_cast<int>(tokens[1].c_str()),boost::lexical_cast<int>(tokens[2].c_str())));
 			}
@@ -625,7 +633,7 @@ struct server::impl : boost::noncopyable
 	}
 };
 
-server::server(std::promise<bool>& shutdown_server_now) : impl_(new impl(shutdown_server_now)){}
+server::server(std::promise<bool>& shutdown_server_now, int channel_nums) : impl_(new impl(shutdown_server_now, channel_nums)) {}
 void server::start() { impl_->start(); }
 spl::shared_ptr<core::system_info_provider_repository> server::get_system_info_provider_repo() const { return impl_->system_info_provider_repo_; }
 spl::shared_ptr<protocol::amcp::amcp_command_repository> server::get_amcp_command_repository() const { return spl::make_shared_ptr(impl_->amcp_command_repo_); }

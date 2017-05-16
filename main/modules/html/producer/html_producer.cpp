@@ -604,9 +604,9 @@ spl::shared_ptr<core::frame_producer> create_producer(
 		const core::frame_producer_dependencies& dependencies,
 		const std::vector<std::wstring>& params)
 {
-	const auto filename = env::template_folder() + params.at(0) + L".html";
-	const auto found_filename = find_case_insensitive(filename);
-	const auto html_prefix = boost::iequals(params.at(0), L"[HTML]");
+	const auto filename			= env::template_folder() + params.at(0) + L".html";
+	const auto found_filename	= find_case_insensitive(filename);
+	const auto html_prefix		= boost::iequals(params.at(0), L"[HTML]");
 
 	if (!found_filename && !html_prefix)
 		return core::frame_producer::empty();

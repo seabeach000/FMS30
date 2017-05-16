@@ -129,14 +129,14 @@ struct input::implementation : boost::noncopyable
 		if (length != std::numeric_limits<uint32_t>::max())
 		{
 			double fps = read_fps(*format_context_, 0.0);
-			int64_t durationLen = format_context_->duration*fps / 1000000 + 1;
+			int64_t durationLen = static_cast<int64_t>(format_context_->duration*fps / 1000000 + 1);
 			if ((durationLen - length) > 50)
 			{
 				length_ = length + 50;
 			}
 			else
 			{
-				length_ = durationLen;
+				length_ = static_cast<unsigned int>(durationLen);
 			}
 		}
 		loop_			= loop;
@@ -169,11 +169,11 @@ struct input::implementation : boost::noncopyable
 //3.0
 						source_afd_code = atoi(m->value);
 //2.0 下面都是2.0逻辑这个逻辑 不太明白这个跟ffmpeg的版本有什么区别
-						int length = strlen(m->value);
-						for (int i = 0; i < length; ++i)
+						int length1 = static_cast<int>(strlen(m->value));
+						for (int i = 0; i < length1; ++i)
 						{
 							source_afd_code += m->value[i] - '0';
-							if (i != length - 1)
+							if (i != length1 - 1)
 							{
 								source_afd_code <<= 1;
 							}
@@ -198,7 +198,7 @@ struct input::implementation : boost::noncopyable
 		{
 			m_first_pkt = create_packet();
 			setCurrentCheckTime(30);
-			auto ret = av_read_frame(format_context_.get(), m_first_pkt.get());
+			av_read_frame(format_context_.get(), m_first_pkt.get());
 			need_seek_ = true;
 			queued_seek(start_);
 		}
@@ -392,10 +392,10 @@ struct input::implementation : boost::noncopyable
 							}
 							else
 							{
-								AVStream* pStream = format_context_.get()->streams[default_stream_index_];
-								double timeSecond = (packet->pts - pStream->start_time) * av_q2d(pStream->time_base);
+								AVStream* pStream1 = format_context_.get()->streams[default_stream_index_];
+								double timeSecond = (packet->pts - pStream1->start_time) * av_q2d(pStream1->time_base);
 								double frames_per_second = read_fps(*format_context_, 0.0);//av_q2d(pStream->r_frame_rate);
-								int32_t nframe = timeSecond * frames_per_second;// / length_time;
+								int32_t nframe = static_cast<int32_t>(timeSecond * frames_per_second);// / length_time;
 								length_diff = start_ - nframe;
 								length_diff < 0 ? length_diff = 0 : length_diff;
 
@@ -645,9 +645,9 @@ struct input::implementation : boost::noncopyable
 		double frames_per_second = read_fps(*format_context_, 0.0);//av_q2d(pStream->avg_frame_rate);
 		double sencond_per_frame = 1 / frames_per_second;
 		time_per_frame_ = sencond_per_frame * pStream->time_base.den;
-		int multitime = time_per_frame_ / packet1->duration;
+		int multitime = static_cast<int>(time_per_frame_ / packet1->duration);
 		length_time = multitime <= 0 ? 1 : multitime;
-		int32_t nframe = timeSecond * frames_per_second;// / multitime;
+		int32_t nframe = static_cast<int32_t>(timeSecond * frames_per_second);// / multitime;
 														//--------------------------------------------------------------
 
 		bool iskey = (packet1->flags & AV_PKT_FLAG_KEY) == AV_PKT_FLAG_KEY;
@@ -664,11 +664,11 @@ struct input::implementation : boost::noncopyable
 		}
 		int count = nframe + 1;
 		int nCount = 0;
-		while (count <= start_)
+		while (count <= static_cast<int>(start_))
 		{
 			boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
 			packet1 = create_packet();
-			auto ret = av_read_frame(format_context_.get(), packet1.get());
+			av_read_frame(format_context_.get(), packet1.get());
 			if (packet1->stream_index != default_stream_index_)
 			{	
 				continue;

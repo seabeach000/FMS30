@@ -4,7 +4,7 @@
 
 #include "dshow_consumer.h"
 
-// #include <common/diagnostics/graph.h>
+#include <common/diagnostics/graph.h>
 // #include <common/gl/gl_check.h>
 // #include <common/log.h>
 // #include <common/memory.h>
@@ -109,8 +109,12 @@ namespace caspar {
 
 		struct dshow_consumer : boost::noncopyable
  		{
+			const spl::shared_ptr<diagnostics::graph>			graph_;
+			caspar::timer										tick_timer_;
+
 	 		const configuration									config_;
 			core::video_format_desc								format_desc_;
+			int													channel_index_;
 
   			tbb::atomic<bool>									is_running_;
   			tbb::concurrent_bounded_queue<core::const_frame>	frame_buffer_;
@@ -136,23 +140,35 @@ namespace caspar {
 
 			std::future<bool> send(core::const_frame frame)
 			{
-				bool b = frame_buffer_.try_push(frame);
+				graph_->set_value("tick-time", tick_timer_.elapsed()*format_desc_.fps*0.5);
+				if(!frame_buffer_.try_push(frame))
+					graph_->set_tag(diagnostics::tag_severity::WARNING, "dropped-frame");
+				tick_timer_.restart();
 				return make_ready_future(is_running_.load());
 			}
 			std::wstring print() const
 			{
-				return config_.name;// +L" " + channel_and_format();
+				return L"dshow_consumer[" + config_.name + L"|" + boost::lexical_cast<std::wstring>(channel_index_) + L"|" + format_desc_.name + L"]";
 			}
 
   			dshow_consumer(const configuration& config,
-				const core::video_format_desc& format_desc
+				const core::video_format_desc& format_desc,
+				int channel_index
  				):config_(config)
+				,format_desc_(format_desc)
+				,channel_index_(channel_index)
   			{
 				frame_buffer_.set_capacity(1);
 				IsPushStreamProcessStarted = false;
+
+				graph_->set_color("tick-time", diagnostics::color(0.0f, 0.6f, 0.9f));
+				graph_->set_color("pushframe-time", diagnostics::color(0.1f, 1.0f, 0.1f));
+				graph_->set_color("dropped-frame", diagnostics::color(0.3f, 0.6f, 0.3f));
+				graph_->set_text(print());
+				diagnostics::register_graph(graph_);
+
 				HRESULT hr;
 				is_running_ = true;
-				format_desc_ = format_desc;
 
 				hr = m_Frames.CoCreateInstance(__uuidof(MFrames));
 				if (FAILED(hr))
@@ -216,6 +232,7 @@ namespace caspar {
 					"dshow-consumer-thread");
 				char* pNewData_Y_Reverse = nullptr;
 				init();
+				caspar::timer pushframe_timer;
 				while (is_running_)
 				{
 					core::const_frame frame;
@@ -224,6 +241,7 @@ namespace caspar {
 						boost::this_thread::sleep_for(boost::chrono::milliseconds(10));
 						continue;
 					}
+					pushframe_timer.restart();
 					CComQIPtr<IMFrame> pMFrame;
 					if (!pNewData_Y_Reverse)
 					{
@@ -232,14 +250,22 @@ namespace caspar {
 
 					if (pNewData_Y_Reverse)
 					{
-						tbb::parallel_for(0, (int)format_desc_.height, 1, [&](int y)
+						/*tbb::parallel_for(0, (int)format_desc_.height, 1, [&](int y)
 						{
 							fast_memcpy(
 								reinterpret_cast<char*>(pNewData_Y_Reverse) + y * format_desc_.width * 4,
 								(frame.image_data().begin()) + (format_desc_.height - y - 1) * format_desc_.width * 4,
 								format_desc_.width * 4
 							);
-						});
+						});*/
+						for (int i = 0; i < (int)format_desc_.height; i++)
+						{
+							fast_memcpy(
+								reinterpret_cast<char*>(pNewData_Y_Reverse) + i * format_desc_.width * 4,
+								(frame.image_data().begin()) + (format_desc_.height - i - 1) * format_desc_.width * 4,
+								format_desc_.width * 4
+							);
+						}
 						WCHAR _bsProps[50] = { 0 };
 
 						int Samples = m_audCalc.NextSamples(props.dblRate, format_desc_.audio_sample_rate);
@@ -281,6 +307,7 @@ namespace caspar {
 						//m_Proxy->ReceiverPutFrame(L"ds_stream", pFrame);
 						m_Proxy->ReceiverPutFrame(L"ds_stream", pMFrame);
 					}
+					graph_->set_value("pushframe-time", pushframe_timer.elapsed() * format_desc_.fps * 0.5);
 
 					if (!IsPushStreamProcessStarted)
 					{
@@ -554,7 +581,7 @@ namespace caspar {
 				int channel_index) override
 			{
 				consumer_.reset();
-				consumer_.reset(new dshow_consumer(config_, format_desc));
+				consumer_.reset(new dshow_consumer(config_, format_desc, channel_index));
 
 				//CASPAR_LOG(info) << print() << L" Successfully Initialized.";
 			}

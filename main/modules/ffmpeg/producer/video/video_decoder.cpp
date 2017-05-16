@@ -68,7 +68,6 @@ struct video_decoder::implementation : boost::noncopyable
 	//logo killer20161229
 	//-------------------
 	std::shared_ptr<SwsContext>				sws_;
-	typedef std::vector<uint8_t, tbb::cache_aligned_allocator<uint8_t>>	byte_vector;
 	bool                logo_killer_enable;
 	int                 logo_killer_left;
 	int                 logo_killer_top;
@@ -80,7 +79,7 @@ struct video_decoder::implementation : boost::noncopyable
 public:
 	explicit implementation(const spl::shared_ptr<AVFormatContext>& context)
 		: codec_context_(open_codec(*context, AVMEDIA_TYPE_VIDEO, index_, false))
-		, nb_frames_(static_cast<uint32_t>(context->streams[index_]->nb_frames))
+		, nb_frames_(static_cast<uint32_t>(std::max(context->streams[index_]->nb_frames, try_get_duration(context))))
 	{
 		file_frame_number_ = 0;
 
@@ -171,7 +170,7 @@ public:
 			long Pitch_U = avFrame->linesize[1];
 			long Pitch_V = avFrame->linesize[2];
 			long Span_CH = avFrame->linesize[0] / avFrame->linesize[1];
-			long Span_CV = avFrame->height / ((avFrame->data[2] - avFrame->data[1]) / avFrame->linesize[1]);
+			long Span_CV = static_cast<long>(avFrame->height / ((avFrame->data[2] - avFrame->data[1]) / avFrame->linesize[1]));
 			if (avFrame->format == (int)AV_PIX_FMT_YUV422P)
 			{
 				Span_CV = 1;
@@ -214,15 +213,15 @@ public:
 
 				for (int i = 1; i < width / 2; i++)
 				{
-					uint8_t h_lumi1 = (pCurrentLine_Y[1] * (width - i * 2) + pCurrentLine_Y[width - 1] * (i * 2)) / (width);
-					uint8_t h_lumi2 = (pCurrentLine_Y[1] * (width - i * 2 - 1) + pCurrentLine_Y[width - 1] * (i * 2 + 1)) / (width);
-					uint8_t h_chroma1 = (pCurrentLine_U[0] * (width - i * 2) + pCurrentLine_U[width / Span_CH] * (i * 2)) / (width);
-					uint8_t h_chroma2 = (pCurrentLine_V[0] * (width - i * 2) + pCurrentLine_V[width / Span_CH] * (i * 2)) / (width);
+					uint8_t h_lumi1 = static_cast<uint8_t>((pCurrentLine_Y[1] * (width - i * 2) + pCurrentLine_Y[width - 1] * (i * 2)) / (width));
+					uint8_t h_lumi2 = static_cast<uint8_t>((pCurrentLine_Y[1] * (width - i * 2 - 1) + pCurrentLine_Y[width - 1] * (i * 2 + 1)) / (width));
+					uint8_t h_chroma1 = static_cast<uint8_t>((pCurrentLine_U[0] * (width - i * 2) + pCurrentLine_U[width / Span_CH] * (i * 2)) / (width));
+					uint8_t h_chroma2 = static_cast<uint8_t>((pCurrentLine_V[0] * (width - i * 2) + pCurrentLine_V[width / Span_CH] * (i * 2)) / (width));
 
-					uint8_t v_lumi1 = (pFirstLine_Y[i * 2] * (height - j) + pLastLine_Y[i * 2] * j) / (height);
-					uint8_t v_lumi2 = (pFirstLine_Y[i * 2 + 1] * (height - j) + pLastLine_Y[i * 2 + 1] * j) / (height);
-					uint8_t v_chroma1 = (pFirstLine_U[i * 2 / Span_CH] * (height - j) + pLastLine_U[i * 2 / Span_CH] * j) / (height);
-					uint8_t v_chroma2 = (pFirstLine_V[i * 2 / Span_CH] * (height - j) + pLastLine_V[i * 2 / Span_CH] * j) / (height);
+					uint8_t v_lumi1 = static_cast<uint8_t>((pFirstLine_Y[i * 2] * (height - j) + pLastLine_Y[i * 2] * j) / (height));
+					uint8_t v_lumi2 = static_cast<uint8_t>((pFirstLine_Y[i * 2 + 1] * (height - j) + pLastLine_Y[i * 2 + 1] * j) / (height));
+					uint8_t v_chroma1 = static_cast<uint8_t>((pFirstLine_U[i * 2 / Span_CH] * (height - j) + pLastLine_U[i * 2 / Span_CH] * j) / (height));
+					uint8_t v_chroma2 = static_cast<uint8_t>((pFirstLine_V[i * 2 / Span_CH] * (height - j) + pLastLine_V[i * 2 / Span_CH] * j) / (height));
 
 					pCurrentLine_Y[i * 2] = (h_lumi1 + v_lumi1) / 2;
 					pCurrentLine_Y[i * 2 + 1] = (h_lumi2 + v_lumi2) / 2;
@@ -236,7 +235,7 @@ public:
 			// blur using finite state machines' by F. Waltz and J. Miller
 			if (smoothing)
 			{
-				int i, j, n, z = 0;
+				int i, j, n;
 				int Ltmp1, Ltmp2;
 				int Utmp1, Utmp2;
 				int Vtmp1, Vtmp2;
@@ -313,14 +312,13 @@ public:
 		}
 		catch (...)
 		{
-			int k = 0;
+			//int k = 0;
 		}
 	}
 
 	std::shared_ptr<AVFrame> decode(spl::shared_ptr<AVPacket> pkt)
 	{
 		auto decoded_frame = create_frame();
-
 		int frame_finished = 0;
 		try {
 			THROW_ON_ERROR2(avcodec_decode_video2(codec_context_.get(), decoded_frame.get(), &frame_finished, pkt.get()), "[video_decoder]");
@@ -339,18 +337,22 @@ public:
 
 		//logo killer20161229
 		//--------------------------------------
-
-		int nPlanes = av_pix_fmt_count_planes(codec_context_->pix_fmt);
+		
+		av_pix_fmt_count_planes(codec_context_->pix_fmt);
 		if (AV_PIX_FMT_YUV422P != codec_context_->pix_fmt && AV_PIX_FMT_YUV420P != codec_context_->pix_fmt)
 		{
-			//auto decoded_frame_sws = av_frame_clone(decoded_frame.get());
-			//byte_vector	picture_buf_;
-			//picture_buf_.reserve(avpicture_get_size(AV_PIX_FMT_YUV420P, codec_context_->width, codec_context_->height) * 2);
-			//avpicture_fill(reinterpret_cast<AVPicture*>(decoded_frame.get()), picture_buf_.data(), AV_PIX_FMT_YUV420P, codec_context_->width, codec_context_->height);
-			//sws_scale(sws_.get(), decoded_frame_sws->data, decoded_frame_sws->linesize, 0, decoded_frame->height, decoded_frame->data, decoded_frame->linesize);
-			//av_frame_free(&decoded_frame_sws);
-			//decoded_frame->format = AV_PIX_FMT_YUV420P;
-			logo_killer_enable = false;
+			spl::shared_ptr<AVFrame> dest_frame(av_frame_alloc(), [](AVFrame* p)
+			{
+				avpicture_free(reinterpret_cast<AVPicture*>(p));
+				av_frame_free(&p);
+			});
+			av_frame_ref(dest_frame.get(), decoded_frame.get());
+			dest_frame->format = AV_PIX_FMT_YUV420P;
+			avpicture_fill(reinterpret_cast<AVPicture*>(dest_frame.get()), nullptr, AV_PIX_FMT_YUV420P, codec_context_->width, codec_context_->height);
+			avpicture_alloc(reinterpret_cast<AVPicture*>(dest_frame.get()), AV_PIX_FMT_YUV420P, codec_context_->width, codec_context_->height);
+			sws_scale(sws_.get(), decoded_frame->data, decoded_frame->linesize, 0, dest_frame->height, dest_frame->data, dest_frame->linesize);
+			av_frame_unref(decoded_frame.get());
+			decoded_frame = dest_frame;
 		}
 		if (logo_killer_enable)
 		{

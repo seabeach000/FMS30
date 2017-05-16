@@ -1,11 +1,11 @@
 #include "mc_enc_pumpstream.h"
 #include "enc_avc_def.h"
-#include "mcfourcc.h"
-#include "mccolorspace.h"
+#include <mcfourcc.h>
+#include <mccolorspace.h>
 #include "bufstream/buf_file.h"
-#include "auxinfo.h"
+#include <auxinfo.h>
 
-#include <xstring>
+#include <string>
 
 #include <tbb/parallel_for.h>
 #include <common/memcpy.h>
@@ -89,6 +89,48 @@ void * MC_EXPORT_API get_rc(const char* name)
 	return nullptr;
 }
 
+auxinfo_handler_t org_auxinfo;
+// encoder auxinfo handler
+uint32_t auxinfo(bufstream_tt * bs, uint32_t offs, uint32_t info_id, void * info_ptr, uint32_t info_size)
+{
+	//sample_info_struct * sample_info;
+	encode_stat_struct * encode_stat;
+	//v_au_struct * vau;
+	//pic_start_info *ref_pic_info;
+
+	switch (info_id)
+	{
+// 	case TIME_STAMP_INFO:
+// 		sample_info = (sample_info_struct *)info_ptr;
+// 		break;
+// 
+	case STATISTIC_INFO:
+		encode_stat = (encode_stat_struct *)info_ptr;
+// 		if (0 == encode_stat->frames_encoded % 25 )
+// 		{
+// 			CASPAR_LOG(info)<< encode_stat->frames_incoming - encode_stat->frames_encoded <<L" "<< encode_stat->average_speed << L" fps";
+// 		}
+		break;
+// 
+// 	case VIDEO_AU_CODE:
+// 		vau = (v_au_struct *)info_ptr;
+// 		break;
+// 
+// 	case ID_PICTURE_START_CODE:
+// 		ref_pic_info = (pic_start_info*)info_ptr;
+// 		pic_info = *ref_pic_info;
+// 		break;
+	case MUX_STATISTIC_INFO:
+		mpgmux_stat_struct* mux_info = (mpgmux_stat_struct*)info_ptr;
+		CASPAR_LOG(info) << L"mux info :" << mux_info->num_units_queued_v << L" " << mux_info->video_underflows;
+		break;
+	}
+
+	// call original auxinfo handler
+	return org_auxinfo(bs, offs, info_id, info_ptr, info_size);
+}
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 namespace caspar {
@@ -100,8 +142,8 @@ namespace caspar {
 			,is_output_stream_(is_output_stream)
 		{
 			//32bit transfer to 16bit
-			int intype = av_get_default_channel_layout(in_channel_layout_.num_channels);
-			int outtype = av_get_default_channel_layout(in_channel_layout_.num_channels);
+			int intype = static_cast<int>(av_get_default_channel_layout(in_channel_layout_.num_channels));
+			int outtype = static_cast<int>(av_get_default_channel_layout(in_channel_layout_.num_channels));
 			swr_ = {
 				swr_alloc_set_opts(
 					nullptr,
@@ -144,7 +186,6 @@ namespace caspar {
 				h264OutVideoDone(v_enc_h264, 0);
 				h264OutVideoFree(v_enc_h264);
 			}
-#ifdef _MSC_VER
 			if (v_enc_mp2v)
 			{
 				mpegOutVideoDone(v_enc_mp2v, 0);
@@ -155,7 +196,6 @@ namespace caspar {
 				mpegOutAudioDone(a_enc_mpa, 0);
 				mpegOutAudioFree(a_enc_mpa);
 			}
-#endif
 			if (a_enc_aac)
 			{
 				aacOutAudioDone(a_enc_aac, 0);
@@ -171,13 +211,11 @@ namespace caspar {
 				mpegOutMP2MuxDone(mp2muxer, 0);
 				mpegOutMP2MuxFree(mp2muxer);
 			}
-#ifdef _MSC_VER
 			if (mcrender)
 			{
 				delete mcrender;
 				mcrender = nullptr;
 			}
-#endif
 			if (dtrender)
 			{
 				delete dtrender;
@@ -206,7 +244,7 @@ namespace caspar {
 			std::string path)
 		{
 			//buffer
-			videobs = new_fifo_buf(video_frame_size * 2, video_frame_size);
+			videobs = new_fifo_buf(video_frame_size * 4, video_frame_size);
 			audiobs = new_fifo_buf(1920 * 32 * 4, 1920 * 32);
 			if (is_output_stream_)
 			{
@@ -332,11 +370,11 @@ namespace caspar {
 				}
 				else if (it->first == "vprof")
 				{
-					v_enc_params.profile = atof((it->second).c_str());
+					v_enc_params.profile = atoi((it->second).c_str());
 				}
 				else if (it->first == "vlevel")
 				{
-					v_enc_params.level = atof((it->second).c_str());
+					v_enc_params.level = atoi((it->second).c_str());
 				}
 				else if (it->first == "vperf") //performance
 				{
@@ -360,7 +398,7 @@ namespace caspar {
 				}
 				else if(it->first == "vbitrate")
 				{
-					v_enc_params.bit_rate = atof((it->second).c_str());
+					v_enc_params.bit_rate = atoi((it->second).c_str());
 				}
 				else if (it->first == "vgop")
 				{
@@ -474,6 +512,10 @@ namespace caspar {
 			v_settings.idr_interval		= v_enc_params.gop_size;
 			v_settings.reordering_delay = v_enc_params.b_frames + 1;
 
+
+			v_settings.buffering = 3;
+			v_settings.encoding_buffering = 2;
+
 			if (h264OutVideoChkSettings(get_rc, &v_settings, H264_CHECK_AND_ADJUST | H264_CHECK_FOR_LEVEL, nullptr) == H264ERROR_FAILED)
 			{
 				CASPAR_LOG(error) << L"h264OutVideoChkSettings failed.";
@@ -489,6 +531,8 @@ namespace caspar {
 
 			int32_t init_options = 0;
 			void *opt_list[10];
+			org_auxinfo = videobs->input.auxinfo;
+			videobs->input.auxinfo = auxinfo;
 			if (h264OutVideoInit(v_enc_h264, &(videobs->input), init_options, &opt_list[0]))
 			{
 				CASPAR_LOG(error) << L"h264OutVideoInit failed.";
@@ -500,7 +544,6 @@ namespace caspar {
 		}
 		bool mc_enc_pumpstream::init_mpeg2_encoder()
 		{
-#ifdef _MSC_VER
 			mpeg_v_settings v_settings;
 			if (v_enc_params.preset == ITEM_NOT_INIT)		 v_enc_params.preset = MPEG_MPEG2;
 			if (v_enc_params.perf == ITEM_NOT_INIT)          v_enc_params.perf = 15;  //0~31
@@ -553,14 +596,10 @@ namespace caspar {
 			}
 
 			return true;
-#else
-			return false;
-#endif
 		}
 
 		bool mc_enc_pumpstream::init_mpa_encoder() 
 		{
-#ifdef _MSC_VER
 			mpeg_a_settings a_settings;
 			if (a_enc_params.audio_layer == ITEM_NOT_INIT) a_enc_params.audio_layer = MPEG_AUDIO_LAYER2;
 			if (a_enc_params.audio_mode == ITEM_NOT_INIT) a_enc_params.audio_mode = MPG_MD_STEREO;
@@ -592,9 +631,6 @@ namespace caspar {
 				return false;
 			}
 			return true;
-#else
-			return false;
-#endif
 		}
 		bool mc_enc_pumpstream::init_aac_encoder()
 		{
@@ -667,7 +703,7 @@ namespace caspar {
 			pcm_a_settings a_settings;
 			pcmOutAudioDefaults(&a_settings, MCPROFILE_DEFAULT);
 
-			a_settings.num_channels = in_channel_layout_.num_channels;
+			a_settings.num_channels = static_cast<int16_t>(in_channel_layout_.num_channels);
 			a_settings.pcm_quantization = PCM_16BITS;
 			a_settings.audio_layer = AES3_302M_AUDIO;
 		
@@ -774,7 +810,7 @@ namespace caspar {
 		bool mc_enc_pumpstream::pathparse(std::string path, net_path_params& netparams)
 		{
 			//eg. udp://234.1.1.1:2345?localaddr=172.16.3.106 
-			int32_t nIdx = path.find(':');
+			int32_t nIdx = static_cast<int32_t>(path.find(':'));
 			if (nIdx < 0)
 			{
 				CASPAR_LOG(error) << L"Invalid path: " << path;
@@ -789,7 +825,7 @@ namespace caspar {
 			netparams.protocol = path.substr(0, nIdx); //protocol
 
 			path.erase(0, nIdx + 3);
-			nIdx = path.find(':');
+			nIdx = static_cast<int32_t>(path.find(':'));
 			if (nIdx < 0)
 			{
 				CASPAR_LOG(error) << L"Invalid path: " << path;
@@ -798,7 +834,7 @@ namespace caspar {
 
 			netparams.ipAddr = path.substr(0, nIdx); //ipAddr
 			path.erase(0, nIdx + 1);
-			nIdx = path.find("?");
+			nIdx = static_cast<int32_t>(path.find("?"));
 			if (nIdx <0)
 			{
 				netparams.port = atoi(path.c_str()); //port
@@ -810,7 +846,7 @@ namespace caspar {
 				netparams.port = atoi(strport.c_str()); //port
 				path.erase(0, nIdx + 1);
 				//localaddr=172.16.3.106 
-				nIdx = path.rfind("=");
+				nIdx = static_cast<int32_t>(path.rfind("="));
 				if (nIdx < 0)
 				{
 					CASPAR_LOG(error) << L"Invalid path: " << path;
@@ -827,7 +863,6 @@ namespace caspar {
 
 		bool mc_enc_pumpstream::init_mc_netrender(std::string path)
 		{
-#ifdef _MSC_VER
 			//parse path: udp://234.1.1.1:2345?localaddr=172.16.3.106 
 			net_path_params netparams;
 			bool bparse = pathparse(path, netparams);
@@ -840,9 +875,6 @@ namespace caspar {
 			bool bret = mcrender->init(netparams);
 
 			return bret;
-#else 
-			return false;
-#endif
 		}
 
 		bool mc_enc_pumpstream::init_dt_netrender(std::string path)
@@ -872,8 +904,8 @@ namespace caspar {
 			return bret;
 		}
 
-		bool mc_enc_pumpstream::pushframe(core::const_frame &frame)
-		{	
+		void mc_enc_pumpstream::encode_video(core::const_frame &frame)
+		{
 			void *ext_info_stack[16] = { 0 };
 			uint32_t option_flags = 0;
 			void **ext_info = &ext_info_stack[0];
@@ -882,24 +914,19 @@ namespace caspar {
 			uint8_t* tmp_video_buffer = (uint8_t*)malloc(frame.size());
 			if (tmp_video_buffer)
 			{
+				fast_memcpy(
+					reinterpret_cast<char*>(tmp_video_buffer),
+					frame.image_data().begin(),
+					height * width * 4
+				);
 
-				tbb::parallel_for(0, (int)height, 1, [&](int y)
-				{
-					fast_memcpy(
-						reinterpret_cast<char*>(tmp_video_buffer) + y * width * 4,
-						(frame.image_data().begin()) + (height - y - 1) * width * 4,
-						width * 4
-					);
-				});
 				switch (v_enc_type)
 				{
 				case VIDEOENC_H264:
 					h264OutVideoPutFrame(v_enc_h264, tmp_video_buffer + img_start, line_size, width, height, fourcc, option_flags, ext_info);
 					break;
 				case VIDEOENC_MPEG2:
-#ifdef _MSC_VER
 					mpegOutVideoPutFrame(v_enc_mp2v, tmp_video_buffer + img_start, line_size, width, height, fourcc, option_flags);
-#endif
 					break;
 				case VIDEOENC_UNKNOWN:
 				default:
@@ -908,37 +935,37 @@ namespace caspar {
 				free(tmp_video_buffer);
 				tmp_video_buffer = nullptr;
 			}
-
+		}
+		void mc_enc_pumpstream::encode_audio(core::const_frame &frame)
+		{
 			//audio
 			uint8_t* input_audio_buffer = (uint8_t*)malloc(frame.audio_data().size() * sizeof(int32_t));
 			uint8_t* tmp_audio_buffer = (uint8_t*)malloc(frame.audio_data().size() * sizeof(int16_t));
-			if (tmp_audio_buffer) 
+			if (tmp_audio_buffer)
 			{
-				fast_memcpy((void*)input_audio_buffer, frame.audio_data().begin(), frame.audio_data().size()* sizeof(int32_t));
+				fast_memcpy((void*)input_audio_buffer, frame.audio_data().begin(), frame.audio_data().size() * sizeof(int32_t));
 				//32bit transfer to 16bit
 				const uint8_t **in = const_cast<const uint8_t**>(&input_audio_buffer);
 				uint8_t* out[] = { reinterpret_cast<uint8_t*>(tmp_audio_buffer) };
 				const auto channel_samples = swr_convert(
 					swr_.get(),
 					out,
-					frame.audio_data().size() * sizeof(int16_t) / in_channel_layout_.num_channels,
+					static_cast<int>(frame.audio_data().size() * sizeof(int16_t) / in_channel_layout_.num_channels),
 					in,
-					frame.audio_data().size() /in_channel_layout_.num_channels);
+					static_cast<int>(frame.audio_data().size() / in_channel_layout_.num_channels));
 				//////////////////////////////
 				switch (a_enc_type)
 				{
 				case AUDIOENC_MPA:
-#ifdef _MSC_VER
-					mpegOutAudioPutBytes(a_enc_mpa, tmp_audio_buffer, frame.audio_data().size() * sizeof(int16_t));
-#endif
+					mpegOutAudioPutBytes(a_enc_mpa, tmp_audio_buffer, static_cast<uint32_t>(frame.audio_data().size() * sizeof(int16_t)));
 					break;
 				case AUDIOENC_AAC:
-					aacOutAudioPutBytes (a_enc_aac, tmp_audio_buffer, frame.audio_data().size() * sizeof(int16_t));
+					aacOutAudioPutBytes(a_enc_aac, tmp_audio_buffer, static_cast<uint32_t>(frame.audio_data().size() * sizeof(int16_t)));
 					break;
 				case AUDIOENC_PCM:
-					pcmOutAudioPutBytes(a_enc_pcm, tmp_audio_buffer, frame.audio_data().size() * sizeof(int16_t));
+					pcmOutAudioPutBytes(a_enc_pcm, tmp_audio_buffer, static_cast<uint32_t>(frame.audio_data().size() * sizeof(int16_t)));
 					break;
-				case AUDIOENC_UNKNOWN:					
+				case AUDIOENC_UNKNOWN:
 				default:
 					break;
 				}
@@ -947,10 +974,7 @@ namespace caspar {
 				free(tmp_audio_buffer);
 				tmp_audio_buffer = nullptr;
 			}
-			return true;
 		}
-
-
 		void mc_enc_pumpstream::pushstream()
 		{
 			while(is_running_)
@@ -963,12 +987,10 @@ namespace caspar {
 					switch (netrender_type)
 					{
 					case NETRENDER_MC:
-#ifdef _MSC_VER
 						if (mcrender)
 						{
 							mcrender->senddata(pMediaData, uiMediaDataLength);
 						}
-#endif
 						break;
 					case NETRENDER_DT:
 						if (dtrender)
@@ -983,7 +1005,8 @@ namespace caspar {
 									
 					free(pMediaData);
 					pMediaData = nullptr;
-				}				
+				}
+				boost::this_thread::sleep_for(boost::chrono::milliseconds(20));
 			}
 		}
 
@@ -994,9 +1017,10 @@ namespace caspar {
 			int32_t error = get_frame_colorspace_info(&cs_info, w, h, cs_fourcc, 0);
 			if (error)
 				return 0;
-
-			if (get_cs_type(cs_fourcc) == CS_FORMAT_RGB)
-				flip_colorspace(&cs_info);
+			/* comment out by zibj 20170424   not need flip
+			//if (get_cs_type(cs_fourcc) == CS_FORMAT_RGB)
+			//	flip_colorspace(&cs_info);
+			*/
 
 			*linesize = cs_info.stride[0];
 			*imgstart = cs_info.plane_offset[0];

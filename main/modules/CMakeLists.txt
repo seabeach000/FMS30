@@ -20,4 +20,6 @@ if (MSVC)
 endif ()
 
 add_subdirectory(image)
+add_subdirectory(mainconcept)
+add_subdirectory(ndi)
 

@@ -51,13 +51,13 @@ struct minmax
 	template <typename T>
 	std::pair<T, T> operator()(std::pair<T, T> initial, T value) const
 	{
-		return std::make_pair(std::min(initial.first, value), std::max(initial.second, value));
+		return std::make_pair((std::min)(initial.first, value), (std::max)(initial.second, value));
 	}
 
 	template <typename T>
 	static std::pair<T, T> initial_value()
 	{
-		return std::make_pair(std::numeric_limits<T>::max(), std::numeric_limits<T>::min());
+		return std::make_pair((std::numeric_limits<T>::max)(), (std::numeric_limits<T>::min)());
 	}
 };
 

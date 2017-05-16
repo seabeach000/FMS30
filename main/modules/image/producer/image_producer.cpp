@@ -275,7 +275,7 @@ namespace caspar {
 
 				return core::create_const_producer(std::move(frames), width, height);
 			}
-			else if(boost::iequals(params.at(0), L"[PNG_BASE64]"))
+			else if (boost::iequals(params.at(0), L"[PNG_BASE64]"))
 			{
 				if (params.size() < 2)
 					return core::frame_producer::empty();
@@ -294,7 +294,7 @@ namespace caspar {
 				return static_cast<bool>(file);
 			});
 
-			if(ext == g_extensions.end())
+			if (ext == g_extensions.end())
 				return core::frame_producer::empty();
 
 			return spl::make_shared<image_producer>(dependencies.frame_factory, *caspar::find_case_insensitive(filename + *ext), false, length);
@@ -324,4 +324,5 @@ namespace caspar {
 			return producer->receive();
 		}
 
-	}}
+	}
+}

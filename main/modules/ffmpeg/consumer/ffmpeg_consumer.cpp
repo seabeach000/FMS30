@@ -1311,15 +1311,6 @@ namespace caspar {
 			bool mono_streams = get_and_consume_flag(L"MONO_STREAMS", params2);
 			auto compatibility_mode = boost::iequals(params.at(0), L"FILE");
 			auto path = u8(params2.size() > 1 ? params2.at(1) : L"");
-
-			// remove FILE or STREAM
-			params2.erase(params2.begin());
-
-			// remove path
-			if (!path.empty())
-				params2.erase(params2.begin());
-
-			// join only the args
 			auto args = u8(boost::join(params2, L" "));
 
 			return spl::make_shared<ffmpeg_consumer_proxy>(path, args, separate_key, mono_streams, compatibility_mode);

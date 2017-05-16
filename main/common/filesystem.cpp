@@ -33,7 +33,7 @@ boost::filesystem::path get_relative(
 		const boost::filesystem::path& file,
 		const boost::filesystem::path& relative_to)
 {
-	auto result       = file.filename();
+	auto result = file.filename();
 	auto current_path = file;
 
 	if (boost::filesystem::equivalent(current_path, relative_to))

@@ -2,15 +2,14 @@
 
 #include <asmlib.h>
 #include <string.h>
-#include "DTAPI.h"
+#include <DTAPI.h>
 
 #include <tbb/atomic.h>
 #include <boost/thread.hpp>
 
 
-#define CHECK_FIFO_INTERVAL         20000  //ms
-#define ADJUST_FIFO_SIZE_RATIO      0.999 
-#define RECOVER_FIFO_SIZE_RATIO     0.999
+#define CHECK_FIFO_INTERVAL         2000  //ms
+#define ADJUST_BITRATE_RATIO		0.999 
 #define FIFO_LOAD_CACHE_RATIO       0.5
 
 struct dtnetrender_params

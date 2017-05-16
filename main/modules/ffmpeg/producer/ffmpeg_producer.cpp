@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 * Copyright (c) 2011 Sveriges Television AB <info@casparcg.com>
 *
 * This file is part of CasparCG (www.casparcg.com).
@@ -284,14 +284,14 @@ public:
 		if (!is_url())
 		{
 			if (start_ > 0 /*&& start_ < file_nb_frames()*/)
-				pts_start_ = (start_ / fps * pStream->time_base.den) / pStream->time_base.num;
+				pts_start_ = static_cast<int64_t>((start_ / fps * pStream->time_base.den) / pStream->time_base.num);
 		}
 		else
 		{
 			bHasSeeked_ = true;
 		}
 
-		//ÒôÆµÍ¬²½ÊÓÆµ
+		// éŸ³é¢‘åŒæ­¥è§†é¢‘
 		while (!input_.hasUpdateAVstarttime())
 		{
 			boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
@@ -303,16 +303,16 @@ public:
 
 			if (stream->codec->codec_type != AVMediaType::AVMEDIA_TYPE_AUDIO)
 				continue;
-			//µ¥Î»Òª×ª»»ÎªÒôÆµµÄÊ±¼ä´Á			
+			// å•ä½è¦è½¬æ¢ä¸ºéŸ³é¢‘çš„æ—¶é—´æˆ³			
 			int64_t pts_start = pts_start_*pStream->time_base.num * 1000 / pStream->time_base.den;
 			int64_t pts_start_audioUints = pts_start * stream->time_base.den / stream->time_base.num/1000;
 			int64_t videoTimeStampmills = input_.context()->streams[video_index_]->start_time*pStream->time_base.num * 1000 / pStream->time_base.den;
 			int64_t videoTimeStampmills_toAudioUints = videoTimeStampmills * stream->time_base.den / stream->time_base.num/1000;
 			if (i < audio_decoders_.size())
-				audio_decoders_[i]->set_FirstVideoTimecode(pts_start_audioUints + videoTimeStampmills_toAudioUints);//ÒôÆµ×ÜÄÜseekµ½
+				audio_decoders_[i]->set_FirstVideoTimecode(pts_start_audioUints + videoTimeStampmills_toAudioUints);//éŸ³é¢‘æ€»èƒ½seekåˆ°
 			i++;
 		}		
-		//wxg20161019Ôö¼Ó½âÂëÏß³Ì
+		// wxg20161019å¢žåŠ è§£ç çº¿ç¨‹
 		is_runing_ = true;
 	//	frame_buffer_.set_capacity(2);
 		thread_ = boost::thread([this] { run(); });
@@ -341,7 +341,7 @@ public:
 					try_decode_frame();
 				}
 				//buffer_mutex_.unlock();
-				boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
+				//boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
 			}
 		}
 		catch (boost::thread_interrupted&)
@@ -408,8 +408,14 @@ public:
 			else if (!is_url())
 			{
 				graph_->set_tag(diagnostics::tag_severity::WARNING, "underflow");
+				CASPAR_LOG(info) << L"Producer UnderFlow";
 				send_osc();
-				return std::make_pair(last_frame_, -1);
+				while (frame_buffer_.size() < 1)
+				{
+					boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
+					CASPAR_LOG(info) << L"Producer UnderFlow sleep";
+				}
+				CASPAR_LOG(info) << L"Producer UnderFlow end";
 			}
 			else
 			{
@@ -576,7 +582,7 @@ public:
 		static const boost::wregex loop_exp(LR"(LOOP\s*(?<VALUE>\d?)?)", boost::regex::icase);
 		static const boost::wregex seek_exp(LR"(SEEK\s+(?<VALUE>(\+|-)?\d+)(\s+(?<WHENCE>REL|END))?)", boost::regex::icase);
 		static const boost::wregex length_exp(LR"(LENGTH\s+(?<VALUE>\d+)?)", boost::regex::icase);
-		static const boost::wregex start_exp(LR"(START\\s+(?<VALUE>\\d+)?)", boost::regex::icase);
+		static const boost::wregex start_exp(LR"(START\s+(?<VALUE>\d+)?)", boost::regex::icase);
 
 		auto param = boost::algorithm::join(params, L" ");
 
@@ -697,20 +703,11 @@ public:
 		std::shared_ptr<AVFrame>									video;
 		std::vector<std::shared_ptr<core::mutable_audio_buffer>>	audio;
 
-		tbb::parallel_invoke(
+		/*tbb::parallel_invoke(
 		[&]
 		{
-			do
-			{
-				if (!muxer_->video_ready() && video_decoder_)
-				{
-					video = video_decoder_->poll();
-					if (video)
-						break;
-				}
-				else
-					break;
-			} while (!video_decoder_->empty());
+			if (!muxer_->video_ready() && video_decoder_)
+				video = video_decoder_->poll();
 		},
 		[&]
 		{
@@ -724,7 +721,28 @@ public:
 						audio.push_back(audio_for_stream);
 				}
 			}
-		});
+		});*/
+		do
+		{
+			if (!muxer_->video_ready() && video_decoder_)
+			{
+				video = video_decoder_->poll();
+				if (video)
+					break;
+			}
+			else
+				break;
+		} while (!video_decoder_->empty());
+
+		if (!muxer_->audio_ready())
+		{
+			for (auto& audio_decoder : audio_decoders_)
+			{
+				auto audio_for_stream = audio_decoder->poll();
+				if (audio_for_stream)
+					audio.push_back(audio_for_stream);
+			}
+		}
 
 		if (video && !bHasSeeked_)
 		{
@@ -738,7 +756,7 @@ public:
 				if (video->pkt_pts != AV_NOPTS_VALUE && !bsyncFrame_ )
 				{
 					bsyncFrame_ = true;					
-					seekFrameCount_ = ((pts_start_ - vpkt_pts) * pStream->time_base.num * fps) / pStream->time_base.den;
+					seekFrameCount_ = static_cast<int>(((pts_start_ - vpkt_pts) * pStream->time_base.num * fps) / pStream->time_base.den);
 				}
 				if (bsyncFrame_)
 					seekFrameCount_--;

@@ -1,5 +1,5 @@
 #include "DtNetRender.h"
-#include <common\log.h>
+#include <common/log.h>
 
 CDtNetRender::CDtNetRender()
 	:m_bStartSend(false)
@@ -39,7 +39,7 @@ bool CDtNetRender::init(dtnetrender_params dtparams)
 		return bret;
 	}
 
-	bret = SetTxMode(dtparams.txmode, DTAPI_TXSTUFF_MODE_ON);
+	bret = SetTxMode(static_cast<int32_t>(dtparams.txmode), static_cast<int32_t>(DTAPI_TXSTUFF_MODE_ON));
 	if (!bret)
 	{
 		return bret;
@@ -120,24 +120,24 @@ void CDtNetRender::Adjust()
 		if (m_bStartSend)
 		{
 			m_tsOutPort.GetFifoLoad(nFifoLoad);
-
-			CASPAR_LOG(info) << L"Adjust GetFifoLoad: " << nFifoLoad;
-// 			m_tsOutPort.GetFifoSize(nFifoSize);
-// 			m_tsOutPort.GetTsRateBps(nTsRate);
-// 			if (nFifoLoad <= nFifoSize*ADJUST_FIFO_SIZE_RATIO)
-// 			{
-// 				if (nTsRate == m_nTsBitRate)
-// 				{
-// 					m_tsOutPort.SetTsRateBps(m_nTsBitRate * ADJUST_FIFO_SIZE_RATIO);
-// 				}
-// 			}
-// 			else
-// 			{
-// 				if ((nTsRate != m_nTsBitRate) && (nFifoLoad > nFifoSize*RECOVER_FIFO_SIZE_RATIO))
-// 				{
-// 					m_tsOutPort.SetTsRateBps(m_nTsBitRate);
-// 				}
-// 			}
+			m_tsOutPort.GetFifoSize(nFifoSize);
+			m_tsOutPort.GetTsRateBps(nTsRate);
+			if (nFifoLoad <= nFifoSize*FIFO_LOAD_CACHE_RATIO)
+			{
+				if (nTsRate == m_nTsBitRate)
+				{
+					m_tsOutPort.SetTsRateBps(static_cast<int>(m_nTsBitRate * ADJUST_BITRATE_RATIO));
+					CASPAR_LOG(debug) << L"Adjust GetFifoLoad: " << nFifoLoad;
+				}
+			}
+			else
+			{
+				if ((nTsRate != m_nTsBitRate) && (nFifoLoad > nFifoSize*FIFO_LOAD_CACHE_RATIO))
+				{
+					m_tsOutPort.SetTsRateBps(m_nTsBitRate);
+					CASPAR_LOG(debug) << L"Adjust GetFifoLoad: " << nFifoLoad;
+				}
+			}
 		}
 		boost::this_thread::sleep_for(boost::chrono::milliseconds(CHECK_FIFO_INTERVAL));
 	}
@@ -197,7 +197,7 @@ bool CDtNetRender::SetIpPars(dtnetrender_params dtparams)
 {
 	DTAPI_RESULT dr;
 	DtapiInitDtIpParsFromIpString(m_ipPars, dtparams.destip.c_str(), NULL);
-	m_ipPars.m_Port = dtparams.destport;
+	m_ipPars.m_Port = static_cast<unsigned short>(dtparams.destport);
 	if (0 == dtparams.protocol.compare("udp"))
 	{
 		m_ipPars.m_Protocol = DTAPI_PROTO_UDP;
@@ -231,8 +231,8 @@ bool CDtNetRender::SetTsRateBps(int32_t tsbitrate)
 bool CDtNetRender::SetFifoSize(int32_t delaytime, int32_t tsbitrate)
 {
 	DTAPI_RESULT dr;
-	m_nFifoSize = double(delaytime) / 1000 * tsbitrate /8;
-	m_nFifoSize = m_nFifoSize / FIFO_LOAD_CACHE_RATIO;
+	m_nFifoSize = static_cast<int32_t>(double(delaytime) / 1000 * tsbitrate /8);
+	m_nFifoSize = static_cast<int32_t>(m_nFifoSize / FIFO_LOAD_CACHE_RATIO);
 	m_nFifoSize = m_nFifoSize / 16 * 16; //16µÄ±¶Êý
 	dr = m_tsOutPort.SetFifoSize(m_nFifoSize); 
 	if (dr != DTAPI_OK)

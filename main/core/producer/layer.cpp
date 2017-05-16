@@ -22,7 +22,7 @@
 #include "../StdAfx.h"
 
 #include "layer.h"
-#include "../main/shell/server.h"
+#include "../../shell/server.h"
 #include "frame_producer.h"
 
 #include "../video_format.h"

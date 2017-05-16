@@ -1,6 +1,9 @@
 #include "MCNetRender.h"
+#include "mc_os_common.h"
+
 #include "tools.h"
 #include "parser_sdp.h"
+#include <common/log.h>
 
 MCNetRender::MCNetRender()
 	:m_iFirstSystemTime(LLONG_MAX)
@@ -26,7 +29,12 @@ void MCNetRender::OnConfigChanged(void *pData, uint32_t *uiDataLen)
 }
 void MCNetRender::OnPacketSend(bool bMarker, uint32_t aBytesSent, int64_t i64TimeStamp, uint32_t uiSamplesCount)
 {
-
+	if (m_iFirstSystemTime == LLONG_MAX)
+	{
+		m_iFirstSystemTime = timeGetTime();
+	}
+	int32_t timeout = (int32_t)((i64TimeStamp / 10000LL) - (timeGetTime() - m_iFirstSystemTime));
+	boost::this_thread::sleep_for(boost::chrono::milliseconds(timeout));
 }
 
 bool MCNetRender::init(net_path_params netparams)
@@ -76,8 +84,7 @@ bool MCNetRender::init(net_path_params netparams)
 	sSenderParams.uiBurstnessValue = 0;         // Burstness value for each packet, time in millisecond to sleep on each packet
 	sSenderParams.aNIC = localAddr; //"172.16.3.106";                 // Sender Local Network interface, or NULL for system default
 	sSenderParams.aRemoteName = ipAddr;            // Destination address: client network address or multicast group
-	m_pSender->Init(&sSenderParams);
-
+	NETRENDERERERRORS bret = m_pSender->Init(&sSenderParams);
 	if (ipAddr)
 	{
 		delete[]ipAddr;
@@ -87,6 +94,11 @@ bool MCNetRender::init(net_path_params netparams)
 	{
 		delete[]localAddr;
 		localAddr = nullptr;
+	}
+	if (bret != NwrOk)
+	{
+		CASPAR_LOG(error) << L"MCNetRender init error";
+		return false;
 	}
 	return true;
 }

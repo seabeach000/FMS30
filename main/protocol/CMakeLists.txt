@@ -23,7 +23,13 @@ set(SOURCES
 
 		osc/client.cpp
 
+		vdcp/VDCPProtocolStrategy.cpp
+		vdcp/VDCPCommandsImpl.cpp
+		vdcp/vdcp_command_repository.cpp
+		vdcp/VDCPCommandQueue.cpp
+
 		util/AsyncEventServer.cpp
+		util/AsyncEventServer_Serial.cpp
 		util/lock_container.cpp
 		util/strategy_adapters.cpp
 
@@ -58,7 +64,15 @@ set(HEADERS
 
 		osc/client.h
 
+		vdcp/vdcp_shared.h
+		vdcp/VDCPProtocolStrategy.h
+		vdcp/VDCPCommandsImpl.h
+		vdcp/vdcp_command_repository.h
+		vdcp/VDCPCommandQueue.h
+		vdcp/VDCPCommand.h
+
 		util/AsyncEventServer.h
+		util/AsyncEventServer_Serial.h
 		util/ClientInfo.h
 		util/lock_container.h
 		util/ProtocolStrategy.h
@@ -85,4 +99,4 @@ source_group(sources\\osc osc/*)
 source_group(sources\\util util/*)
 source_group(sources ./*)
 
-target_link_libraries(protocol common core)
+target_link_libraries(protocol common core reroute)

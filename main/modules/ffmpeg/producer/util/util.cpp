@@ -210,7 +210,7 @@ bool frame_up_convert_left_right_add(
 		return false;
 	}
 
-	if (decoded_linesize != static_cast<int>(des_plane.linesize))
+	if (decoded_linesize != static_cast<unsigned int>(des_plane.linesize))
 	{
 		// Copy line by line since ffmpeg sometimes pads each line.
 		tbb::parallel_for<size_t>(0, des_plane.height, [&](size_t y)
@@ -242,7 +242,7 @@ bool frame_up_convert_bottom_cut(
 		return false;
 	}
 
-	if (decoded_linesize != static_cast<int>(des_plane.linesize))
+	if (decoded_linesize != static_cast<unsigned int>(des_plane.linesize))
 	{
 		// Copy line by line since ffmpeg sometimes pads each line.
 		tbb::parallel_for<size_t>(0, des_plane.height, [&](size_t y)
@@ -273,7 +273,7 @@ bool frame_up_convert_up_down_cut(
 		return false;
 	}
 
-	if (decoded_linesize != static_cast<int>(des_plane.linesize))
+	if (decoded_linesize != static_cast<unsigned int>(des_plane.linesize))
 	{
 		int offs = (src_plane.height - des_plane.height) / 2;
 		// Copy line by line since ffmpeg sometimes pads each line.
@@ -305,7 +305,7 @@ bool frame_down_convert_left_right_cut(
 		return false;
 	}
 
-	if (decoded_linesize != static_cast<int>(des_plane.linesize))
+	if (decoded_linesize != static_cast<unsigned int>(des_plane.linesize))
 	{
 		int offs = (src_plane.linesize - des_plane.linesize) / 2;
 		// Copy line by line since ffmpeg sometimes pads each line.
@@ -337,7 +337,7 @@ bool frame_convert_stretch(
 		return false;
 	}
 
-	if (decoded_linesize != static_cast<int>(des_plane.linesize))
+	if (decoded_linesize != static_cast<unsigned int>(des_plane.linesize))
 	{
 		// Copy line by line since ffmpeg sometimes pads each line.
 		tbb::parallel_for<size_t>(0, des_plane.height, [&](size_t y)
@@ -605,7 +605,7 @@ core::mutable_frame make_frame_afd(const void* tag, const spl::shared_ptr<AVFram
 		return frame_factory.create_frame(tag, core::pixel_format_desc(core::pixel_format::invalid), core::audio_channel_layout::invalid());
 
 	//AFD
-	int source_afd_ar = (source_afd_code >> 2) & 1;
+	//int source_afd_ar = (source_afd_code >> 2) & 1;
 	source_afd_code >>= 3;
 	auto width = decoded_frame->width;
 	auto height = decoded_frame->height;
@@ -1427,7 +1427,7 @@ std::shared_ptr<AVFrame> empty_video()
 
 spl::shared_ptr<AVCodecContext> open_codec(AVFormatContext& context, enum AVMediaType type, int& index, bool single_threaded)
 {
-	AVCodec* decoder1;
+	//AVCodec* decoder1;
 	//	index = av_find_best_stream(&context, type, index, -1, nullptr, 0);
 	index = THROW_ON_ERROR2(av_find_best_stream(&context, type, index, -1, nullptr, 0), "");
 	AVCodecContext* pAVCodecContext;
@@ -1582,6 +1582,23 @@ bool try_get_duration(const std::wstring filename, std::int64_t& duration, boost
 	time_base = 1 / rational_fps;
 
 	return true;
+}
+
+std::int64_t try_get_duration(const spl::shared_ptr<AVFormatContext>& context)
+{
+	if (context.get() == nullptr)
+		return 0;
+
+	const auto fps = read_fps(*context, 1.0);
+
+	const auto rational_fps = boost::rational<std::int64_t>(static_cast<int>(fps * AV_TIME_BASE), AV_TIME_BASE);
+
+	std::int64_t duration = boost::rational_cast<std::int64_t>(context->duration * rational_fps / AV_TIME_BASE);
+
+	if (rational_fps == 0)
+		return 0;
+
+	return duration;
 }
 
 std::wstring probe_stem(const std::wstring& stem, bool only_video)

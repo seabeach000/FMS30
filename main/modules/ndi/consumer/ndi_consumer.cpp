@@ -26,8 +26,8 @@
 #include <tbb/parallel_for.h>
 #include <tbb/mutex.h>
 #include <vector>
-#include <atlbase.h>
-#include <atlstr.h>
+//#include <atlbase.h>
+//#include <atlstr.h>
  
 
 #if defined(_MSC_VER)
@@ -73,7 +73,7 @@ namespace caspar {
 		{
 			std::wstring ratio = L"16:9";
 			std::wstring name = L"My Video";
-			std::wstring groups = L"FMS";
+			//std::wstring groups = L"FMS";
 
 			bool						vanc_output_ = false;//config vanc
 			core::audio_channel_layout	out_channel_layout = core::audio_channel_layout::invalid();
@@ -103,9 +103,9 @@ namespace caspar {
 			}
 		};
 
-		std::vector<HANDLE>		stream_exes_handles;
-		bool					run_time_check_thread = false;
-		tbb::mutex				stream_exe_mutex;
+		//std::vector<HANDLE>		stream_exes_handles;
+		//bool					run_time_check_thread = false;
+		//tbb::mutex				stream_exe_mutex;
 
 		struct ndi_consumer : boost::noncopyable
 		{
@@ -164,7 +164,7 @@ namespace caspar {
 
 				/////ndi
 				std::string s = u8(config_.name);
-				const NDIlib_send_create_t NDI_send_create_desc = { s.c_str(), u8(config_.groups).c_str(), true, true };
+				const NDIlib_send_create_t NDI_send_create_desc = { s.c_str(), NULL, true, true };
 				pNDI_send = NDIlib_send_create(&NDI_send_create_desc);
 
 				if (!pNDI_send)
@@ -202,9 +202,9 @@ namespace caspar {
 					}
 
 
-					WCHAR _bsProps[50] = { 0 };
+					
 					int Samples = m_audCalc.NextSamples(format_desc_.fps, format_desc_.audio_sample_rate);
-					swprintf(_bsProps, L"audio_samples=%d", Samples * frame.audio_channel_layout().num_channels);
+					
 
 					std::vector<std::wstring> token;
 					float ads = 0.0;
@@ -212,8 +212,8 @@ namespace caspar {
 					boost::split(token, config_.ratio, boost::is_any_of(L":"));
 					if (token.size() == 2)
 					{
-						ads = (float)_wtof(token[0].c_str());
-						asf = (float)_wtof(token[1].c_str());
+						ads = (float)atof(u8(token[0]).c_str());
+						asf = (float)atof(u8(token[1]).c_str());
 					}
 					NDIlib_video_frame_t NDI_video_frame = {
 
@@ -234,14 +234,19 @@ namespace caspar {
 						format_desc_.width * 4
 					};
 
-					tbb::parallel_for(0, (int)format_desc_.height, 1, [&](int y)
+					/*tbb::parallel_for(0, (int)format_desc_.height, 1, [&](int y)
 					{
 						fast_memcpy(
 							reinterpret_cast<char*>(NDI_video_frame.p_data) + y * format_desc_.width * 4,
 							(frame.image_data().begin()) + y * format_desc_.width * 4,
 							format_desc_.width * 4
 						);
-					});
+					});*/
+					fast_memcpy(
+						reinterpret_cast<char*>(NDI_video_frame.p_data),
+						(frame.image_data().begin()),
+						format_desc_.height * format_desc_.width * 4
+					);
 
 					NDIlib_audio_frame_t NDI_audio_frame = {
 						// 48kHz
@@ -444,7 +449,7 @@ namespace caspar {
 
 			if (contains_param(L"channel-layout", params))
 			{
-				auto channel_layout = get_param(L"channel-layou", params);
+				auto channel_layout = get_param(L"channel-layout", params);
 				if (!channel_layout.empty())
 				{
 					CASPAR_SCOPED_CONTEXT_MSG("/channel-layout")
@@ -465,7 +470,7 @@ namespace caspar {
 			configuration config;
 			config.name = ptree.get(L"source", config.name);
 			config.ratio = ptree.get(L"ratio", config.ratio);
-			config.groups = ptree.get(L"groups",config.groups);
+			//config.groups = ptree.get(L"groups",config.groups);
 			auto channel_layout = ptree.get_optional<std::wstring>(L"channel-layout");
 
 			if (channel_layout)

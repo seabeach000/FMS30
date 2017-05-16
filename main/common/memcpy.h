@@ -29,16 +29,24 @@
 
 namespace caspar {
 
-static void fast_memcpy(void* dest, const void* src, std::size_t size)
-{
-	tbb::affinity_partitioner partitioner;
-	tbb::parallel_for(tbb::blocked_range<std::size_t>(0, size, size / boost::thread::hardware_concurrency()), [&](const tbb::blocked_range<size_t>& range)
+//static void fast_memcpy(void* dest, const void* src, std::size_t size)
+//{
+//	tbb::affinity_partitioner partitioner;
+//	tbb::parallel_for(tbb::blocked_range<std::size_t>(0, size, size / boost::thread::hardware_concurrency()), [&](const tbb::blocked_range<size_t>& range)
+//	{
+//		A_memcpy(
+//				reinterpret_cast<std::uint8_t*>(dest) + range.begin(),
+//				reinterpret_cast<const std::uint8_t*>(src) + range.begin(),
+//				range.size());
+//	}, partitioner);
+//}
+
+	static void fast_memcpy(void* dest, const void* src, std::size_t size)
 	{
 		A_memcpy(
-				reinterpret_cast<std::uint8_t*>(dest) + range.begin(),
-				reinterpret_cast<const std::uint8_t*>(src) + range.begin(),
-				range.size());
-	}, partitioner);
-}
+			reinterpret_cast<std::uint8_t*>(dest),
+			reinterpret_cast<const std::uint8_t*>(src),
+			size);
+	}
 
 }

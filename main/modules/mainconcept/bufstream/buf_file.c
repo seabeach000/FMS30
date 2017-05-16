@@ -32,7 +32,8 @@
   #include <sys/types.h>
 #endif
 
-#include "auxinfo.h"
+#include <auxinfo.h>
+#include "../mc_os_common.h"
 #include "buf_file.h"
 
 #define DVD_SECTOR_SIZE       2048     // DVD sector size     
@@ -636,13 +637,13 @@ static uint32_t fw_auxinfo(bufstream_tt *bs, uint32_t offs, uint32_t info_ID, vo
       if(bs->Buf_IO_struct->do_nav_info)
       {
         if(bs->Buf_IO_struct->num_audio_streams >= MAX_AUDIO_STREAMS)
-          return BS_ERROR;
+          return (uint32_t)BS_ERROR;
 
         synci = &bs->Buf_IO_struct->asynci[bs->Buf_IO_struct->num_audio_streams];
 
         synci->synci_sectors = (int32_t*) malloc(sizeof(int32_t)  * MAX_SECTORS);
         if(!synci->synci_sectors)
-          return BS_ERROR;
+          return (uint32_t)BS_ERROR;
 
         memset(synci->synci_sectors, 0, MAX_SECTORS * 4);
         synci->synci_idx = 0;
@@ -655,13 +656,13 @@ static uint32_t fw_auxinfo(bufstream_tt *bs, uint32_t offs, uint32_t info_ID, vo
       if(bs->Buf_IO_struct->do_nav_info)
       {
         if(bs->Buf_IO_struct->num_subpic_streams >= MAX_SUBPIC_STREAMS)
-          return BS_ERROR;
+          return (uint32_t)BS_ERROR;
 
         synci = &bs->Buf_IO_struct->spsynci[bs->Buf_IO_struct->num_subpic_streams];
 
         synci->synci_sectors = (int32_t*) malloc(sizeof(int32_t)  * MAX_SECTORS);
         if(!synci->synci_sectors)
-          return BS_ERROR;
+          return (uint32_t)BS_ERROR;
 
         memset(synci->synci_sectors, 0, MAX_SECTORS * 4);
         synci->synci_idx = 0;
@@ -676,7 +677,7 @@ static uint32_t fw_auxinfo(bufstream_tt *bs, uint32_t offs, uint32_t info_ID, vo
         sync_info = (struct dvd_synci_info*)info_ptr;
         if(sync_info->stream_num < bs->Buf_IO_struct->num_audio_streams)
         {
-          struct synci_info *synci = &bs->Buf_IO_struct->asynci[sync_info->stream_num];
+          synci = &bs->Buf_IO_struct->asynci[sync_info->stream_num];
           if(synci->synci_sectors)
           {
             if(synci->synci_idx < MAX_SECTORS)
@@ -783,11 +784,11 @@ static uint32_t fw_auxinfo(bufstream_tt *bs, uint32_t offs, uint32_t info_ID, vo
           strcpy(ptr2, bs->Buf_IO_struct->filename);
 #endif
         else
-          return BS_ERROR;
+          return (uint32_t)BS_ERROR;
       }
       break;
   }
-  return BS_OK;
+  return (uint32_t)BS_OK;
 }
 
 
@@ -952,7 +953,7 @@ static uint32_t fw_split(bufstream_tt *bs)
   }
 
   if(p->filenumber < 0)
-    return BS_ERROR; // limit to 2^31 files?
+    return (uint32_t)BS_ERROR; // limit to 2^31 files?
   else if(p->filenumber >= 1000000000)
     swprintf(p->filename, _BS_MAX_PATH, L"%s%010d%s", p->basename, p->filenumber + 1, p->baseext);
   else if(p->filenumber >= 100000000)
@@ -1024,7 +1025,7 @@ static uint32_t fw_split(bufstream_tt *bs)
   if(!p->io)
 #endif
   {
-    return BS_ERROR;
+    return (uint32_t)BS_ERROR;
   }
   p->filenumber++;
   p->bytecount = 0;
@@ -1047,7 +1048,7 @@ static uint32_t fw_split(bufstream_tt *bs)
       p->cur_vob_info = p->cur_vob_info->next;
     }
   }
-  return 0;
+  return (uint32_t)0;
 }
 
 
@@ -1264,8 +1265,8 @@ int32_t init_file_buf_write_existing(bufstream_tt *bs,
   if(bs->Buf_IO_struct->io == INVALID_HANDLE_VALUE)
 #else
  #ifdef _BS_UNICODE
-  if(!(bs->Buf_IO_struct->io = _wfopen(bs_filename, L"r+b")))
-    if(!(bs->Buf_IO_struct->io = _wfopen(bs_filename, L"wb")))
+  if((bs->Buf_IO_struct->io = _wfopen(bs_filename, L"r+b")) == 0)
+    if((bs->Buf_IO_struct->io = _wfopen(bs_filename, L"wb")) == 0)
  #else
   #if !defined(__QNX__)
   bs->Buf_IO_struct->io = fopen(bs_filename, "r+b");
@@ -1797,7 +1798,7 @@ static void doVOBNavInfo(bufstream_tt *bs, struct vob_nav_info *vob_info)
    if((fp = _open(vob_info->filename, _O_RDWR | _O_BINARY)) == -1)
   #endif
  #else
-   if((fp= open(vob_info->filename,O_RDWR,0777 )) == -1)
+   if((fp= _wopen(vob_info->filename,O_RDWR,0777 )) == -1)
  #endif
 #endif // UNDER_CE
 

@@ -147,7 +147,7 @@ void thread_init(AVCodecContext* s)
 //////////
  //   s->execute			  = thread_execute;//这里可以采用ffmpeg内部的多线程处理
 //    s->execute2			  = thread_execute2;
-	s->thread_count = cpu_core_count();//MAX_THREADS; // We are using a task-scheduler, so use as many "threads/tasks" as possible. 
+	s->thread_count = MAX_THREADS;//cpu_core_count();//MAX_THREADS; // We are using a task-scheduler, so use as many "threads/tasks" as possible. 
 }
 
 void thread_free(AVCodecContext* s)

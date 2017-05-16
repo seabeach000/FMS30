@@ -3,4 +3,4 @@
 #define CASPAR_MINOR 0
 #define CASPAR_TAG "Beta 1"
 #define CASPAR_REV 0
-#define CASPAR_HASH "N/A"
+#define CASPAR_HASH ""

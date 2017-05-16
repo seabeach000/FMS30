@@ -82,81 +82,108 @@
 #include <string>
 
 #if defined(WINDOWS)
-typedef int(__cdecl *INITZQ)(char* lparam, int* nRand);
-bool CheckLicense()
+#ifndef _DEBUG
+#include "LoginLDKDog.h"
+int CheckChannelLicense()
 {
-	int nRetCode = -200;
-	wchar_t szbuff[256];
-	memset(szbuff, 0, sizeof(szbuff));
-	GetModuleFileName(NULL, szbuff, sizeof(szbuff) - 1);
-	std::wstring strAppPath(szbuff);
-	int nPos = strAppPath.find_last_of('\\');
-	std::wstring szFile = strAppPath.substr(0, nPos);
-	szFile += L"\\ZQLpt.dll";
-	HMODULE hLCModule = LoadLibrary(szFile.c_str());
-	if (hLCModule != NULL)
+	int num = LoginLDKDog(LOGIN_DOG_2_CHANNEL_SDI);
+	if (!num)
 	{
-		INITZQ  zqFun = (INITZQ)GetProcAddress(hLCModule, "InitZQApp2");
-		if (zqFun)
-		{
-			SYSTEMTIME tmForLc;
-			GetSystemTime(&tmForLc);
-			int nRandForLc = tmForLc.wSecond*tmForLc.wMinute*tmForLc.wHour;
-			nRetCode = zqFun(NULL, &nRandForLc);
-			nRetCode -= nRandForLc;
-			if (nRetCode < 0)
-			{
-				typedef int(__cdecl *GenZQReqCode)();
-				GenZQReqCode pGenReqCodeFn;
-				pGenReqCodeFn = (GenZQReqCode)GetProcAddress(hLCModule, "GenZQReqCode");
-				if (pGenReqCodeFn)
-				{
-					int nRetReq = pGenReqCodeFn();
-				}
-			}
-		}
-		FreeLibrary(hLCModule);
-		hLCModule = NULL;
+		CASPAR_LOG(fatal) << "Matching LDKDog failure.";
 	}
-	bool bError = false;
-	if (nRetCode < 0)
-	{
-		if (nRetCode >= -87 && nRetCode <= -85)
-		{
-			//	CASPAR_LOG(fatal) << TEXT("授权已过期，请及时续期!");
-			CASPAR_LOG(fatal) << "License expired";
-		}
-		else if (nRetCode == -102)
-		{
-			//	CASPAR_LOG(fatal) << TEXT("未找到授权信息，请发送程序目录下的applyCode.dat文件申请授权。");
-			CASPAR_LOG(fatal) << "License File not found, Please send the applyCode.dat document to ZQVideo Company for help";
-		}
-		else if (nRetCode == -200)
-		{
-			//	CASPAR_LOG(fatal) << TEXT("未找到zqLpt.dll文件");
-			CASPAR_LOG(fatal) << "zqLpt.dll File is missing";
-		}
-		else
-		{
-			//	CASPAR_LOG(fatal) << TEXT("授权信息验证错误，code = ") << nRetCode;
-			CASPAR_LOG(fatal) << "Authorization information validation errors, code = " << nRetCode;
-		}
-		bError = true;
-	}
-	else if (nRetCode == 11)
-	{
-		//	CASPAR_LOG(warning) << TEXT("授权信息已过期！请尽快更新") << nRetCode;
-		CASPAR_LOG(fatal) << "License expired! Please update as soon as possible";
-	}
-	else if (nRetCode != 0)
-	{
-		//	CASPAR_LOG(fatal) << TEXT("授权程序不可识别");
-		CASPAR_LOG(fatal) << "License File Unknown Error ";
-		bError = true;
-	}
-	return bError;
+	return num;
 }
-#endif
+#endif  //_DEBUG
+
+#else
+
+int CheckChannelLicense()
+{
+	int num = LoginLDKDog(LOGIN_DOG_2_CHANNEL_SDI);
+	if (!num)
+	{
+		CASPAR_LOG(fatal) << "Matching LDKDog failure.";
+	}
+	return num;
+}
+#endif  //WINDOWS
+
+// #if defined(WINDOWS)
+// typedef int(__cdecl *INITZQ)(char* lparam, int* nRand);
+// bool CheckLicense()
+// {
+// 	int nRetCode = -200;
+// 	wchar_t szbuff[256];
+// 	memset(szbuff, 0, sizeof(szbuff));
+// 	GetModuleFileName(NULL, szbuff, sizeof(szbuff) - 1);
+// 	std::wstring strAppPath(szbuff);
+// 	int nPos = strAppPath.find_last_of('\\');
+// 	std::wstring szFile = strAppPath.substr(0, nPos);
+// 	szFile += L"\\ZQLpt.dll";
+// 	HMODULE hLCModule = LoadLibrary(szFile.c_str());
+// 	if (hLCModule != NULL)
+// 	{
+// 		INITZQ  zqFun = (INITZQ)GetProcAddress(hLCModule, "InitZQApp2");
+// 		if (zqFun)
+// 		{
+// 			SYSTEMTIME tmForLc;
+// 			GetSystemTime(&tmForLc);
+// 			int nRandForLc = tmForLc.wSecond*tmForLc.wMinute*tmForLc.wHour;
+// 			nRetCode = zqFun(NULL, &nRandForLc);
+// 			nRetCode -= nRandForLc;
+// 			if (nRetCode < 0)
+// 			{
+// 				typedef int(__cdecl *GenZQReqCode)();
+// 				GenZQReqCode pGenReqCodeFn;
+// 				pGenReqCodeFn = (GenZQReqCode)GetProcAddress(hLCModule, "GenZQReqCode");
+// 				if (pGenReqCodeFn)
+// 				{
+// 					int nRetReq = pGenReqCodeFn();
+// 				}
+// 			}
+// 		}
+// 		FreeLibrary(hLCModule);
+// 		hLCModule = NULL;
+// 	}
+// 	bool bError = false;
+// 	if (nRetCode < 0)
+// 	{
+// 		if (nRetCode >= -87 && nRetCode <= -85)
+// 		{
+// 			//	CASPAR_LOG(fatal) << TEXT("授权已过期，请及时续期!");
+// 			CASPAR_LOG(fatal) << "License expired";
+// 		}
+// 		else if (nRetCode == -102)
+// 		{
+// 			//	CASPAR_LOG(fatal) << TEXT("未找到授权信息，请发送程序目录下的applyCode.dat文件申请授权。");
+// 			CASPAR_LOG(fatal) << "License File not found, Please send the applyCode.dat document to ZQVideo Company for help";
+// 		}
+// 		else if (nRetCode == -200)
+// 		{
+// 			//	CASPAR_LOG(fatal) << TEXT("未找到zqLpt.dll文件");
+// 			CASPAR_LOG(fatal) << "zqLpt.dll File is missing";
+// 		}
+// 		else
+// 		{
+// 			//	CASPAR_LOG(fatal) << TEXT("授权信息验证错误，code = ") << nRetCode;
+// 			CASPAR_LOG(fatal) << "Authorization information validation errors, code = " << nRetCode;
+// 		}
+// 		bError = true;
+// 	}
+// 	else if (nRetCode == 11)
+// 	{
+// 		//	CASPAR_LOG(warning) << TEXT("授权信息已过期！请尽快更新") << nRetCode;
+// 		CASPAR_LOG(fatal) << "License expired! Please update as soon as possible";
+// 	}
+// 	else if (nRetCode != 0)
+// 	{
+// 		//	CASPAR_LOG(fatal) << TEXT("授权程序不可识别");
+// 		CASPAR_LOG(fatal) << "License File Unknown Error ";
+// 		bError = true;
+// 	}
+// 	return bError;
+// }
+// #endif
 
 using namespace caspar;
 	
@@ -206,7 +233,6 @@ void do_run(
 	{
 		if (!std::getline(std::wcin, wcmd))		// TODO: It's blocking...
 			wcmd = L"EXIT";						// EOF, handle as EXIT
-
 		if(boost::iequals(wcmd, L"EXIT") || boost::iequals(wcmd, L"Q") || boost::iequals(wcmd, L"QUIT") || boost::iequals(wcmd, L"BYE"))
 		{
 			CASPAR_LOG(info) << L"Received message from Console: " << wcmd << L"\\r\\n";
@@ -305,10 +331,22 @@ bool run(const std::wstring& config_file_name, tbb::atomic<bool>& should_wait_fo
 	print_info();
 
 	///////////////////////////////////---------------------------------
+	int channel_num = 2;
 #if defined(WINDOWS)
 #ifndef _DEBUG
-#ifdef USE_ZQ_LICENSE
-	if (CheckLicense())
+	/*channel_num = CheckChannelLicense();
+	if (0 == channel_num)
+	{
+		std::wstring wcmd1;
+		std::wstring upper_cmd1;
+		std::getline(std::wcin, wcmd1);
+		shutdown_server_now.set_value(false);
+		return 0;
+	}*/
+#endif // !_DEBUG
+#elif defined(LINUX)
+	channel_num = CheckChannelLicense();
+	if (0 == channel_num)
 	{
 		std::wstring wcmd1;
 		std::wstring upper_cmd1;
@@ -316,13 +354,27 @@ bool run(const std::wstring& config_file_name, tbb::atomic<bool>& should_wait_fo
 		shutdown_server_now.set_value(false);
 		return 0;
 	}
-#endif // USE_ZQ_LICENSE
-#endif // !_DEBUG
 #endif
+
+
+// #if defined(WINDOWS)
+// #ifndef _DEBUG
+// #ifdef USE_ZQ_LICENSE
+// 	if (CheckLicense())
+// 	{
+// 		std::wstring wcmd1;
+// 		std::wstring upper_cmd1;
+// 		std::getline(std::wcin, wcmd1);
+// 		shutdown_server_now.set_value(false);
+// 		return 0;
+// 	}
+// #endif // USE_ZQ_LICENSE
+// #endif // !_DEBUG
+// #endif
 	///////////////////////////////////---------------------------------
 
 	// Create server object which initializes channels, protocols and controllers.
-	std::unique_ptr<server> caspar_server(new server(shutdown_server_now));
+	std::unique_ptr<server> caspar_server(new server(shutdown_server_now,channel_num));
 
 	// For example CEF resets the global locale, so this is to reset it back to "our" preference.
 	setup_global_locale();
@@ -425,8 +477,7 @@ int main(int argc, char** argv)
 		// Start logging to file.
 		log::add_file_sink(env::log_folder() + L"famous",		caspar::log::category != caspar::log::log_category::calltrace);
 		log::add_file_sink(env::log_folder() + L"calltrace",	caspar::log::category == caspar::log::log_category::calltrace);
-		std::wcout << L"Logging [info] or higher severity to " << env::log_folder() << std::endl << std::endl;
-		
+		std::cout << "Logging [info] or higher severity to " << u8(env::log_folder())<< std::endl;
 		// Once logging to file, log configuration warnings.
 		env::log_configuration_warnings();
 

@@ -142,7 +142,7 @@ void MiscellaneousCommand::Setup(const std::vector<std::wstring>& parameters)
 	if((parameters.size() > 3) && parameters[1] == L"5" && parameters[2] == L"14")
 	{
 		std::wstring value = parameters[3];
-		std::transform(value.begin(), value.end(), value.begin(), toupper);
+		std::transform(value.begin(), value.end(), value.begin(), towupper);
 
 		this->pCIIStrategy_->GetChannel()->video_format_desc(core::video_format_desc(value));
 	}

@@ -11,14 +11,14 @@ extern "C"
 #include "DtNetRender.h"
 
 #include "MCNetRender.h"
-#include "enc_mp2v.h"
-#include "enc_mpa.h"
+#include <enc_mp2v.h>
+#include <enc_mpa.h>
 
-#include "enc_avc.h"
-#include "enc_aac.h"
-#include "enc_pcm.h"
+#include <enc_avc.h>
+#include <enc_aac.h>
+#include <enc_pcm.h>
 
-#include "mux_mp2.h"
+#include <mux_mp2.h>
 #include "bufstream/buf_fifo.h"
 
 #include <boost/regex.hpp>
@@ -38,6 +38,25 @@ void progress_printf(int32_t percent, const char * fmt, ...);
 // resource functions dispatcher
 void * MC_EXPORT_API get_rc(const char* name);
 
+/**
+* @brief AUXinfo handler type.
+**/
+typedef uint32_t(*auxinfo_handler_t)(bufstream_tt * bs, uint32_t offs, uint32_t info_id, void * info_ptr, uint32_t info_size);
+
+/**
+* @brief Extern original AUXinfo function.
+**/
+extern auxinfo_handler_t org_auxinfo;
+/**
+* @brief Encoder auxinfo handler
+* @param[in] bs                  - Pointer to bufstream
+* @param[in] offs                - offsets
+* @param[in] info_id             - Information ID (TIME_STAMP_INFO,STATISTIC_INFO,VIDEO_AU_CODE,ID_PICTURE_START_CODE ...)
+* @param[in] info_ptr            - Pointer to information data
+* @param[in] info_size           - Size of information data
+* @return     result of original auxinfo function
+*/
+uint32_t auxinfo(bufstream_tt * bs, uint32_t offs, uint32_t info_id, void * info_ptr, uint32_t info_size);
 /////////////////////////////////////////////////////////////////////////////////////
 namespace caspar {
 	namespace mainconcept {
@@ -51,7 +70,8 @@ namespace caspar {
 		public:
 			bool initialize(std::map<std::string, std::string>& options, 
 				std::string path);
-			bool pushframe(core::const_frame &frame);
+			void encode_video(core::const_frame &frame);
+			void encode_audio(core::const_frame &frame);
 		private:
 			void set_params(std::map<std::string, std::string>& options);
 			bool pathparse(std::string path, net_path_params& netparams);
@@ -121,7 +141,7 @@ namespace caspar {
 
 		private:			
 			template<typename T>
-			static boost::optional<T> mc_enc_pumpstream::try_remove_arg(
+			static boost::optional<T> try_remove_arg(
 				std::map<std::string, std::string>& options,
 				const boost::regex& expr)
 			{

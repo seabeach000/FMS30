@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 * Copyright (c) 2011 Sveriges Television AB <info@casparcg.com>
 *
 * This file is part of CasparCG (www.casparcg.com).
@@ -802,13 +802,13 @@ public:
 //		std::shared_ptr<AVFrame> in_frame(avcodec_alloc_frame(), av_free);
 
 		auto in_picture = reinterpret_cast<AVPicture*>(in_frame.get());
-		byte_vector								key_picture_buf_;
+		byte_vector key_picture_buf;
 		if (key_only_)
 		{
-			key_picture_buf_.resize(frame_->image_data().size());
+			key_picture_buf.resize(frame_->image_data().size());
 			in_picture->linesize[0] = format_desc_.width * 4;
-			in_picture->data[0] = key_picture_buf_.data();
-			//2.0µÄº¯Êý£¬3.0²»´æÔÚ
+			in_picture->data[0] = key_picture_buf.data();
+			//2.0çš„å‡½æ•°ï¼Œ3.0ä¸å­˜åœ¨
 			//fast_memshfl(in_picture->data[0], frame_->image_data().begin(), frame_->image_data().size(), 0x0F0F0F0F, 0x0B0B0B0B, 0x07070707, 0x03030303);
 			aligned_memshfl(in_picture->data[0], frame_->image_data().begin(), frame_->image_data().size(), 0x0F0F0F0F, 0x0B0B0B0B, 0x07070707, 0x03030303);
 		}
@@ -838,7 +838,7 @@ public:
 		AVPacket pkt = {};
 		av_init_packet(&pkt);
 		pkt.data = encode_buf.data();
-		pkt.size = encode_buf.size();
+		pkt.size = static_cast<int>(encode_buf.size());
 		out_frame->height = format_desc_.height;
 		out_frame->width = format_desc_.width;
 		out_frame->format = AV_PIX_FMT_YUV422P10;

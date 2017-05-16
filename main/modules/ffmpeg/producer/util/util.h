@@ -91,6 +91,7 @@ std::wstring print_mode(int width, int height, double fps, bool interlaced);
 std::wstring probe_stem(const std::wstring& stem, bool only_video);
 bool is_valid_file(const std::wstring& filename, bool only_video);
 bool try_get_duration(const std::wstring filename, std::int64_t& duration, boost::rational<std::int64_t>& time_base);
+std::int64_t try_get_duration(const spl::shared_ptr<AVFormatContext>& context);
 
 core::audio_channel_layout get_audio_channel_layout(int num_channels, std::uint64_t layout, const std::wstring& channel_layout_spec);
 

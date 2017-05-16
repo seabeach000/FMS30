@@ -1,15 +1,14 @@
 cmake_minimum_required (VERSION 2.6)
-project ("CasparCG Server")
+project ("famous")
 
-find_package(Git)
-
-set(GIT_REV "N/A")
-
-if (GIT_FOUND)
-	exec_program("${GIT_EXECUTABLE}" "${PROJECT_SOURCE_DIR}"
-			ARGS rev-parse --verify --short HEAD
-			OUTPUT_VARIABLE GIT_REV)
-endif ()
+#find_package(Git)
+set(GIT_REV "0")
+#set(GIT_REV "N/A")
+#if (GIT_FOUND)
+#	exec_program("${GIT_EXECUTABLE}" "${PROJECT_SOURCE_DIR}"
+#			ARGS rev-parse --verify --short HEAD
+#			OUTPUT_VARIABLE GIT_REV)
+#endif ()
 
 configure_file("${PROJECT_SOURCE_DIR}/version.tmpl" "${PROJECT_SOURCE_DIR}/version.h")
 
@@ -21,12 +20,13 @@ set(TBB_INCLUDE_PATH			"${DEPENDENCIES_FOLDER}/tbb/include")
 set(GLEW_INCLUDE_PATH			"${DEPENDENCIES_FOLDER}/glew/include")
 set(SFML_INCLUDE_PATH			"${DEPENDENCIES_FOLDER}/sfml/include")
 set(FREETYPE_INCLUDE_PATH		"${DEPENDENCIES_FOLDER}/freetype/include")
-
+set(FFMPEG_INCLUDE_PATH			"${DEPENDENCIES_FOLDER}/ffmpeg/include")
 if (MSVC)
-	set(FFMPEG_INCLUDE_PATH		"${DEPENDENCIES_FOLDER}/ffmpeg/include" "${DEPENDENCIES_FOLDER}/ffmpeg/include-win32")
+	set(PLATFORM_FOLDER_NAME	"win32")
 else ()
-	set(FFMPEG_INCLUDE_PATH		"${DEPENDENCIES_FOLDER}/ffmpeg/include")
+	set(PLATFORM_FOLDER_NAME	"linux")
 endif ()
+set(NDI_INCLUDE_PATH		"${DEPENDENCIES_FOLDER}/NDI/include")
 
 set(ASMLIB_INCLUDE_PATH			"${DEPENDENCIES_FOLDER}/asmlib")
 set(FREEIMAGE_INCLUDE_PATH		"${DEPENDENCIES_FOLDER}/freeimage/include")
@@ -34,21 +34,20 @@ set(OPENAL_INCLUDE_PATH			"${DEPENDENCIES_FOLDER}/openal/include")
 set(BLUEFISH_INCLUDE_PATH		"${DEPENDENCIES_FOLDER}/bluefish/include")
 set(CEF_INCLUDE_PATH			"${DEPENDENCIES_FOLDER}/cef/include")
 set(GTEST_INCLUDE_PATH			"${DEPENDENCIES_FOLDER}/gtest/include")
+set(DTAPI_INCLUDE_PATH			"${DEPENDENCIES_FOLDER}/dtapi/include")
+set(MAINCONCEPT_INCLUDE_PATH		"${DEPENDENCIES_FOLDER}/mainconcept/include")
+set(LDKDOG_INCLUDE_PATH			"${DEPENDENCIES_FOLDER}/ldkdog/include")
 
-if (MSVC)
-	set(PLATFORM_FOLDER_NAME	"win32")
-elseif (CMAKE_COMPILER_IS_GNUCXX)
-	set(PLATFORM_FOLDER_NAME	"linux")
-endif ()
-
-set(FFMPEG_BIN_PATH				"${DEPENDENCIES_FOLDER}/ffmpeg/bin/${PLATFORM_FOLDER_NAME}")
+set(FFMPEG_BIN_PATH			"${DEPENDENCIES_FOLDER}/ffmpeg/bin/${PLATFORM_FOLDER_NAME}")
 set(FREEIMAGE_BIN_PATH			"${DEPENDENCIES_FOLDER}/freeimage/bin/${PLATFORM_FOLDER_NAME}")
-set(GLEW_BIN_PATH				"${DEPENDENCIES_FOLDER}/glew/bin/${PLATFORM_FOLDER_NAME}")
-set(OPENAL_BIN_PATH				"${DEPENDENCIES_FOLDER}/openal/bin/${PLATFORM_FOLDER_NAME}")
-set(TBB_BIN_PATH				"${DEPENDENCIES_FOLDER}/tbb/bin/${PLATFORM_FOLDER_NAME}")
-set(LIBERATION_FONTS_BIN_PATH	"${DEPENDENCIES_FOLDER}/liberation-fonts")
-set(CEF_PATH					"${DEPENDENCIES_FOLDER}/cef")
-set(CEF_BIN_PATH				"${DEPENDENCIES_FOLDER}/cef/bin/${PLATFORM_FOLDER_NAME}")
+set(GLEW_BIN_PATH			"${DEPENDENCIES_FOLDER}/glew/bin/${PLATFORM_FOLDER_NAME}")
+set(OPENAL_BIN_PATH			"${DEPENDENCIES_FOLDER}/openal/bin/${PLATFORM_FOLDER_NAME}")
+set(TBB_BIN_PATH			"${DEPENDENCIES_FOLDER}/tbb/bin/${PLATFORM_FOLDER_NAME}")
+set(LIBERATION_FONTS_BIN_PATH		"${DEPENDENCIES_FOLDER}/liberation-fonts")
+set(CEF_PATH				"${DEPENDENCIES_FOLDER}/cef")
+set(CEF_BIN_PATH			"${DEPENDENCIES_FOLDER}/cef/bin/${PLATFORM_FOLDER_NAME}")
+set(MAINCONCEPT_BIN_PATH		"${DEPENDENCIES_FOLDER}/mainconcept/bin/${PLATFORM_FOLDER_NAME}")
+set(LDKDOG_BIN_PATH			"${DEPENDENCIES_FOLDER}/ldkdog/bin/${PLATFORM_FOLDER_NAME}")
 
 link_directories("${DEPENDENCIES_FOLDER}/boost/stage/lib/${PLATFORM_FOLDER_NAME}")
 link_directories("${DEPENDENCIES_FOLDER}/tbb/lib/${PLATFORM_FOLDER_NAME}")
@@ -64,6 +63,11 @@ link_directories("${DEPENDENCIES_FOLDER}/bluefish/lib")
 link_directories("${DEPENDENCIES_FOLDER}/zlib/lib")
 link_directories("${DEPENDENCIES_FOLDER}/cef/lib/${PLATFORM_FOLDER_NAME}")
 link_directories("${DEPENDENCIES_FOLDER}/gtest/lib/${PLATFORM_FOLDER_NAME}")
+link_directories("${DEPENDENCIES_FOLDER}/dtapi/lib/${PLATFORM_FOLDER_NAME}")
+link_directories("${DEPENDENCIES_FOLDER}/mainconcept/lib/${PLATFORM_FOLDER_NAME}")
+link_directories("${DEPENDENCIES_FOLDER}/ldkdog/lib/${PLATFORM_FOLDER_NAME}")
+link_directories("${DEPENDENCIES_FOLDER}/NDI/lib/${PLATFORM_FOLDER_NAME}/x86_64-linux-gnu-4.7")
+
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -75,12 +79,13 @@ add_definitions( -D_UNICODE )
 add_definitions( -DGLEW_NO_GLU )
 add_definitions( "-DBOOST_ASIO_ERROR_CATEGORY_NOEXCEPT=noexcept(true)" ) # Workaround macro redefinition in boost
 add_definitions( -D_GLIBCXX_USE_CXX11_ABI=0 ) # Allow compilation in GCC 5 while keeping old dependencies
+add_definitions( -DCASPAR_SOURCE_PREFIX="" )
 
 if (MSVC)
-	set(CMAKE_CXX_FLAGS					"${CMAKE_CXX_FLAGS}					/EHa /Zi /W4 /WX /MP /fp:fast /Zm192 /FIcommon/compiler/vs/disable_silly_warnings.h")
-	set(CMAKE_CXX_FLAGS_DEBUG			"${CMAKE_CXX_FLAGS_DEBUG}			/D TBB_USE_ASSERT=1 /D TBB_USE_DEBUG /bigobj")
-	set(CMAKE_CXX_FLAGS_RELEASE			"${CMAKE_CXX_FLAGS_RELEASE}			/Oi /Ot /Gy /bigobj")
-	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO	"${CMAKE_CXX_FLAGS_RELWITHDEBINFO}	/Oi /Ot /Gy /bigobj /Ob2")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHa /Zi /W4 /WX /MP /fp:fast /Zm192 /FIcommon/compiler/vs/disable_silly_warnings.h")
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D TBB_USE_ASSERT=1 /D TBB_USE_DEBUG /bigobj")
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Oi /Ot /Gy /bigobj")
+	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Oi /Ot /Gy /bigobj /Ob2")
 elseif (CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g")
 	add_compile_options( -std=c++11 )
@@ -99,12 +104,12 @@ endif ()
 
 include(CMake/PrecompiledHeader.cmake)
 
-set(CASPARCG_MODULE_INCLUDE_STATEMENTS							"" CACHE INTERNAL "")
-set(CASPARCG_MODULE_INIT_STATEMENTS								"" CACHE INTERNAL "")
-set(CASPARCG_MODULE_UNINIT_STATEMENTS							"" CACHE INTERNAL "")
+set(CASPARCG_MODULE_INCLUDE_STATEMENTS				"" CACHE INTERNAL "")
+set(CASPARCG_MODULE_INIT_STATEMENTS					"" CACHE INTERNAL "")
+set(CASPARCG_MODULE_UNINIT_STATEMENTS				"" CACHE INTERNAL "")
 set(CASPARCG_MODULE_COMMAND_LINE_ARG_INTERCEPTORS_STATEMENTS	"" CACHE INTERNAL "")
-set(CASPARCG_MODULE_PROJECTS									"" CACHE INTERNAL "")
-set(CASPARCG_RUNTIME_DEPENDENCIES								"" CACHE INTERNAL "")
+set(CASPARCG_MODULE_PROJECTS						"" CACHE INTERNAL "")
+set(CASPARCG_RUNTIME_DEPENDENCIES					"" CACHE INTERNAL "")
 
 function(casparcg_add_include_statement HEADER_FILE_TO_INCLUDE)
 	set(CASPARCG_MODULE_INCLUDE_STATEMENTS "${CASPARCG_MODULE_INCLUDE_STATEMENTS}"

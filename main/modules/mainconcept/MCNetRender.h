@@ -1,6 +1,6 @@
 #pragma once
 #include "params.h"
-#include "net_renderer.h"
+#include <net_renderer.h>
 #include <string>
 
 using namespace MainConcept::NetworkStreaming;

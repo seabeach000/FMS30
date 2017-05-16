@@ -82,7 +82,7 @@ class Rserial : public spl::enable_shared_from_this<Rserial>
 			std::string senddata;
 			for (int i  = 0; i<data.size();i+=2)
 			{
-				unsigned char  sdt = boost::lexical_cast<HexTo<int>>(data.substr(i, 2));
+				unsigned char  sdt = static_cast<unsigned char>(boost::lexical_cast<HexTo<int>>(data.substr(i, 2)));
 				senddata.push_back(sdt);
 			}
 			data = senddata;
